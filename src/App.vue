@@ -1,19 +1,28 @@
 <template>
   <v-app>
     <v-content>
-      <HelloWorld/>
+    <div>
+      <Navbar/>
+    </div>
+    <div>
+    <v-toolbar flat = "true" height="40px">
+    <v-toolbartitle>Bievenue</v-toolbartitle>
+    </v-toolbar>
+    <router-view></router-view>
+    </div>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
 import FuenteNCView from './views/FuenteNCView';
+import Navbar from './views/Navbar.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    Navbar
+    
   },
   data: () => ({
     //
