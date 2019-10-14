@@ -1,7 +1,6 @@
 <template>
     <div>
-        <v-navigation-drawer app v-model = "drawer" color = "#000000">
-        <h3>Menu Vertical</h3>
+        <v-navigation-drawer app v-model = "drawer" color = "#003366">
             
         </v-navigation-drawer>
        
@@ -26,4 +25,5 @@ export default {
         color: #000000;
         background-color: #000000;
     }
+   
  </style>

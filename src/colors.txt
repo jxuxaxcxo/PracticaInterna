@@ -1,0 +1,2 @@
+azul: #003366
+amarillo: #DBB13B
