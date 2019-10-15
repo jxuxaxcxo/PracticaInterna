@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-content>
-      <HelloWorld/>
+      <ReporteNC/>
     </v-content>
   </v-app>
 </template>
@@ -9,11 +9,12 @@
 <script>
 import HelloWorld from './components/HelloWorld';
 import FuenteNCView from './views/FuenteNCView';
+import ReporteNC from './components/ReporteNC'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    ReporteNC,
   },
   data: () => ({
     //
