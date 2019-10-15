@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-navigation-drawer app v-model = "drawer" color = "#003366">
+        <v-navigation-drawer app v-model = "drawer" color = "#003366" permanent="true">
             
         </v-navigation-drawer>
        
