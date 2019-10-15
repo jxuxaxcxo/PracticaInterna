@@ -1,13 +1,29 @@
 <template>
-  <ReporteNC />
+    <div>
+        <v-navigation-drawer app v-model = "drawer" color = "#003366">
+            
+        </v-navigation-drawer>
+       
+    </div>
 </template>
 
 <script>
-import ReporteNC from '../components/ReporteNC';
-
 export default {
-  components: {
-    ReporteNC,
-  },
-};
+    name: "ReporteNC",
+    
+
+    data(){
+        return {
+            drawer: true
+        }
+    }
+}
 </script>
+
+ <style scoped>
+    .v-navigation-drawer {
+        color: #000000;
+        background-color: #000000;
+    }
+   
+ </style>
