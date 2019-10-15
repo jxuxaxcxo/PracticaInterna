@@ -15,14 +15,13 @@
 </template>
 
 <script>
-import FuenteNCView from './views/FuenteNCView';
+import FuenteNCView from './views/FuenteNCView.vue';
 import Navbar from './views/Navbar.vue';
 
 export default {
   name: 'App',
   components: {
     Navbar
-    
   },
   data: () => ({
     //
