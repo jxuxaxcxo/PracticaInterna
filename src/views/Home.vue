@@ -1,7 +1,7 @@
 <template>
     <div id="homePage">
-        <v-card id="block1">
-        </v-card>
+
+         <Block1/>  
 
         <v-card id="block2">
         </v-card>
@@ -18,10 +18,13 @@
 
 <script>
 import HelloWorld from '../components/HelloWorld';
+import Block1 from '../components/HomePage/Block1';
+
 
 export default {
   components: {
     HelloWorld,
+    Block1
   },
 };
 </script>
@@ -34,18 +37,12 @@ export default {
     background-color: #ECECEC;
   }
 
-  #block1{
-    position: fixed;
-      left: 25vw;
-      top: 10vh;
-      height: 20vh;
-      width: 70vw;
-  }
+
   #block2{
     position: fixed;
     left: 25vw;
     top: 35vh;
-    height: 20vh;
+    height: 25vh;
     width: 34vw;
   }
 
@@ -53,16 +50,17 @@ export default {
     position: fixed;
     left: 61vw;
     top: 35vh;
-    height: 20vh;
+    height: 25vh;
     width: 34vw;
   }
 
    #block4{
     position: fixed;
     left: 25vw;
-    top: 60vh;
-    height: 20vh;
+    top: 65vh;
+    height: 25vh;
     width: 70vw;
   }
+
 
 </style>
