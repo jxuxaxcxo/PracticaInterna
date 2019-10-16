@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import FuenteNCView from './views/FuenteNCView'
+import FuenteNCView from './views/FuenteNCView.vue'
 
 Vue.use(Router)
 

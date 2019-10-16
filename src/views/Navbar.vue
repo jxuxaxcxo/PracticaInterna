@@ -30,6 +30,7 @@
             </template>
 
             <v-list-item
+
             
             v-for="(informe, i) in informes"
             :key="i"
