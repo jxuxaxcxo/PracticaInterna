@@ -15,10 +15,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import FuenteNCView from './views/FuenteNCView.vue';
-=======
->>>>>>> javi
 import Navbar from './views/Navbar.vue';
 
 export default {
