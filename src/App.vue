@@ -5,8 +5,8 @@
       <Navbar/>
     </div>
     <div>
-    <v-toolbar flat = "true" height="40px" color="#DBB13B">
-      <v-toolbartitle>Bievenue</v-toolbartitle>
+    <v-toolbar flat height="40px" color="#DBB13B">
+      <v-toolbar-title>Bievenue</v-toolbar-title>
     </v-toolbar>
     <router-view></router-view>
     </div>
@@ -15,7 +15,10 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import FuenteNCView from './views/FuenteNCView.vue';
+=======
+>>>>>>> javi
 import Navbar from './views/Navbar.vue';
 
 export default {

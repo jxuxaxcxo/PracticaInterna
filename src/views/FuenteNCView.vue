@@ -25,8 +25,14 @@
 </template>
 
 <script>
+import NCForm from '../components/FuenteNC/NCForm.vue';
+
 export default {
 
+    name: 'FuenteNcView',
+    components: {
+        NCForm,
+    },
     data() {
         return {
             dialog: false 
