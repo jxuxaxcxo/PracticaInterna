@@ -5,9 +5,7 @@
       <Navbar/>
     </div>
     <div>
-    <v-toolbar flat height="40px" color="#DBB13B">
-      <v-toolbar-title>Bievenue</v-toolbar-title>
-    </v-toolbar>
+
     <router-view></router-view>
     </div>
     </v-content>
