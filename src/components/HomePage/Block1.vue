@@ -1,12 +1,11 @@
 <template>
     <div>
      <v-card id="block1">
-          <v-card id="block1_sign"> 
-            <v-card-title>Recepcion de Informe</v-card-title>
-          </v-card>
-
-        </v-card>
-
+          
+      </v-card>
+      <v-card id="block1_sign"> 
+          <v-card-title>Informe de Auditoria</v-card-title>
+      </v-card>
     </div>
 </template>
 
@@ -22,7 +21,7 @@ export default {
     position: fixed;
       left: 25vw;
       top: 5vh;
-      height: 25vh;
+      height: 50vh;
       width: 70vw;
   }
 
@@ -31,7 +30,7 @@ export default {
     position: fixed;
     left: 26.5vw;
     top: 2.5vh;
-    height: 9vh;
+    height: 15vh;
     width: 67vw;
 
     font-family: "Calibri";
