@@ -26,6 +26,9 @@
           </v-list-item-icon>
             <v-list-item-title class = "title">Inicio</v-list-item-title>
         </v-list-item>
+
+      <v-divider></v-divider>
+
       </v-list>
 
           <v-list>
@@ -37,21 +40,30 @@
               >
                 <template v-slot:activator>
                   <v-list-item-content>
-                    <v-list-item-title  class = "list-elem" v-text="item.title"></v-list-item-title>
+                    <v-list-item-title  class = "informe-elem" v-text="item.title"></v-list-item-title>
                   </v-list-item-content>
                 </template>
 
-                <v-list-item
+                <v-list-group
                   v-for="subItem in item.items"
                   :key="subItem.title"
                   @click=""
                 >
+                <template v-slot:activator>
                   <v-list-item-content>
-                    <v-list-item-title v-text="subItem.title"></v-list-item-title>
+                    <v-list-item-title  class = "nc-elem" v-text="subItem.title"></v-list-item-title>
                   </v-list-item-content>
+                </template>
+
+
+
+                </v-list-group>
+
+
                 </v-list-item>
+
               </v-list-group>
-            </v-list>
+          </v-list>
         </v-navigation-drawer>
        
     </div>
@@ -72,52 +84,54 @@ export default {
         items: [
           {
             action: 'local_activity',
-            title: 'Attractions',
+            title: 'Auditoría I 2019',
             items: [
-              { title: 'List Item' },
-            ],
+              { title: 'NC-12019001' },
+              { title: 'NC-12019002' },
+              { title: 'NC-12019003' },            ],
           },
           {
             action: 'restaurant',
-            title: 'Dining',
+            title: 'Auditoría II 2019',
             active: true,
             items: [
-              { title: 'Breakfast & brunch' },
-              { title: 'New American' },
-              { title: 'Sushi' },
+              { title: 'NC-22019001' },
+              { title: 'NC-22019002' },
+              { title: 'NC-22019003' },      
             ],
           },
           {
             action: 'school',
-            title: 'Education',
+            title: 'Auditoría I 2020',
             items: [
-              { title: 'List Item' },
-            ],
+              { title: 'NC-12020001' },
+              { title: 'NC-12020002' },
+            ], 
           },
           {
             action: 'directions_run',
-            title: 'Family',
+            title: 'Auditoría II 2020',
             items: [
-              { title: 'List Item' },
+              { title: 'Encuesta I' },
             ],
           },
           {
             action: 'healing',
-            title: 'Health',
+            title: 'Encuesta Wifi',
             items: [
-              { title: 'List Item' },
+              { title: 'Encuesta II' },
             ],
           },
           {
             action: 'content_cut',
-            title: 'Office',
+            title: 'Encuesta Docente',
             items: [
               { title: 'List Item' },
             ],
           },
           {
             action: 'local_offer',
-            title: 'Promotions',
+            title: 'Encuesta Mosquitos',
             items: [
               { title: 'List Item' },
             ],
@@ -143,8 +157,15 @@ export default {
         color: #ffffff;
         text-align: left;
     }
-    .list-elem{
+    .informe-elem{
         color: #ffffff;
+        font-weight: bold;
+
+    }
+    .nc-elem{
+        color: #ffffff;
+        text-align: center;
+
     }
    
  </style>
