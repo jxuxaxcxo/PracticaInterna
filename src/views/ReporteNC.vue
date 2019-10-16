@@ -4,27 +4,30 @@
             <v-col :cols="8">
                 <v-card class="pa-2" tile outlined>
                     <v-card-actions class="justify-center">
-                        <h1>Titulo No conformidad</h1> 
+                        <h1>{{ titulo }}</h1> 
                     </v-card-actions>    
                 </v-card>
             </v-col>
              <v-spacer></v-spacer>
             <v-col :cols="2">
                 <v-card class="pa-2" tile outlined>
-                   <h1>Codigo</h1> 
+                   <h1 align="center">{{ codigo }}</h1>
+                   <p align="center">16/10/2019</p> 
+
                 </v-card>
             </v-col>
         </v-row>
         <v-row class="mb-6" no-gutters>
              <v-col :cols="20">
                 <v-card class="pa-2" tile outlined>
-                   <h3>Descripcion: {{ descripcion }}</h3> 
+                   <h3>Descripcion:</h3> 
+                   <p align="left">{{ descripcion }}</p>
                 </v-card>
             </v-col>
         </v-row>
         <v-row>
             <v-col :cols="20">
-                <v-simple-table height="300px">
+                <v-simple-table fixed-header height="300px">
                     <template v-slot:default>
                         <thead>
                             <tr>
@@ -54,11 +57,12 @@
 <script>
 export default {
     name: "ReporteNC",
-  
+
 
   data () {
         
       return {
+    
         lista: [
           {
             acciones: 'Llamar a DTI',
@@ -111,7 +115,10 @@ export default {
             estado: 'No Realizado',
           },
         ],
-        descripcion : 'esta es la descripcion.'
+        titulo: 'Titulo de la No Conformidad',
+        codigo: 'A5609LM',
+        descripcion : 'Agilizar un sistema ya existente, por lo general un sistema antiguo, obsoleto o manual; empleando las herramientas de la informática para tal fin. En general, se debería poder reemplazar el sistema antiguo por el nuevo casi en su totalidad.',
+ 
       }
       
     },
