@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-navigation-drawer app v-model = "drawer" color = "#003366" permanent="true">
+        <v-navigation-drawer app v-model = "drawer" color = "#003366">
       <v-list>
         <v-list-item>
           <v-list-item-avatar right size= 80>
@@ -14,36 +14,44 @@
             <v-list-item-subtitle class = "white--text">mateo.ds3@shift.com</v-list-item-subtitle>
           </v-list-item-content>
 
+            <v-list-item-action>
+            <v-icon>mdi-menu-down</v-icon>
+          </v-list-item-action>
         </v-list-item>
-      </v-list>
       <v-divider></v-divider>
-        <v-list>
-        <v-list-item>
+
+        <v-list-item link>
+           <v-list-item-icon>
+              <v-icon>mdi-home</v-icon>
+          </v-list-item-icon>
             <v-list-item-title class = "title">Inicio</v-list-item-title>
         </v-list-item>
+      </v-list>
 
-        <v-list-group
-            value="true"
-        >
-            <template v-slot:activator>
-            <v-list-item-title class = "title">Informes</v-list-item-title>
-            </template>
+          <v-list>
+              <v-list-group 
+                v-for="item in items"
+                :key="item.title"
+                v-model="item.active"
+                no-action
+              >
+                <template v-slot:activator>
+                  <v-list-item-content>
+                    <v-list-item-title  class = "list-elem" v-text="item.title"></v-list-item-title>
+                  </v-list-item-content>
+                </template>
 
-            <v-list-item
-
-            
-            v-for="(informe, i) in informes"
-            :key="i"
-            
-            value="true"
-            > 
- 
-     
-            </v-list-item>
-
-
-        </v-list-group>
-    </v-list>
+                <v-list-item
+                  v-for="subItem in item.items"
+                  :key="subItem.title"
+                  @click=""
+                >
+                  <v-list-item-content>
+                    <v-list-item-title v-text="subItem.title"></v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list-group>
+            </v-list>
         </v-navigation-drawer>
        
     </div>
@@ -53,21 +61,70 @@
 export default {
     name: "Navbar",
     data: () => ({
-      admins: [
-        ['Management', 'people_outline'],
-        ['Settings', 'settings'],
-      ],
-      cruds: [
-        ['Create', 'add'],
-        ['Read', 'insert_drive_file'],
-        ['Update', 'update'],
-        ['Delete', 'delete'],
-      ],
-      
-      informes: {'Auditoría I 2019': ["NC-12019001", "NC-12019002"], 'Auditoría II 2019' : ["NC-22019001", "NC-22019002"], 'Auditoría I 2020' : ["NC-12020001", "NC-12020002"]},
-        drawer: true
+      drawer : true
 
     }),
+
+    data () {
+      return {
+
+        drawer : true,
+        items: [
+          {
+            action: 'local_activity',
+            title: 'Attractions',
+            items: [
+              { title: 'List Item' },
+            ],
+          },
+          {
+            action: 'restaurant',
+            title: 'Dining',
+            active: true,
+            items: [
+              { title: 'Breakfast & brunch' },
+              { title: 'New American' },
+              { title: 'Sushi' },
+            ],
+          },
+          {
+            action: 'school',
+            title: 'Education',
+            items: [
+              { title: 'List Item' },
+            ],
+          },
+          {
+            action: 'directions_run',
+            title: 'Family',
+            items: [
+              { title: 'List Item' },
+            ],
+          },
+          {
+            action: 'healing',
+            title: 'Health',
+            items: [
+              { title: 'List Item' },
+            ],
+          },
+          {
+            action: 'content_cut',
+            title: 'Office',
+            items: [
+              { title: 'List Item' },
+            ],
+          },
+          {
+            action: 'local_offer',
+            title: 'Promotions',
+            items: [
+              { title: 'List Item' },
+            ],
+          },
+        ],
+      }
+    },
 
 
 }
@@ -83,6 +140,10 @@ export default {
 
     }
     .title{
+        color: #ffffff;
+        text-align: left;
+    }
+    .list-elem{
         color: #ffffff;
     }
    
