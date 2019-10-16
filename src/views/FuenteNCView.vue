@@ -1,21 +1,34 @@
 <template>
-<v-container fluid="true">
+
+<v-container fluid>
    <v-card>
 
    </v-card>
    <div>
        <v-dialog
        v-model="dialog"
-       width="600"
+       width="800"
        >
             <template v-slot:activator="{ on }">
                 <div>
-                     <v-btn color="#DBB13B" outlined="true" class="lista" id="agregarNCF" @click="dialog = true">Agregar
+                     <v-btn color="#DBB13B" outlined class="lista" id="agregarNCF" @click="dialog = true">Agregar
                      </v-btn>
                 </div>
             </template>
             <v-card>
-                <v-card-title>Nueva No Conformidad</v-card-title>
+                <v-card-title primary-title class="justify-center">Nueva No Conformidad</v-card-title>
+                <v-container>
+                <NCForm/>
+                <v-btn
+                outlined 
+                color="#DBB13B"
+                class="center"
+                id="confirmarNCF"
+                @click="dialog = false"
+                >
+                Confirmar
+                </v-btn>
+                </v-container>
             </v-card>
        </v-dialog>
     
@@ -28,7 +41,6 @@
 import NCForm from '../components/FuenteNC/NCForm.vue';
 
 export default {
-
     name: 'FuenteNcView',
     components: {
         NCForm,
@@ -47,5 +59,10 @@ export default {
     height: 60%;
     margin-top: 5%;
     margin-left: 10%;
+}
+.center {
+     width: 80%;
+     margin-left: 10%;
+     margin-bottom: 10px;
 }
 </style>
