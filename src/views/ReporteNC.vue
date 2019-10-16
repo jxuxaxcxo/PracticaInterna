@@ -111,7 +111,7 @@ export default {
             estado: 'No Realizado',
           },
         ],
-        descripcion : '\nesta es la descripcion'
+        descripcion : 'esta es la descripcion.'
       }
       
     },
