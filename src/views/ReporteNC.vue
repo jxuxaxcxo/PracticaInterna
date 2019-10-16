@@ -18,8 +18,30 @@
         <v-row class="mb-6" no-gutters>
              <v-col :cols="20">
                 <v-card class="pa-2" tile outlined>
-                   <h3>Descripcion</h3> 
+                   <h3>Descripcion: {{ descripcion }}</h3> 
                 </v-card>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col :cols="20">
+                <v-simple-table height="300px">
+                    <template v-slot:default>
+                        <thead>
+                            <tr>
+                                <th class="text-left">Acciones</th>
+                                <th class="text-left">Encargado</th>
+                                <th class="text-left">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in lista" :key="item.acciones">
+                                <td>{{ item.acciones }}</td>
+                                <td>{{ item.encargado }}</td>
+                                <td>{{ item.estado }}</td>
+                            </tr>
+                        </tbody>
+                    </template>
+                </v-simple-table>
             </v-col>
         </v-row>
 
@@ -32,11 +54,67 @@
 <script>
 export default {
     name: "ReporteNC",
-    
+  
 
-    data(){
-       
-    }
+  data () {
+        
+      return {
+        lista: [
+          {
+            acciones: 'Llamar a DTI',
+            encargado: 'Juan Perez',
+            estado: 'No Realizado',
+          },
+          {
+            acciones: 'Pedir Informes',
+            encargado: 'Marcelo Angulo',
+            estado: 'Realizado',
+          },
+          {
+            acciones: 'Pedir reportes',
+            encargado: 'Pamela Tapia',
+            estado: 'No Realizado',
+          },
+          {
+            acciones: 'Completar documentacion',
+            encargado: 'Alvaro Molina',
+            estado: 'Realizado',
+          },
+          {
+            acciones: 'Llamar a DTI',
+            encargado: 'Robert Soruco',
+            estado: 'No Realizado',
+          },
+           {
+            acciones: 'Llamar a DTI',
+            encargado: 'Juan Perez',
+            estado: 'No Realizado',
+          },
+          {
+            acciones: 'Pedir Informes',
+            encargado: 'Marcelo Angulo',
+            estado: 'Realizado',
+          },
+          {
+            acciones: 'Pedir reportes',
+            encargado: 'Pamela Tapia',
+            estado: 'No Realizado',
+          },
+          {
+            acciones: 'Completar documentacion',
+            encargado: 'Alvaro Molina',
+            estado: 'Realizado',
+          },
+          {
+            acciones: 'Llamar a DTI',
+            encargado: 'Robert Soruco',
+            estado: 'No Realizado',
+          },
+        ],
+        descripcion : '\nesta es la descripcion'
+      }
+      
+    },
 }
 </script>
 
