@@ -44,20 +44,20 @@
                   </v-list-item-content>
                 </template>
 
-                <v-list-group
-                  v-for="subItem in item.items"
-                  :key="subItem.title"
-                  @click=""
-                >
-                <template v-slot:activator>
-                  <v-list-item-content>
-                    <v-list-item-title  class = "nc-elem" v-text="subItem.title"></v-list-item-title>
-                  </v-list-item-content>
-                </template>
+                      <v-list-group
+                        v-for="subItem in item.items"
+                        :key="subItem.title"
+                        @click=""
+                      >
+                      <template v-slot:activator>
+                        <v-list-item-content>
+                          <v-list-item-title  class = "nc-elem" v-text="subItem.title"></v-list-item-title>
+                        </v-list-item-content>
+                      </template>
 
 
 
-                </v-list-group>
+                      </v-list-group>
 
 
                 </v-list-item>
