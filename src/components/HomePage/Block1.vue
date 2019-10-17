@@ -18,8 +18,8 @@ export default {
 <style scoped>
 
   #block1{
-    position: fixed;
-      left: 25vw;
+    position: absolute;
+      left: 5vw;
       top: 5vh;
       height: 50vh;
       width: 70vw;
@@ -27,8 +27,9 @@ export default {
 
    #block1_sign{
     background-color: #FFC30F;
-    position: fixed;
-    left: 26.5vw;
+
+    position: absolute;
+    left: 6.5vw;
     top: 2.5vh;
     height: 15vh;
     width: 67vw;
