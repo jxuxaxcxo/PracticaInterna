@@ -22,7 +22,7 @@ export default {
   #block4{
     position: absolute;
       left: 41vw;
-      top: 135vh;
+      top: 65vh;
       height: 50vh;
       width: 34vw;
     }
@@ -31,7 +31,7 @@ export default {
     background-color: #34CCFF;
     position: absolute;
     left: 42.5vw;
-    top: 132.5vh;
+    top: 62.5vh;
     height: 25vh;
     width: 31vw;
 

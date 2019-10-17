@@ -23,7 +23,7 @@ export default {
   #block3{
     position: absolute;
       left: 5vw;
-      top: 135vh;
+      top: 65vh;
       height: 50vh;
       width: 34vw;
     }
@@ -32,7 +32,7 @@ export default {
     background-color: #BA55D3;
     position: absolute;
     left: 6.5vw;
-    top: 132.5vh;
+    top: 62.5vh;
     height: 25vh;
     width: 31vw;
 
@@ -64,7 +64,6 @@ export default {
     top: 40vh;
     left: 14vw;
     color: darkslategray;
-
   }
 
 </style>

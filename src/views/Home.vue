@@ -33,7 +33,7 @@ export default {
 <style scoped>
 
   #homePage{
-    height: 200vh;
+    height: 150vh;
     width: 100vw;
     background-color: #ECECEC;
   }
