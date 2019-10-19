@@ -9,6 +9,7 @@
       <v-toolbartitle>Bievenue</v-toolbartitle>
     </v-toolbar>
     <router-view></router-view>
+    <ListaPer/>
     </div>
     </v-content>
   </v-app>
@@ -17,11 +18,13 @@
 <script>
 import FuenteNCView from './views/FuenteNCView.vue';
 import Navbar from './views/Navbar.vue';
+import ListaPer from './views/ListaPer.vue';
 
 export default {
   name: 'App',
   components: {
-    Navbar
+    Navbar,
+    ListaPer
   },
   data: () => ({
     //
