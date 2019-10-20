@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import FuenteNCView from './views/FuenteNCView'
-import ReporteNC from './views/ReporteNC'
+import ReporteNC from './views/ReporteNC.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -20,8 +20,8 @@ export default new Router({
     },
     {
       path: '/reporteNC/',
-      name: 'reporteNC'
-      //component: ReporteNC
+      name: 'reporteNC',
+      component: ReporteNC
     }
 
 

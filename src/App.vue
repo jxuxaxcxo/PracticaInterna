@@ -18,13 +18,13 @@
 <script>
 import FuenteNCView from './views/FuenteNCView';
 import Navbar from './views/Navbar.vue';
-import ReporteNC from './views/ReporteNC.vue';
+
 
 export default {
   name: 'App',
   components: {
     Navbar,
-    ReporteNC
+  
   },
   data: () => ({
     //
