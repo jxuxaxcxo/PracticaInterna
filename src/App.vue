@@ -7,7 +7,6 @@
     <div>
 
     <router-view></router-view>
-    <ListaPer/>
     </div>
     </v-content>
   </v-app>
@@ -20,8 +19,7 @@ import ListaPer from './views/ListaPer.vue';
 export default {
   name: 'App',
   components: {
-    Navbar,
-    ListaPer
+    Navbar
   },
   data: () => ({
     //

@@ -8,6 +8,7 @@
           </v-list-item-avatar>
         </v-list-item>
 
+
         <v-list-item link>
           <v-list-item-content>
             <v-list-item-title class="title" >Mateo Puña</v-list-item-title>
@@ -71,6 +72,7 @@
 
 <script>
 export default {
+  
     name: "Navbar",
     data: () => ({
       drawer : true
