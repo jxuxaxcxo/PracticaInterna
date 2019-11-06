@@ -25,18 +25,19 @@
                 </v-card>
             </v-col>
         </v-row>
+           <v-row>
+                       <v-subheader class="justify-center white--text titulo">Acciones</v-subheader>
+                         <v-subheader class="justify-center white--text titulo1">Encargado</v-subheader>
+                            <v-subheader class="justify-center white--text titulo2">Estado</v-subheader>  
+                            </v-row>
         <v-row>
           
             <v-col :cols="20">
-              <v-row>
-                       <v-subheader class="justify-center white--text titulo">Acciones</v-subheader>
-                         <v-subheader class="justify-center white--text titulo">Encargado</v-subheader>
-                            <v-subheader class="justify-center white--text titulo">Estado</v-subheader>  
-                            </v-row>
-                <v-simple-table fixed-header height="300px">
+             
+                <v-simple-table fixed-header height="300px" >
                     <template v-slot:default>
-                      
-                        <tbody>
+                    
+                        <tbody>    
                             <tr v-for="item in lista" :key="item.acciones">
                                 <td>{{ item.acciones }}</td>
                                 <td>{{ item.encargado }}</td>
@@ -127,7 +128,17 @@ export default {
 <style scoped>
 .titulo {
 background-color: #3b83bd;
-width: 391px
+width: 390px
+
+}
+.titulo1 {
+background-color: #3b8;
+width: 390px
+
+}
+.titulo2 {
+background-color: #3b89be;
+width: 390px
 
 }
 .tablas {
