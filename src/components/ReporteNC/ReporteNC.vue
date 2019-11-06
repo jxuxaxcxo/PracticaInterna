@@ -25,30 +25,30 @@
                 </v-card>
             </v-col>
         </v-row>
-           <v-row>
-                       <v-subheader class="justify-center white--text titulo">Acciones</v-subheader>
-                         <v-subheader class="justify-center white--text titulo1">Encargado</v-subheader>
-                            <v-subheader class="justify-center white--text titulo2">Estado</v-subheader>  
-                            </v-row>
         <v-row>
           
             <v-col :cols="20">
-             
-                <v-simple-table fixed-header height="300px" >
-                    <template v-slot:default>
-                    
-                        <tbody>    
-                            <tr v-for="item in lista" :key="item.acciones">
-                                <td>{{ item.acciones }}</td>
-                                <td>{{ item.encargado }}</td>
-                                <td>{{ item.estado }}</td>
-                            </tr>
-                        </tbody>
-                    </template>
-                </v-simple-table>
+             <v-data-table
+        :headers="headers"
+        :items="lista"
+        hide-actions
+        class="elevation-1 test"
+        height="450px"
+        hide-default-footer
+        fixed-header
+        disable-pagination
+      >
+        <template slot="items" slot-scope="props">
+          <td>{{ props.item.acciones }}</td>
+          <td class="text-xs-right">{{ props.item.encargado }}</td>
+          <td class="text-xs-right">{{ props.item.estado }}</td>
+        </template>
+      </v-data-table>
             </v-col>
         </v-row>
-
+<v-row>
+  
+</v-row>
     </v-container>
     
      
@@ -63,54 +63,73 @@ export default {
   data () {
         
       return {
+        headers: [
+        {
+          text: 'Acciones',
+          align: 'left',
+          value: 'acciones'
+        },
+        { text: 'Encargado', value: 'encargado' },
+        { text: 'Estado', value: 'estado' }
+      ],
     
         lista: [
           {
+            codigo:1,
             acciones: 'Llamar a DTI',
             encargado: 'Juan Perez',
             estado: 'No Realizado',
           },
           {
+            codigo:2,
             acciones: 'Pedir Informes',
             encargado: 'Marcelo Angulo',
             estado: 'Realizado',
           },
           {
+            codigo:3,
             acciones: 'Pedir reportes',
             encargado: 'Pamela Tapia',
             estado: 'No Realizado',
           },
           {
+            codigo:4,
             acciones: 'Completar documentacion',
             encargado: 'Alvaro Molina',
             estado: 'Realizado',
           },
           {
+            codigo:5,
             acciones: 'Llamar a DTI',
             encargado: 'Robert Soruco',
             estado: 'No Realizado',
           },
            {
+            codigo:6,
             acciones: 'Llamar a DTI',
             encargado: 'Juan Perez',
             estado: 'No Realizado',
           },
           {
+            codigo:7,
             acciones: 'Pedir Informes',
             encargado: 'Marcelo Angulo',
             estado: 'Realizado',
           },
           {
+            codigo:8,
             acciones: 'Pedir reportes',
             encargado: 'Pamela Tapia',
             estado: 'No Realizado',
           },
           {
+            codigo:9,
             acciones: 'Completar documentacion',
             encargado: 'Alvaro Molina',
             estado: 'Realizado',
           },
           {
+            codigo:10,
             acciones: 'Llamar a DTI',
             encargado: 'Robert Soruco',
             estado: 'No Realizado',
@@ -126,23 +145,10 @@ export default {
 }
 </script>
 <style scoped>
-.titulo {
-background-color: #3b83bd;
-width: 390px
+.test table tr {
+    background-color: #3f87a6;
+}
 
-}
-.titulo1 {
-background-color: #3b8;
-width: 390px
 
-}
-.titulo2 {
-background-color: #3b89be;
-width: 390px
-
-}
-.tablas {
-  background-color: black
-}
 </style>
 
