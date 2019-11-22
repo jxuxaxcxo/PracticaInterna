@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import FuenteNCView from './views/FuenteNCView.vue'
 import ListaPer from './views/ListaPer.vue'
+import Form from './views/Form.vue'
 
 Vue.use(Router)
 
@@ -24,6 +25,12 @@ export default new Router({
       path: '/listaper/',
       name: 'listaPer',
       component: ListaPer
+    },
+
+    {
+      path: '/form/',
+      name: 'form',
+      component: Form
     }
 
 
