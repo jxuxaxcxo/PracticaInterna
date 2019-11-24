@@ -1,70 +1,81 @@
 <template>
     <div class="tabla elevation-0">
-        <v-subheader class="justify-center white--text titulo">
-            No Conformidades
-        </v-subheader>
-         <v-data-table
-        :headers="headers"
-        :items="noConformidades"
-        disable-pagination
-        hide-default-footer
-        hide-default-header
-        height= 58vh
-        no-data-text="No has agregado no conformidades aun"
+        <v-icon
+        id="agregarNCBoton"
+        @click="agregarNC"
+        >mdi-plus</v-icon>
+        <v-subheader
+        class="justify-center white--text titulo"
+        id="tituloListaNC"
         >
-        <template v-slot:item.action="{ item }">
-                <v-icon
-                small
-                @click="editarNoConformidad(item)"
-                icon
-                color="#3B83BD"
-                >
-                    mdi-pencil
-                </v-icon>
-                <v-icon
-                    small
-                    icon
-                    @click="borrarNoConformidad(item)"
-                    color="#3B83BD"
-                >
-                    mdi-delete
-                </v-icon>
-    </template>
-  </v-data-table>
+        No Conformidades
+        </v-subheader>
+        <v-card
+        class="scroll"
+        height="70vh"
+        id="ListaNC"
+        >
+            <v-form
+            v-model="validoNC"
+            >
+                <v-container>
+                    <v-row
+                    v-for="(noConformidad,i) in noConformidades"
+                    :key="i"
+                    :id="'filaNC' + i"
+                    >
+                    <v-col cols="11">
+                        <v-text-field
+                        v-model="noConformidades[i]"
+                        :id="'noConformidad' + i"
+                        :counter="511"
+                        :rules="reglas.noConformidad"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="1">
+                        <v-icon
+                        @click="borrarNoConformidad(i)"
+                        :id="'borraraNC' + i +'boton'"
+                        >mdi-delete</v-icon>
+                    </v-col>
+                    </v-row>
+                </v-container>
+            </v-form>
+        </v-card>
     </div>
 </template>
 <script>
 export default {
-    name: 'ListaNC',
-    props: {
-        noConformidades:Array,
+  props: {
+    noConformidades: Array,
+    validoNC: Boolean
+  },
+  data: () => ({
+    reglas: {
+      noConformidad: [
+        v => !!v || 'Este campo es necesario',
+        v => v.length <= 511 || 'El titulo debe contener menos de 511 caracteres'
+      ]
+    }
+  }),
+  methods: {
+    agregarNC () {
+      this.noConformidades.unshift('Nueva No Conformidad')
     },
-   data: () => ({
-      dialog: false,
-      headers: [
-        {
-          text: 'No Conformidad',
-          align: 'left',
-          sortable: false,
-          value: 'titulo',
-        },
-        { text: 'Actions', aling:'end', value: 'action', sortable: false },
-      ],
-    }),
-    methods: {
-        editarNoConformidad(item)
-        {
-            this.$emit("editarNC", item)
-        },
-        borrarNoConformidad(item)
-        {
-            this.$emit("borrarNC", item)
-        }
-    },
+    borrarNoConformidad(indice)
+    {
+      this.noConformidades.splice(indice,1)
+    }
+  },
+  watch: {
+    validoNC: function (val) {
+      this.$emit('setValidoNC', val)
+    }
+  }
 }
 </script>
 <style scoped>
-.tabla {
+.scroll {
     overflow-y: scroll;
 }
 .titulo {

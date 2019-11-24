@@ -167,7 +167,7 @@ export default {
           this.seleccionFormato = formato
         }
         this.nombre = []
-        this.file = []
+        this.file = null
         this.nombre = []
         this.noConformidades = []
       })
@@ -203,7 +203,10 @@ export default {
               const cs = this.text.toString().match(campo.titulo + '[^.]+\.')
               console.log(cs)
               campo.titulo = campo.titulo.replace('\\s', ' ')
-              this.seleccionFormato.campos[campo.index].data = cs.toString().replace(campo.titulo,'')
+              if (cs !== null)
+              {
+                this.seleccionFormato.campos[campo.index].data = cs.toString().replace(campo.titulo,'')
+              }
               console.log('3')
             })
         })
