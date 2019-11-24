@@ -1,105 +1,84 @@
 <template>
     <v-container>
-        <v-row>
-          <v-col></v-col>
-          <v-col>
-          <v-card color="transparent" class="elevation-0">
-            <v-card-title>NUEVO INFORME DE AUDITORIA</v-card-title>
-          </v-card>
-          </v-col>
-          <v-col></v-col>
-        </v-row>
+            <v-card-title class="justify-center">NUEVO INFORME DE AUDITORIA</v-card-title>
         <v-row>
           <v-col  cols="1"></v-col>
-          <v-col cols="5" height="90vh">
-            <v-select
-            style="margin-left: 2vw"
-            :items="formatos"
-            label="Formato de Plan de Accion"
-            item-text="nombre"
-            v-model="seleccionFormatoN"
-            @change="onSeleccionFormato"
+          <v-col cols="5">
+            <v-form
+            v-model="validoData"
             >
-            </v-select>
-            <v-file-input
-            v-model="file"
-            placeholder="Seleccione un Informe"
-            label="Suba su Informe"
-            prepend-icon="mdi-paperclip"
-            accept = ".docx"
-            @change="fileRead()"
-            id="fileSelector"
-            :disabled="!filled"
-            ></v-file-input>
-            <v-text-field
-            v-model="nombre"
-            label="Nombre del informe (Unico)"
-            style="margin-left: 2vw"
-            :disabled="!filled"
-            ></v-text-field>
-            <v-icon style ="margin-left: 1vw;" @click="noConformidades.push('Nueva No Conformidad')">
-              mdi-plus
-            </v-icon>
-            <v-card class="elevation-0">
-              <div style="background-color: #3B83BD; text-align: center;">
-                <v-title primary-title class="justify-center white--text">NO CONFORMIDADES</v-title>
-              </div>
-            </v-card>
-            <v-card
-            height="41.5vh"
-            class="scroll">
-              <v-container>
-                <v-row 
-                v-for="(noConformidad, i) in noConformidades"
-                :key="i"
+              <v-select
+              :items="formatos"
+              label="Formato de Plan de Accion"
+              item-text="nombre"
+              v-model="seleccionFormatoN"
+              @change="onSeleccionFormato"
+              :rules="reglas.formato"
+              id="formatoSeleccion"
+              required
+              >
+              </v-select>
+              <v-text-field
+              v-model="nombre"
+              label="Nombre del informe (Unico)"
+              :disabled="!filled"
+              :counter="63"
+              :rules="reglas.titulo"
+              required
+              ></v-text-field>
+              <v-text-field
+              label="Breve Descripción"
+              v-model="descripcion"
+              :rules="reglas.descripcion"
+              required
+              :counter="255"
+              ></v-text-field>
+              <v-menu
+                v-model="calendarioMostrar"
+                :close-on-content-click="false"
                 >
-                  <v-col cols="11">
+                <template v-slot:activator="{ on }">
                     <v-text-field
-                    style="margin-top: -1vh"
-                    v-model="noConformidades[i]"
-                    :id="'noConformidad' + i"
-                    >
-                    </v-text-field>
-                  </v-col>
-                  <v-col cols="1">
-                    <v-icon
-                    small
-                    icon
-                    color="#3B83BD"
-                    @click="noConformidades.splice(i,1)"
-                    :id="'borrarNC' + i"
-                    >
-                        mdi-delete
-                    </v-icon>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card>
+                    :value="fechaAtribuible"
+                    clearable
+                    :rules="reglas.fecha"
+                    label="Fecha atribuible"
+                    readonly
+                    required
+                    v-on="on"
+                    @click:clear="fechaAtribuible = null"
+                    ></v-text-field>
+                </template>
+                <v-date-picker
+                    locale
+                    v-model="fechaAtribuible"
+                    @change="calendarioMostrar = false"
+                    :max="fechaAtribuible"
+                ></v-date-picker>
+              </v-menu>
+              <ListaNC
+              :validoNC ="validoNC"
+              :noConformidades="noConformidades"
+              @setValidoNC="setValidoNC"
+              />
+            </v-form>
           </v-col>
-          <v-col cols="5" height="80vh">
-            <v-card class="elevation-0">
-              <div style="background-color: #3B83BD; text-align: center;">
-                <v-title primary-title class="justify-center white--text">DATOS</v-title>
-              </div>
-            </v-card>
-            <v-card
-            height="73vh"
-            class="scroll">
-              <v-container>
-                <v-row
-                v-for="(campo,i) in seleccionFormato.campos"
-                :key="i"
-                >
-                 <v-col cols="1"></v-col>
-                 <v-col cols="10">
-                  <v-text-field
-                  :label="campo.titulo"
-                  v-model="campo.data"></v-text-field>
-                 </v-col>
-                 <v-col cols="1"></v-col>
-                </v-row>
-              </v-container>
-            </v-card>
+          <v-col cols="5">
+            <v-file-input
+              v-model="file"
+              placeholder="Seleccione un Informe"
+              label="Suba su Informe"
+              prepend-icon="mdi-paperclip"
+              accept = ".docx"
+              @change="fileRead()"
+              id="fileSelector"
+              :disabled="!filled"
+              ></v-file-input>
+            <lista-campos
+            altura = "66vh"
+            :campos="seleccionFormato.campos"
+            @setValidoFormularioDatos="setValedoFormularioDatos"
+            />
           </v-col>
           <v-col cols="1"></v-col>
         </v-row>
@@ -108,6 +87,7 @@
           <v-col>
             <v-btn
             color="#3B83BD"
+            :disabled="aceptado"
             outlined>Agregar Informe</v-btn>
           </v-col>
         </v-row>
@@ -115,18 +95,42 @@
 </template>
 <script>
 import docx4js from "docx4js"
-import ListaNC from '../components/NewInforme/ListaNC.vue'
+import ListaNC from '../components/FuenteNC/ListaNC'
+import ListaCampos from '../components/FuenteNC/ListaCampos'
 export default {
   components: {
-    ListaNC
+    ListaNC,
+    ListaCampos
   },
   data () {
     return {
         filled: false,
-        nombre: [],
+        nombre: '',
         file: [],
         text: [],
+        descripcion: '',
         noConformidades: [],
+        validoData: false,
+        validoNC: true,
+        validoFormularioDatos: true,
+        fechaAtribuible: new Date().toISOString().substr(0, 10),
+        calendarioMostrar: false,
+        reglas: {
+          titulo: [
+              v => !!v || 'Este campo es necesario',
+              v => v.length <= 63 || 'El titulo debe contener menos de 63 caracteres'
+          ],
+          descripcion: [
+              v => !!v || 'Este campo es necesario',
+              v => v.length <= 255 || 'La descripción debe contener menos de 255 caracteres'
+          ],
+          formato: [
+            v => !!v || 'Este campo es necesario',
+          ],
+          fecha: [
+              v => !!v || 'Este campo es necesario',
+          ]
+        },
         formatos: [
           {
             nombre: 'formatoA',
@@ -159,7 +163,18 @@ export default {
         seleccionFormatoN: []
     }
   },
+  computed: {
+      aceptado () {
+        return this.filled && this.validoFormularioDatos && this.validoData && this.validoNC && this.noConformidades.length > 0
+      }
+  },
   methods: {
+    setValidoNC (val) {
+      this.validoNC = val
+    },
+    setValedoFormularioDatos (val) {
+      this.validoFormularioDatos = val
+    },
     onSeleccionFormato () {
       this.formatos.forEach((formato) => {
         this.filled = true

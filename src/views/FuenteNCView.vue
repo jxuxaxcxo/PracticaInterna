@@ -26,7 +26,6 @@
                 <v-menu
                 v-model="calendarioMostrar"
                 :close-on-content-click="false"
-                max-width="290"
                 >
                 <template v-slot:activator="{ on }">
                     <v-text-field
@@ -54,18 +53,19 @@
                 v-model="formatoSeleccionadoN"
                 @change="onSeleccionFormato"
                 ></v-select>
-                <lista-campos
-                :campos="formatoSeleccionado.campos"
-                @setValidoFormularioDatos="setValedoFormularioDatos"
+                <ListaNC
+                :validoNC ="validoNC"
+                :noConformidades="noConformidades"
+                @setValidoNC="setValidoNC"
                 />
             </v-form>
         </v-col>
         <v-col cols="1"></v-col>
         <v-col cols="5">
-            <ListaNC
-            :validoNC ="validoNC"
-            :noConformidades="noConformidades"
-            @setValidoNC="setValidoNC"
+            <lista-campos
+            altura="70vh"
+            :campos="formatoSeleccionado.campos"
+            @setValidoFormularioDatos="setValedoFormularioDatos"
             />
         </v-col>
         <v-col cols="1"></v-col>

@@ -8,7 +8,7 @@
         </v-subheader>
         <v-card
         class="scroll"
-        height="35vh"
+        :height="altura"
         id="ListaCampos"
         >
             <v-form
@@ -41,7 +41,8 @@
 export default {
   props: {
     campos: Array,
-    validoFormularioDatos: Boolean
+    validoFormularioDatos: Boolean,
+    altura: String
   },
   data: () => ({
     reglas: {

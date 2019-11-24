@@ -12,7 +12,7 @@
         </v-subheader>
         <v-card
         class="scroll"
-        height="70vh"
+        height="34vh"
         id="ListaNC"
         >
             <v-form
