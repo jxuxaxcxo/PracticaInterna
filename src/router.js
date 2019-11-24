@@ -37,6 +37,12 @@ export default new Router({
       component: NewInformeView
     }
 
+    {
+      path: '/form/',
+      name: 'form',
+      component: Form
+    }
+
 
   ]
 })
