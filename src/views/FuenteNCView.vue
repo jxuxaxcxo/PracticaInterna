@@ -1,209 +1,193 @@
 <template>
 
 <v-container fluid>
-    <div class="lista">
-        <ListaNC
-        :noConformidades="noConformidades"
-        @editarNC="editarNC"
-        @borrarNC = "confirmarBorrarNC"
-        />
-    </div>
-    <v-container class="spacing-playground my-12"
-    fluid>
-        <v-row justify="center">
-            <v-col cols:12>
-                <v-dialog
-                v-model="nuevaNCForm"
-                width="60vw"
+    <v-card-title class="justify-center">Nueva fuente de incidencias
+    </v-card-title>
+    <v-row>
+        <v-col cols="1"></v-col>
+        <v-col cols="4">
+            <v-form
+            v-model="validoData"
+            >
+                <v-text-field
+                label="Nombre de la Fuente"
+                v-model="titulo"
+                :counter="63"
+                :rules="reglas.titulo"
+                required
+                ></v-text-field>
+                <v-text-field
+                label="Breve Descripción"
+                v-model="descripcion"
+                :rules="reglas.descripcion"
+                required
+                :counter="255"
+                ></v-text-field>
+                <v-menu
+                v-model="calendarioMostrar"
+                :close-on-content-click="false"
                 >
-                        <template v-slot:activator="{ on }">
-                            <div>
-                                <v-btn color="#FFC30F" dark class="botonAgregar" id="agregarNCF" @click="nuevaNCForm = true">
-                                Agregar
-                                </v-btn>
-                            </div>
-                        </template>
-                        <v-card>
-                            <v-container dark  class="titulo">
-                                <v-card-title primary-title class="justify-center white--text">Nueva No Conformidad</v-card-title>
-                            </v-container>
-                            <v-container>
-                                <NCForm
-                                :descripcionNCF="edicionNC.descripcion"
-                                :tituloNCF="tituloNCF"
-                                :encargadoNCF="encargadoNCF"
-                                @confirmarDatosNCF = "confirmarDatosNCF"
-                                @cancelar="cerrarNuevaNCForm"/>
-                                
-                            </v-container>
-                        </v-card>
-                </v-dialog>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="7"></v-col>
-            <v-col cols="2">
-                <v-btn color="#FFC30F" class="white--text">Guardar</v-btn>
-            </v-col>
-            <v-col cols="2">
-                <v-dialog
-                v-model="confirmacionForm"
-                width="60vw"
-                >
-                        <template v-slot:activator="{ on }">
-                            <div>
-                                <v-btn color="#3B83BD" class="white--text" @click="confirmarCancelarFuente">Cancelar</v-btn>
-                            </div>
-                        </template>
-                         <ConfirmacionForm
-                        :titulo="confirmacionTitulo"
-                        :texto="confirmacionTexto"
-                        @cancelarFuente = "confirmarCancelarFuente"
-                        />
-                </v-dialog>
-            </v-col>
-        </v-row>
-    </v-container>
-   
+                <template v-slot:activator="{ on }">
+                    <v-text-field
+                    :value="fechaAtribuible"
+                    clearable
+                    :rules="reglas.fecha"
+                    label="Fecha atribuible"
+                    readonly
+                    required
+                    v-on="on"
+                    @click:clear="fechaAtribuible = null"
+                    ></v-text-field>
+                </template>
+                <v-date-picker
+                    locale
+                    v-model="fechaAtribuible"
+                    @change="calendarioMostrar = false"
+                    :max="fechaAtribuible"
+                ></v-date-picker>
+                </v-menu>
+                <v-select
+                :items="formatos"
+                item-text="nombre"
+                label="Seleccione un Formato"
+                v-model="formatoSeleccionadoN"
+                @change="onSeleccionFormato"
+                ></v-select>
+                <ListaNC
+                :validoNC ="validoNC"
+                :noConformidades="noConformidades"
+                @setValidoNC="setValidoNC"
+                />
+            </v-form>
+        </v-col>
+        <v-col cols="1"></v-col>
+        <v-col cols="5">
+            <lista-campos
+            altura="70vh"
+            :campos="formatoSeleccionado.campos"
+            @setValidoFormularioDatos="setValedoFormularioDatos"
+            />
+        </v-col>
+        <v-col cols="1"></v-col>
+    </v-row>
+   <v-row>
+       <v-col cols="9"></v-col>
+       <v-col cols="3">
+           <v-btn
+           :disabled="aceptado"
+           id="agregarFuenteNCboton"
+           @click="agregar"
+           color="#3B83BD"
+           outlined
+           >Agregar Fuente</v-btn>
+       </v-col>
+   </v-row>
 </v-container>
 </template>
 
 <script>
-import NCForm from '../components/FuenteNC/NCForm.vue';
 import ListaNC from '../components/FuenteNC/ListaNC.vue';
-import ConfirmacionForm from '../components/FuenteNC/ConfirmacionForm.vue';
+import ListaCampos from '../components/FuenteNC/ListaCampos.vue'
 
 export default {
     name: 'FuenteNcView',
     components: {
-        NCForm,
         ListaNC,
-        ConfirmacionForm
+        ListaCampos
     },
     data() {
         return {
-            nuevaNCForm: false,
-            confirmacionForm: false,
-            confirmacionTitulo: "",
-            confirmacionTexto: "",
-            edicionNC: {
-                titulo: "",
-                descripcion: "",
-                encargado: ""
+            titulo: '',
+            descripcion: '',
+            calendarioMostrar: false,   
+            validoData: false,
+            validoNC: true,
+            validoFormularioDatos: true, 
+            formatoSeleccionadoN: [],
+            formatoSeleccionado: [],   
+            reglas: {
+                titulo: [
+                    v => !!v || 'Este campo es necesario',
+                    v => v.length <= 63 || 'El titulo debe contener menos de 63 caracteres'
+                ],
+                descripcion: [
+                    v => !!v || 'Este campo es necesario',
+                    v => v.length <= 255 || 'La descripción debe contener menos de 255 caracteres'
+                ],
+                fecha: [
+                    v => !!v || 'Este campo es necesario',
+                ]
             },
-            editedIndex: -1,
+            formatos: [
+            {
+                nombre: 'formatoA',
+                campos: [
+                {
+                titulo: 'LÍMITES A',
+                data: ''
+                },
+                {
+                titulo: 'UBICACIÓN',
+                data: ''
+                }
+                ]
+            },
+            {
+                nombre: 'formatoB',
+                campos: [
+                {
+                titulo: 'ORIGEN',
+                data: ''
+                },
+                {
+                titulo: 'UBICACIÓN',
+                data: ''
+                }
+                ]
+            }
+            ],
+            fechaAtribuible: new Date().toISOString().substr(0, 10),
             noConformidades: [
-                {
-                    titulo: "No wifi Laboratorio 11 JLP",
-                    descripcion: "wo"
-                },
-                {
-                    titulo: "Piggy biggie",
-                    descripcion: "wo"
-                },
-                {
-                    titulo: "Pina dijo la nina",
-                    descripcion: "wo"
-                },
-                {
-                    titulo: "CJ presente",
-                    descripcion: "wo"
-                },
-                {
-                    titulo: "Es esto suficiente?",
-                    descripcion: "wo"
-                },
-                {
-                    titulo: "yaaa",
-                    descripcion: "wo"
-                },
-                {
-                    titulo: "yaaa",
-                    descripcion: "wo"
-                },
-                {
-                    titulo: "yaaa",
-                    descripcion: "wo"
-                },
-                {
-                    titulo: "yaaa",
-                    descripcion: "wo"
-                },
-                {
-                    titulo: "yaaa",
-                    descripcion: "wo"
-                },
-                {
-                    titulo: "yaaa",
-                    descripcion: "wo"
-                },
-                {
-                    titulo: "yaaa",
-                    descripcion: "wo"
-                },
-                {
-                    titulo: "yaaa",
-                    descripcion: "wo"
-                },
-                {
-                    titulo: "yaaa",
-                    descripcion: "wo"
-                },
-                {
-                    titulo: "yaaa",
-                    descripcion: "wo"
-                },
-                {
-                    titulo: "yaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                    descripcion: "wo"
-                },
+                "No wifi Laboratorio 11 JLP",
+                "Piggy biggie",
+                "Pina dijo la nina",
+                "CJ presente",
+                "Es esto suficiente?",
+                "yaaa",
+                "yaaa",
+                "yaaa",
+                "yaaa",
+                "yaaa",
+                "yaaa",
+                "yaaa"
             ]
         }
     },
+    computed: {
+      aceptado () {
+        return this.validoFormularioDatos && this.validoData && this.validoNC && this.noConformidades.length > 0
+      }
+    },
     methods: {
-        confirmarDatosNCF(titulo, descripcion, encargado)
-        {
-            this.nuevaNCForm=false;
-        },
-        cerrarNuevaNCForm()
-        {
-            this.nuevaNCForm=false;
-        },
-        editarNC(item)
-        {
-            this.nuevaNCForm = true
-        },
-        confirmarCancelarFuente()
-        {
-            this.confirmacionTitulo = "Desea cancelar la Fuente Actual?"
-            this.confirmacionTexto = "Los cambios realizados no seran guardados."
-            this.confirmacionForm = !(this.confirmacionForm);
-        },
-        confirmarBorrarNC (item)
-        {
-            this.confirmacionTitulo = "Desea elminicar la no conformidad?"
-            this.confirmacionTexto = "Los cambios realizados no podran ser revertidos."
-            this.confirmacionForm = true;
-        }
+      agregar () {
+          console.log('agregando')
+      },
+      setValidoNC (val) {
+          this.validoNC = val
+      },
+      setValedoFormularioDatos (val) {
+          this.validoFormularioDatos = val
+      },
+      onSeleccionFormato () {
+        this.formatos.forEach((formato, i) => {
+            if (formato.nombre === this.formatoSeleccionadoN) {
+                this.formatoSeleccionado = formato
+            }
+        })
+      }
     }
 }
 </script>
 
 <style scoped>
-.lista {
-    width: 80%;
-    height: 60%;
-    margin-top: 5%;
-    margin-left: 10%;
-}
-.botonAgregar {
-    position: absolute;
-    top: 78vh;
-    left: 9vw;;
-    width: 64vw;
-}
-.titulo {
-    background-color: #FFC30F;
-    text-align: center;
-}
 </style>
