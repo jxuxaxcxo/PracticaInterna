@@ -1,6 +1,6 @@
 import db from '../ConexionFirebase/Firebase'
 
-export default function agregarUsuario(mail, tipo, password, cargo) 
+export function agregarUsuario(mail, tipo, password, cargo) 
 {
 const usuario = {
     mail: mail,
@@ -15,3 +15,32 @@ db.collection('usuarios').add(usuario).then(() => {
 
 )
 }
+export function listaUsuarios(){
+
+let citiesRef = db.collection('usuarios');
+let allCities = citiesRef.get()
+  .then(snapshot => {
+    snapshot.forEach(doc => {
+      console.log(doc.id, '=>', doc.data());
+    });
+  })
+  .catch(err => {
+    console.log('Error getting documents', err);
+  });
+
+   let usuarios = db.collection('usuarios').get();
+   for(usuario in usuarios){
+       console.log(usuario.mail);
+   }
+}
+export function listaUsuarios2(){
+
+    let query = db.collection('usuarios');
+
+    let observer = query.onSnapshot(querySnapshot => {
+      console.log(`Received query snapshot of size ${querySnapshot.docChanges().values()}`);
+      // ...
+    }, err => {
+      console.log(`Encountered error: ${err}`);
+    });
+    }
