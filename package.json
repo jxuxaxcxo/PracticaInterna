@@ -11,6 +11,8 @@
   "dependencies": {
     "blob-util": "^2.0.2",
     "docx4js": "^3.2.0",
+    "firebase": "^7.5.0",
+    "firebase-admin": "^8.8.0",
     "mammoth": "^1.4.9",
     "vue": "^2.6.10",
     "vue-router": "^3.1.3",

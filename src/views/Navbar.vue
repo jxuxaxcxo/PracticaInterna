@@ -31,7 +31,7 @@
       <v-divider></v-divider>
 
       </v-list>
-
+<!--
           <v-list>
               <v-list-group 
                 v-for="item in items"
@@ -64,7 +64,7 @@
                 </v-list-item>
 
               </v-list-group>
-          </v-list>
+          </v-list>-->
         </v-navigation-drawer>
        
     </div>

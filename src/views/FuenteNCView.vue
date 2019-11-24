@@ -43,7 +43,7 @@
         <v-row>
             <v-col cols="7"></v-col>
             <v-col cols="2">
-                <v-btn color="#FFC30F" class="white--text">Guardar</v-btn>
+                <v-btn color="#FFC30F" class="white--text" @click="push">Guardar</v-btn>
             </v-col>
             <v-col cols="2">
                 <v-dialog
@@ -72,13 +72,17 @@
 import NCForm from '../components/FuenteNC/NCForm.vue';
 import ListaNC from '../components/FuenteNC/ListaNC.vue';
 import ConfirmacionForm from '../components/FuenteNC/ConfirmacionForm.vue';
+import FirebaseUsuarios from '../components/ConexionFirebase/FirebaseUsuarios'
+import agregarUsuario from '../components/ConexionFirebase/FirebaseUsuarios';
+
 
 export default {
     name: 'FuenteNcView',
     components: {
         NCForm,
         ListaNC,
-        ConfirmacionForm
+        ConfirmacionForm,
+        FirebaseUsuarios
     },
     data() {
         return {
@@ -184,6 +188,10 @@ export default {
             this.confirmacionTitulo = "Desea elminicar la no conformidad?"
             this.confirmacionTexto = "Los cambios realizados no podran ser revertidos."
             this.confirmacionForm = true;
+        },
+        push()
+        {
+           agregarUsuario("ejemplo@gmail.com", "docente", "Pass123", "Administrador")  
         }
     }
 }
