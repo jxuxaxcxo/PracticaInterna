@@ -1,22 +1,21 @@
 <template>
     <div id="formPage">
-        <IssueInformation/>
+        <InformacionIncidencia/>
     </div>
 </template>
 
 <script>
 
-import IssueInformation from '../components/Form/IssueInformation';
+import InformacionIncidencia from '../components/Form/InformacionIncidencia';
 
 export default {
   components: {
-      IssueInformation
+      InformacionIncidencia
   },
 };
 </script>
 
 <style scoped>
-
     #formPage{
     height: 150vh;
     width: 100vw;
