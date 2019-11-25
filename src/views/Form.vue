@@ -1,6 +1,6 @@
 <template>
     <div id="formPage">
-        <InformacionIncidencia/>
+        <InformacionIncidencia />
     </div>
 </template>
 
@@ -9,8 +9,10 @@
 import InformacionIncidencia from '../components/Form/InformacionIncidencia';
 
 export default {
+    data (){
+    },
   components: {
-      InformacionIncidencia
+      InformacionIncidencia,
   },
 };
 </script>

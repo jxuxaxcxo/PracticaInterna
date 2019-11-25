@@ -17,13 +17,20 @@
                             ></v-text-field>     
                 </v-card>
         </v-card>
+
+     <AsignacionIncidencia :topMargin= height+20></AsignacionIncidencia>
     </div>
 </template>
 
 <script>
 
+import AsignacionIncidencia from '../../components/Form/AsignacionIncidencia';
+
 export default {
 
+    props:{
+        height: Number
+    },
   data:() => ({
     items: [
         {   titulo: 'Fecha de la observacion:',
@@ -74,12 +81,17 @@ export default {
             posicionHorizontal: '0',
             cuerpo: ''
         },
+         {
+            titulo: 'Tipo de Hallazgo: ',
+            escala: 'grande',
+            fila: '4',
+            posicionHorizontal: '0',
+            cuerpo: ''
+        }
 ]
 }),
   components: {
-  },
-  computed: {
-
+      AsignacionIncidencia
   },
   methods:{
           singleStyle(indexFila,indexColumna){
@@ -93,8 +105,9 @@ export default {
               element.fila>cantidadFilas?cantidadFilas=element.fila:null
           });
           var heightSize = cantidadFilas*20 +20;
+          this.height = heightSize;
         return 'height: ' + heightSize + 'vh;';
-      }
+      },
 
   }
 };
