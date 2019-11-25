@@ -16,26 +16,59 @@ db.collection('usuarios').add(usuario).then(() => {
 
 )
 }
-export function listaUsuarios(){
+export function listaUsuarios() {
+  const usuariosLista = [];
+  let usuarios = db.collection("usuarios")
+  .get()
+  .then(snap => {
+      snap.forEach(doc => {
+        usuariosLista.push(doc.data());
+          console.log(doc.data());
+          console.log(doc.id);
+      });
+  });
+  return usuariosLista;
+}
+export function listaUsuarios3() {
+  const usersList = [];
+  db.collection('usuarios').onSnapshot(res => {
+    const changes = res.docChanges();
 
-let citiesRef = db.collection('usuarios');
-let allCities = citiesRef.get()
-  .then(snapshot => {
-    snapshot.forEach(doc => {
-      console.log(doc.id, '=>', doc.data());
-    });
+    changes.forEach(change => {
+      
+      if (change.type === 'added') {
+        usersList.push({
+          ...change.doc.data(),
+          id: change.doc.id
+        })
+        
+      }
+    })
   })
-  .catch(err => {
-    console.log('Error getting documents', err);
+  return usersList;
+}
+export function listaUsuarios2() {
+  const usersList = [];
+  let users = db.collection("usuarios")
+  .onSnapshot(querySnapshot => {
+    querySnapshot.docChanges().forEach(change => {
+    
+      if (change.type === 'added') {
+        usersList.push(change.doc.data());
+        console.log('New city: ', change.doc.data());
+      }
+      if (change.type === 'modified') {
+        
+        console.log('Modified city: ', change.doc.data());
+       
+      }
+      if (change.type === 'removed') {
+        usersList.
+        console.log('Removed city: ', change.doc.data());
+      }
+    });
   });
 
-   let usuarios = db.collection('usuarios').get();
-   for(usuario in usuarios){
-       console.log(usuario.mail);
-   }
+  return usersList;
 }
-export function listaUsuarios2()
-{
-  
 
-}

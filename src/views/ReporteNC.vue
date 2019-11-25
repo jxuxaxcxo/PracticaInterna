@@ -1,72 +1,63 @@
 <template>
   <div>
-    <article v-for="(location, idx) in locations" :key="idx">
-      <img :src="location.image" width="300px">
-      <h1>{{ location.name }}</h1>
-      <button class="button is-small is-danger" @click="deleteLocation(location.id)">
-        Delete
-      </button>
-    </article>
+<v-card
+    class="mx-auto"
+    max-width="344"
+  v-for="usuario in usuarios" :key="usuario.mail">
+    <v-card-text>
+      <div>{{ usuario.mail }}</div>
+      <p class="display-1 text--primary">
+        {{ usuario.password }}
+      </p>
+      <p>{{ usuario.cargo }}</p>
+      <div class="text--primary">
+        {{ usuario.tipo }}
+      </div>
+    </v-card-text>
+    
+  </v-card>
 
-    <hr>
 
-    <form @submit="addLocation(mail, password)">
-      <h2>Add a New Location</h2>
-      <input v-model="mail" placeholder="mail" class="input">
-      <input v-model="password" placeholder="password" class="input">
-      <input v-model="cargo" placeholder="cargo" class="input">
-      <input v-model="tipo" placeholder="tipo" class="input">
-      <button type="submit" class="button is-success">Add New Location</button>
-    </form>
+
+     
+      
+      <button type="submit" class="button is-success" @click="push">Guardar</button>
+   
   </div>
 </template>
 
 <script>
-import { db } from '../main'
+import { agregarUsuario, listaUsuarios3, listaUsuarios, listaUsuarios2} from '../components/ConexionFirebase/FirebaseUsuarios'
+import { db } from '../components/ConexionFirebase/Firebase'
 export default {
   name: 'HelloWorld',
-  data () {
+  data () 
+  {
     return {
-      locations: [],
-      name: '',
-      image: ''
+        usuarios: listaUsuarios2()
     }
   },
-  firestore () {
-    return {
-      locations: db.collection('usuarios')
-    }
-  },
-  methods: {
-    addLocation (name, image) {
-      const createdAt = new Date()
-      db.collection('usuarios').add({ mail, password, cargo, tipo, createdAt })
 
-    },
-    deleteLocation (id) {
-      db.collection('usuarios').doc(id).delete()
+computed: {
+created(){
+    return{
+        usuarios: listaUsuarios2()
     }
+    
+}
+},
+methods: 
+{
+    push () {
+     agregarUsuario("a", "a", "a", "A")
+    },
+
+
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-input, button {
-  margin-bottom: 10px;
-}
+
 </style>

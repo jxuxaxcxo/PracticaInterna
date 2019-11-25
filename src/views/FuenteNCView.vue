@@ -79,8 +79,7 @@ export default {
     components: {
         NCForm,
         ListaNC,
-        ConfirmacionForm,
-        FirebaseUsuarios
+        ConfirmacionForm
     },
     data() {
         return {
