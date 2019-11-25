@@ -11,7 +11,7 @@ const usuario = {
 }
 
 db.collection('usuarios').add(usuario).then(() => {
-    console.log(mail + " is added to db.")
+   // console.log(mail + " is added to db.")
 }
 
 )
@@ -23,8 +23,8 @@ export function listaUsuarios() {
   .then(snap => {
       snap.forEach(doc => {
         usuariosLista.push(doc.data());
-          console.log(doc.data());
-          console.log(doc.id);
+         // console.log(doc.data());
+         // console.log(doc.id);
       });
   });
   return usuariosLista;
@@ -55,16 +55,16 @@ export function listaUsuarios2() {
     
       if (change.type === 'added') {
         usersList.push(change.doc.data());
-        console.log('New city: ', change.doc.data());
+        //console.log('New city: ', change.doc.data());
       }
       if (change.type === 'modified') {
         
-        console.log('Modified city: ', change.doc.data());
+       // console.log('Modified city: ', change.doc.data());
        
       }
       if (change.type === 'removed') {
-        usersList.
-        console.log('Removed city: ', change.doc.data());
+        
+       // console.log('Removed city: ', change.doc.data());
       }
     });
   });

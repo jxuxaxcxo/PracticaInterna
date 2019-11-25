@@ -1,17 +1,52 @@
 import db from '../ConexionFirebase/Firebase'
 
-export default function agregarInforme(mail, tipo, password, cargo) 
+
+export function agregarInformeID(idInforme,adjunto, tipo) 
 {
-const usuario = {
-    mail: mail,
-    tipo: tipo,
-    password: password,
-    cargo: cargo
+ var dateOBJ = new Date(); 
+ var codigoInforme = idInforme
+    const informe = {
+        idInforme: idInforme,
+        adjunto: adjunto,
+        fecha: dateOBJ,
+        tipo: tipo
+    }
+    db.collection('informes').doc(codigoInforme.toString()).set(informe).then(() => {
+    //console.log(adjunto + " is added to db.")
+    })
+}
+export function agregarInforme(adjunto, tipo){
+
+  db.collection('informes')
+  .doc('contadorInforme')
+  .get()
+  .then(doc => {
+      agregarInformeID(doc.data().contador, adjunto, tipo);
+      console.log("aqui el contador -> " + doc.data().contador);
+      autoincrementoIdInforme(doc.data().contador + 1);
+  });
+
 }
 
-db.collection('usuarios').add(usuario).then(() => {
-    console.log(mail + " is added to db.")
-}
 
-)
-}
+  export function listaInformes() {
+    const informesLista = [];
+    let usuarios = db.collection("informes")
+    .get()
+    .then(snap => {
+        snap.forEach(doc => {
+        informesLista.push(doc.data());
+        console.log(doc.id, '=>', doc.data());
+        });
+    });
+    return informesLista;
+  }
+ function autoincrementoIdInforme(valorId)
+ {
+    db.collection("informes")
+    .doc("contadorInforme")
+    .update({
+        contador: valorId
+    })
+ } 
+
