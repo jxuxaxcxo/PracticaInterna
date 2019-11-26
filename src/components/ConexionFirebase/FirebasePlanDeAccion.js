@@ -6,7 +6,8 @@ export function agregarIdPA(idPA, informeId, encargadoId, formularioId, noConfor
  var codigoPA = idPA
     const planPA = {
         idPA: codigoPA,
-        fecha: dateOBJ,
+      
+        fechaFinalizacion: dateOBJ,
         informeId: informeId,
         encargadoId: encargadoId,
         formularioId: formularioId,

@@ -1,27 +1,30 @@
 import db from '../ConexionFirebase/Firebase'
 
 
-export function agregarInformeID(idInforme,adjunto, tipo) 
+export function agregarInformeID(idInforme, nombre, planesDeAccion, campos) 
 {
  var dateOBJ = new Date(); 
  var codigoInforme = idInforme
     const informe = {
         idInforme: idInforme,
-        adjunto: adjunto,
-        fecha: dateOBJ,
-        tipo: tipo
+        nombre: nombre,
+        fechaAtribuible: dateOBJ,
+        planesDeAccion: planesDeAccion,
+        campos: campos
+        
+      
     }
     db.collection('informes').doc(codigoInforme.toString()).set(informe).then(() => {
-    //console.log(adjunto + " is added to db.")
+    console.log(idInforme + " is added to db.")
     })
 }
-export function agregarInforme(adjunto, tipo){
+export function agregarInforme(nombre, planesDeAccion, campos){
 
   db.collection('informes')
   .doc('contadorInforme')
   .get()
   .then(doc => {
-      agregarInformeID(doc.data().contador, adjunto, tipo);
+      agregarInformeID(doc.data().contador, nombre, planesDeAccion, campos);
       console.log("aqui el contador -> " + doc.data().contador);
       autoincrementoIdInforme(doc.data().contador + 1);
   });

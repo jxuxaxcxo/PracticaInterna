@@ -108,6 +108,7 @@
           <v-col>
             <v-btn
             color="#3B83BD"
+            @click="push"
             outlined>Agregar Informe</v-btn>
           </v-col>
         </v-row>
@@ -116,6 +117,7 @@
 <script>
 import docx4js from "docx4js"
 import ListaNC from '../components/NewInforme/ListaNC.vue'
+import { FirebaseInforme, agregarInforme } from '../components/ConexionFirebase/FirebaseInforme'
 export default {
   components: {
     ListaNC
@@ -160,6 +162,9 @@ export default {
     }
   },
   methods: {
+    push(){
+     agregarInforme("n",this.formatos, this.formatos);
+    },
     onSeleccionFormato () {
       this.formatos.forEach((formato) => {
         this.filled = true
