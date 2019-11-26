@@ -59,7 +59,9 @@
               <ListaNC
               :validoNC ="validoNC"
               :noConformidades="noConformidades"
+              :preparacion="isFormatoSeleccionado"
               @setValidoNC="setValidoNC"
+              @agregarNC="agregarNoConformidad"
               />
             </v-form>
           </v-col>
@@ -105,6 +107,7 @@ export default {
   data () {
     return {
         filled: false,
+        isFormatoSeleccionado: false,
         nombre: '',
         file: [],
         text: [],
@@ -143,6 +146,20 @@ export default {
               titulo: 'UBICACIÓN',
               data: ''
               }
+            ],
+            atributos: [
+              {
+
+              titulo: 'Observación',
+              contenido: ''
+
+              },
+              {
+
+              titulo: 'Diversión',
+              contenido: ''
+
+              }
             ]
           },
           {
@@ -155,6 +172,20 @@ export default {
               {
               titulo: 'UBICACIÓN',
               data: ''
+              }
+            ],
+            atributos: [
+              {
+
+              titulo: 'Observación',
+              contenido: ''
+
+              },
+              {
+
+              titulo: 'Encargado',
+              contenido: ''
+
               }
             ]
           }
@@ -181,11 +212,18 @@ export default {
         if (formato.nombre === this.seleccionFormatoN) {
           this.seleccionFormato = formato
         }
+      })
+
         this.nombre = []
         this.file = null
         this.nombre = []
         this.noConformidades = []
-      })
+        this.isFormatoSeleccionado = true
+    },
+    agregarNoConformidad (titulo) {
+      this.noConformidades.unshift({})
+      this.noConformidades[0].titulo = titulo
+      this.noConformidades[0].atributos = this.seleccionFormato.atributos
     },
     fileRead () {
       this.nombre = document.getElementById('fileSelector').value.split(/(C\:\\fakepath\\)|(\.docx)/)[3]
@@ -196,16 +234,15 @@ export default {
           campo.data = ''
         })
       }
-      console.log('0')
       
       if (this.file !== null)
       {
         docx4js.load(this.file).then(docx => {
           this.text =  docx.officeDocument.content.text()
-          const ncs  = this.text.toString().match(/NO\sCONFORMIDAD:\s[^\.]+\./g)
-          console.log('1')
+          const ncs  = this.text.toString().match(/No\sconformidad:\s[^\:]+\:/g)
+          console.log(this.text)
           ncs.forEach((nc)=>{
-            this.noConformidades.push(nc.replace('NO CONFORMIDAD: ', ''))
+            this.agregarNoConformidad(nc.replace('No conformidad: ', '').replace(':',''))
           })
             let camps = []
             this.seleccionFormato.campos.forEach((campo, i) => {
@@ -222,7 +259,6 @@ export default {
               {
                 this.seleccionFormato.campos[campo.index].data = cs.toString().replace(campo.titulo,'')
               }
-              console.log('3')
             })
         })
       }
@@ -234,4 +270,4 @@ export default {
 .scroll {
       overflow-y: auto;
 }
-</style>
+</style>/
