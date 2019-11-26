@@ -239,10 +239,10 @@ export default {
       {
         docx4js.load(this.file).then(docx => {
           this.text =  docx.officeDocument.content.text()
-          const ncs  = this.text.toString().match(/NO\sCONFORMIDAD:\s[^\.]+\./g)
-          console.log('1')
+          const ncs  = this.text.toString().match(/No\sconformidad:\s[^\:]+\:/g)
+          console.log(this.text)
           ncs.forEach((nc)=>{
-            this.agregarNoConformidad(nc.replace('NO CONFORMIDAD: ', ''))
+            this.agregarNoConformidad(nc.replace('No conformidad: ', '').replace(':',''))
           })
             let camps = []
             this.seleccionFormato.campos.forEach((campo, i) => {
