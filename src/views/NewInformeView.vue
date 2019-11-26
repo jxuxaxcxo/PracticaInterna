@@ -105,7 +105,7 @@ import docx4js from "docx4js"
 import ListaNC from '../components/FuenteNC/ListaNC'
 import ListaCampos from '../components/FuenteNC/ListaCampos'
 
-import ListaNC from '../components/NewInforme/ListaNC.vue'
+//import ListaNC from '../components/NewInforme/ListaNC.vue'
 import { FirebaseInforme, agregarInforme } from '../components/ConexionFirebase/FirebaseInforme'
 
 export default {
@@ -215,7 +215,7 @@ export default {
     },
     setValedoFormularioDatos (val) {
       this.validoFormularioDatos = val
-
+    },
     push(){
      agregarInforme("n",this.formatos, this.formatos);
 
