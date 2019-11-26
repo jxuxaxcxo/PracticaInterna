@@ -4,7 +4,7 @@ import Home from './views/Home.vue'
 import FuenteNCView from './views/FuenteNCView.vue'
 import ListaPer from './views/ListaPer.vue'
 import NewInformeView from'./views/NewInformeView.vue'
-
+import ReporteNC from './views/ReporteNC.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -21,6 +21,7 @@ export default new Router({
       component: FuenteNCView
     },
 
+
     {
       path: '/listaper/',
       name: 'listaPer',
@@ -31,6 +32,13 @@ export default new Router({
       path: '/informes/',
       name: 'Nuevo Informe',
       component: NewInformeView
+    },
+
+
+    {
+      path: '/reporteNC/',
+      name: 'reporteNC',
+      component: ReporteNC
     }
 
 

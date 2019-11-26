@@ -89,7 +89,11 @@
           <v-col>
             <v-btn
             color="#3B83BD"
+
             :disabled="aceptado"
+
+            @click="push"
+
             outlined>Agregar Informe</v-btn>
           </v-col>
         </v-row>
@@ -97,8 +101,13 @@
 </template>
 <script>
 import docx4js from "docx4js"
+
 import ListaNC from '../components/FuenteNC/ListaNC'
 import ListaCampos from '../components/FuenteNC/ListaCampos'
+
+import ListaNC from '../components/NewInforme/ListaNC.vue'
+import { FirebaseInforme, agregarInforme } from '../components/ConexionFirebase/FirebaseInforme'
+
 export default {
   components: {
     ListaNC,
@@ -200,11 +209,16 @@ export default {
       }
   },
   methods: {
+
     setValidoNC (val) {
       this.validoNC = val
     },
     setValedoFormularioDatos (val) {
       this.validoFormularioDatos = val
+
+    push(){
+     agregarInforme("n",this.formatos, this.formatos);
+
     },
     onSeleccionFormato () {
       this.formatos.forEach((formato) => {
