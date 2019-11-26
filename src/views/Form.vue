@@ -19,8 +19,8 @@ export default {
 
 <style scoped>
     #formPage{
-    height: 150vh;
     width: 100vw;
     background-color: #ECECEC;
+    height: 300vh;
     }
 </style>

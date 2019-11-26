@@ -1,7 +1,7 @@
 <template>
-    <div id="asignacionForm">
-        <v-card id="incidenciaAsignacionCard" :style= getCardStyle()>
-            <v-card-title>Asignacion de la Incidencia</v-card-title>
+    <div id="correcionForm">
+        <v-card id="correccionIncidenciaCard" :style= getCardStyle()>
+            <v-card-title>Correcion y Verificacion de la Incidencia</v-card-title>
                  <v-card
                     v-for= "item in items" 
                     :key = item.titulo 
@@ -16,14 +16,10 @@
                             ></v-text-field>     
                 </v-card>
         </v-card>
-
-        <CorreccionIncidencia :topMargin= height+20></CorreccionIncidencia>
-
     </div>
 </template>
 
 <script>
-import CorreccionIncidencia from '../../components/Form/CorreccionIncidencia';
 
 export default {  
   props:{
@@ -31,32 +27,24 @@ export default {
       height: Number
   } 
   ,components: {
-      CorreccionIncidencia
+
     },
 
       data:() => ({
     items: [
-        {   titulo: 'Descripcion de la Incidencia:',
+        {   titulo: 'Correccion Inmediata:',
             escala: 'grande',
             fila: '0',
             posicionHorizontal: '0',
             cuerpo: ''
         },
         {
-            titulo: 'Responsable del Seguimiento:',
+            titulo: 'Acciones para eliminar la causa raiz:',
             escala: 'grande',
             fila: '1',
             posicionHorizontal: '0',
             cuerpo: ''
         },
-        {     
-             titulo: 'Investigacion de las Causas de la Incidencia:',
-            escala: 'grande',
-            fila: '2',
-            posicionHorizontal: '0',
-            cuerpo: ''
-
-        }
 ]
 }),
   methods:{
@@ -65,8 +53,8 @@ export default {
           this.items.forEach(element => {
               element.fila>cantidadFilas?cantidadFilas=element.fila:null
           });
-          var heightSize = cantidadFilas*20 +25;
-          this.height = heightSize + (this.topMargin -10);
+          var heightSize = cantidadFilas*20 +30;
+          this.height = heightSize;
         return 'top: ' + this.topMargin + 'vh; height:' + heightSize +'vh;';
       },
 
@@ -84,13 +72,13 @@ export default {
 
 <style scoped>
 
-#incidenciaAsignacionCard{
-    position: absolute;
-    left:2vw;
-    background-color: white;
-    width: 79vw;
-
-}
+    #correccionIncidenciaCard{
+        position: absolute;
+        left:2vw;
+        background-color: white;
+        width: 79vw;
+        padding-bottom: 10vh;
+    }
 
     .pequeño{
         position: absolute;
@@ -111,7 +99,7 @@ export default {
         background-color: #ECECEC
     }
     .cardTitulo{
-        background-color: yellow;
+        background-color: green;
         font-size: 100%;
     }
     .pequeñoTextField{
