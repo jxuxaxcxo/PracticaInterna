@@ -65,10 +65,15 @@
 
               </v-list-group>
           </v-list>-->
+
+        <v-navigation-drawer app v-model = "drawer" color = "#003366" permanent="true">
+
         </v-navigation-drawer>
        
-    </div>
+    </div> 
+     
 </template>
+
 
 <script>
 export default {
