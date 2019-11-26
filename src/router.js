@@ -5,7 +5,6 @@ import FuenteNCView from './views/FuenteNCView.vue'
 import ListaPer from './views/ListaPer.vue'
 import NewInformeView from'./views/NewInformeView.vue'
 import ReporteNC from './views/ReporteNC.vue'
-import ReporteNC from './views/ReporteNC.vue'
 Vue.use(Router)
 
 export default new Router({
