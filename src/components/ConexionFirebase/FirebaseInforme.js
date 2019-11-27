@@ -26,7 +26,6 @@ export function agregarInforme(nombre, planesDeAccion, campos){
   .then(doc => {
       agregarInformeID(doc.data().contador, nombre, planesDeAccion, campos);
       console.log("aqui el contador -> " + doc.data().contador);
-      autoincrementoIdInforme(doc.data().contador + 1);
   });
 
 }
@@ -35,6 +34,7 @@ export function agregarInforme(nombre, planesDeAccion, campos){
   export function listaInformes() {
     const informesLista = [];
     let usuarios = db.collection("informes")
+    .orderBy("idInforme", "asc")
     .get()
     .then(snap => {
         snap.forEach(doc => {
@@ -52,4 +52,26 @@ export function agregarInforme(nombre, planesDeAccion, campos){
         contador: valorId
     })
  } 
+ export function autoincrementoAutomaticoInforme(){
+
+  db.collection('formatos')
+  .doc('contadorFormato')
+  .get()
+  .then(doc => {
+      autoincrementoIdInforme(doc.data().contador + 1);
+  });
+}
+ export function actualizarInforme(id, informe)
+ {
+    db.collection("informes")
+    .doc(id.toString())
+    .update(informe)
+ }
+
+ export function eliminarInforme(id)
+ {
+    db.collection("informes")
+    .doc(id.toString())
+    .delete()
+ }
 

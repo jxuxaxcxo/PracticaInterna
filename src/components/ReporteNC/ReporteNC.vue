@@ -10,6 +10,9 @@
             </v-col>
              <v-spacer></v-spacer>
             <v-col :cols="2">
+              <div class="my-2">
+        <v-btn small color="primary" @click="push">Primary</v-btn>
+      </div>
                 <v-card class="pa-2" tile outlined>
                    <h1 align="center">{{ codigo }}</h1>
                    <p align="center">16/10/2019</p> 
@@ -31,7 +34,6 @@
              <v-data-table
         :headers="headers"
         :items="lista"
-        hide-actions
         class="elevation-1 test"
         height="450px"
         hide-default-footer
@@ -56,13 +58,22 @@
 
 
 <script>
+import { listaInformes, agregarInforme, actualizarInforme, eliminarInforme, autoincrementoAutomaticoInforme } from "../ConexionFirebase/FirebaseInforme"
+import { listaUsuarios, agregarUsuario, actualizarUsuario, eliminarUsuario } from "../ConexionFirebase/FirebaseUsuarios"
+import { listaFormatos, agregarFormato, actualizarFormato, eliminarFormato, autoincrementoAutomaticoFormato} from "../ConexionFirebase/FirebaseFormato"
 export default {
   
 
 
   data () {
-        
+
       return {
+        usuario: {
+  mail: "actualizado",
+  tipo: "actualizado",
+  password: "actualizado",
+  cargo: "actualizado"
+},
         headers: [
         {
           text: 'Acciones',
@@ -140,8 +151,23 @@ export default {
         descripcion : 'Agilizar un sistema ya existente, por lo general un sistema antiguo, obsoleto o manual; empleando las herramientas de la informática para tal fin. En general, se debería poder reemplazar el sistema antiguo por el nuevo casi en su totalidad.',
  
       }
-      
     },
+    methods:{
+      push(){
+        //agregarUsuario(this.usuario)
+        //actualizarUsuario("7F6uWxdPrs1o0xXSzU5p", this.usuario)
+        //eliminarUsuario("7F6uWxdPrs1o0xXSzU5p")
+        console.log("----------------Lista de Ususarios---------------")
+        listaUsuarios()
+        //autoincrementoAutomaticoInforme()
+        //eliminarInforme(6)
+        //autoincrementoAutomaticoFormato()
+        console.log("----------------Lista de Formatos---------------")
+        listaFormatos()
+        console.log("----------------Lista de Informes---------------")
+        listaInformes()
+      }
+    }
 }
 </script>
 <style scoped>
