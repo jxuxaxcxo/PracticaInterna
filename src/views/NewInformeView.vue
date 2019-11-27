@@ -79,7 +79,6 @@
             <lista-campos
             altura = "66vh"
             :campos="seleccionFormato.campos"
-            @setValidoFormularioDatos="setValedoFormularioDatos"
             />
           </v-col>
           <v-col cols="1"></v-col>
@@ -92,7 +91,7 @@
 
             :disabled="aceptado"
 
-            @click="push"
+            @click="guardarInforme"
 
             outlined>Agregar Informe</v-btn>
           </v-col>
@@ -124,13 +123,12 @@ export default {
         noConformidades: [],
         validoData: false,
         validoNC: true,
-        validoFormularioDatos: true,
         fechaAtribuible: new Date().toISOString().substr(0, 10),
         calendarioMostrar: false,
         reglas: {
           titulo: [
-              v => !!v || 'Este campo es necesario',
-              v => v.length <= 63 || 'El titulo debe contener menos de 63 caracteres'
+            v => !!v || 'Este campo es necesario',
+            v => v.length <= 63 || 'El titulo debe contener menos de 63 caracteres'
           ],
           descripcion: [
               v => !!v || 'Este campo es necesario',
@@ -205,20 +203,13 @@ export default {
   },
   computed: {
       aceptado () {
-        return this.filled && this.validoFormularioDatos && this.validoData && this.validoNC && this.noConformidades.length > 0
+        return this.filled && this.validoData && this.validoNC && this.noConformidades.length > 0
       }
   },
   methods: {
 
     setValidoNC (val) {
       this.validoNC = val
-    },
-    setValedoFormularioDatos (val) {
-      this.validoFormularioDatos = val
-    },
-    push(){
-     agregarInforme("n",this.formatos, this.formatos);
-
     },
     onSeleccionFormato () {
       this.formatos.forEach((formato) => {
@@ -240,6 +231,36 @@ export default {
       this.noConformidades[0].atributos = this.seleccionFormato.atributos
     },
     fileRead () {
+      this.limpiar()
+      
+      if (this.file !== null)
+      {
+        this.leerDatos()
+      }
+    },
+    leerDatos () {
+      docx4js.load(this.file).then(docx => {
+      this.text =  docx.officeDocument.content.text()
+      const noConformidad  = this.text.toString().match(/No\sconformidad:\s[^\:]+\:/g)
+      if (noConformidad !== null)
+      {
+        noConformidad.forEach((nc)=>{
+        this.agregarNoConformidad(nc.replace('No conformidad: ', '').replace(':',''))
+        })
+      }
+        let camps = []
+        this.seleccionFormato.campos.forEach((campo, i) => {
+          camps.push({
+            titulo: campo.titulo.replace(' ', '\\s'),
+            index: i
+            })
+        })
+        camps.forEach((campo) => {
+          this.normalizarCamposObtenidos(campo)
+        })
+    })
+    },
+    limpiar () {
       this.nombre = document.getElementById('fileSelector').value.split(/(C\:\\fakepath\\)|(\.docx)/)[3]
       this.noConformidades = []
       if (this.seleccionFormato !== [])
@@ -248,34 +269,21 @@ export default {
           campo.data = ''
         })
       }
-      
-      if (this.file !== null)
+    },
+    guardarInforme () {
+
+      agregarInforme(this.nombre, this.noConformidades, this.seleccionFormato)
+    
+    },
+    normalizarCamposObtenidos (campo) {
+
+      const contenido = this.text.toString().match(campo.titulo + '[^.]+\.')
+      campo.titulo = campo.titulo.replace('\\s', ' ')
+      if (contenido !== null)
       {
-        docx4js.load(this.file).then(docx => {
-          this.text =  docx.officeDocument.content.text()
-          const ncs  = this.text.toString().match(/No\sconformidad:\s[^\:]+\:/g)
-          console.log(this.text)
-          ncs.forEach((nc)=>{
-            this.agregarNoConformidad(nc.replace('No conformidad: ', '').replace(':',''))
-          })
-            let camps = []
-            this.seleccionFormato.campos.forEach((campo, i) => {
-              camps.push({
-                titulo: campo.titulo.replace(' ', '\\s'),
-                index: i
-                })
-            })
-            camps.forEach((campo) => {
-              const cs = this.text.toString().match(campo.titulo + '[^.]+\.')
-              console.log(cs)
-              campo.titulo = campo.titulo.replace('\\s', ' ')
-              if (cs !== null)
-              {
-                this.seleccionFormato.campos[campo.index].data = cs.toString().replace(campo.titulo,'')
-              }
-            })
-        })
+        this.seleccionFormato.campos[campo.index].data = contenido.toString().replace(campo.titulo,'')
       }
+
     }
   }
 }

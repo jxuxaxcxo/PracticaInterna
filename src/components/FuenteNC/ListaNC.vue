@@ -61,7 +61,7 @@
                         v-model="atributo.contenido"
                         :id="'atributo' + i"
                         :counter="511"
-                        :rules="reglas.noConformidad"
+                        :rules="reglas.campo"
                         :label="atributo.titulo"
                         ></v-text-field>
                     </v-col>
@@ -84,7 +84,9 @@ export default {
       noConformidad: [
         v => !!v || 'Este campo es necesario',
         v => v.length <= 511 || 'El titulo debe contener menos de 511 caracteres'
-      ]
+      ],
+      campo: v => v.length <= 511 || 'El titulo debe contener menos de 511 caracteres'
+      
     }
   }),
   methods: {
