@@ -89,6 +89,7 @@
 import ListaNC from '../components/FuenteNC/ListaNC.vue';
 import ListaCampos from '../components/FuenteNC/ListaCampos.vue'
 
+
 export default {
     name: 'FuenteNcView',
     components: {
@@ -169,6 +170,7 @@ export default {
       }
     },
     methods: {
+
       agregar () {
           console.log('agregando')
       },
@@ -184,7 +186,34 @@ export default {
                 this.formatoSeleccionado = formato
             }
         })
-      }
+      },
+
+        confirmarDatosNCF(titulo, descripcion, encargado)
+        {
+            this.nuevaNCForm=false;
+        },
+        cerrarNuevaNCForm()
+        {
+            this.nuevaNCForm=false;
+        },
+        editarNC(item)
+        {
+            this.nuevaNCForm = true
+        },
+        confirmarCancelarFuente()
+        {
+            this.confirmacionTitulo = "Desea cancelar la Fuente Actual?"
+            this.confirmacionTexto = "Los cambios realizados no seran guardados."
+            this.confirmacionForm = !(this.confirmacionForm);
+        },
+        confirmarBorrarNC (item)
+        {
+            this.confirmacionTitulo = "Desea elminicar la no conformidad?"
+            this.confirmacionTexto = "Los cambios realizados no podran ser revertidos."
+            this.confirmacionForm = true;
+        }
+
+
     }
 }
 </script>

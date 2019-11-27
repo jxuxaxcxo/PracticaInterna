@@ -12,7 +12,6 @@
         id="ListaCampos"
         >
             <v-form
-            v-model="validoFormularioDatos"
             >
                 <v-container>
                     <v-row
@@ -41,7 +40,6 @@
 export default {
   props: {
     campos: Array,
-    validoFormularioDatos: Boolean,
     altura: String
   },
   data: () => ({
@@ -50,12 +48,7 @@ export default {
         v => v.length <= 511 || 'El campo debe contener menos de 511 caracteres'
       ]
     }
-  }),
-  watch: {
-    validoFormularioDatos: function (val) {
-      this.$emit('setValidoFormularioDatos', val)
-    }
-  }
+  })
 }
 </script>
 <style scoped>
