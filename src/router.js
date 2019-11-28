@@ -34,7 +34,7 @@ export default new Router({
     },
 
     {
-      path: '/informes/',
+      path: '/Informes/:id',
       name: 'Nuevo Informe',
       component: NewInformeView
     },

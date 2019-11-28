@@ -52,4 +52,4 @@ export function agregarInforme(nombre, planesDeAccion, campos){
         contador: valorId
     })
  } 
-
+ 
