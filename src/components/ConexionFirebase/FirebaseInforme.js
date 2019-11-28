@@ -1,31 +1,29 @@
 import db from '../ConexionFirebase/Firebase'
 
-
 export function agregarInformeID(idInforme, nombre, planesDeAccion, campos) 
 {
- var dateOBJ = new Date(); 
- var codigoInforme = idInforme
-    const informe = {
-        idInforme: idInforme,
-        nombre: nombre,
-        fechaAtribuible: dateOBJ,
-        planesDeAccion: planesDeAccion,
-        campos: campos
-        
-      
-    }
-    db.collection('informes').doc(codigoInforme.toString()).set(informe).then(() => {
+  var dateOBJ = new Date(); 
+  var codigoInforme = idInforme
+  const informe = {
+    idInforme: idInforme,
+    nombre: nombre,
+    fechaAtribuible: dateOBJ,
+    planesDeAccion: planesDeAccion,
+    campos: campos
+  }
+  db.collection('informes').doc(codigoInforme.toString()).set(informe).then(() => {
     console.log(idInforme + " is added to db.")
-    })
+  })
 }
+
 export function agregarInforme(nombre, planesDeAccion, campos){
 
   db.collection('informes')
   .doc('contadorInforme')
   .get()
   .then(doc => {
-      agregarInformeID(doc.data().contador, nombre, planesDeAccion, campos);
-      console.log("aqui el contador -> " + doc.data().contador);
+    agregarInformeID(doc.data().contador, nombre, planesDeAccion, campos);
+    console.log("aqui el contador -> " + doc.data().contador);
   });
 
 }
@@ -52,9 +50,6 @@ export function agregarInforme(nombre, planesDeAccion, campos){
         contador: valorId
     })
  } 
-<<<<<<< HEAD
- 
-=======
  export function autoincrementoAutomaticoInforme(){
 
   db.collection('formatos')
@@ -78,4 +73,10 @@ export function agregarInforme(nombre, planesDeAccion, campos){
     .delete()
  }
 
->>>>>>> 955f62843d9980c5b4d05b43eb81b372326859d6
+ export function getContadorInforme () {
+   let contadorRef = db.collection('informes').doc('contadorInforme')
+   let contador = contadorRef.get().then(function (doc){
+     return doc.data().contador
+    })
+    return contador
+  }

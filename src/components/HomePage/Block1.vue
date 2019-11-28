@@ -14,21 +14,21 @@
 </template>
 
 <script>
-//import {getContadorInforme, agregarInforme} from '../ConexionFirebase/FirebaseInforme'
+import { getContadorInforme, agregarInforme } from '../ConexionFirebase/FirebaseInforme'
 
 export default {
-    methods: {
-      crearNuevoInforme () {
-        agregarInforme('Nuevo Informe', [], [])
-        const self = this
-       // getContadorInforme().then(result => {
-       //   self.navigateTo('/Informes/' + result)
-       // })
-      },
-      navigateTo(to) {
-        this.$router.push(to)
-      }
+  methods: {
+    crearNuevoInforme () {
+      agregarInforme('Nuevo Informe', [], [])
+      const self = this
+      getContadorInforme().then(result => {
+        self.navigateTo('/Informes/' + result)
+      })
+    },
+    navigateTo(to) {
+      this.$router.push(to)
     }
+  }
 }
 </script>
 
