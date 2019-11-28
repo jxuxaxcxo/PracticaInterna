@@ -1,17 +1,10 @@
 import db from '../ConexionFirebase/Firebase'
 
-
-export function agregarUsuario(mail, tipo, password, cargo) 
+export function agregarUsuario(usuario) 
 {
-const usuario = {
-    mail: mail,
-    tipo: tipo,
-    password: password,
-    cargo: cargo
-}
 
 db.collection('usuarios').add(usuario).then(() => {
-   // console.log(mail + " is added to db.")
+    console.log("User is added to db.")
 }
 
 )
@@ -19,12 +12,12 @@ db.collection('usuarios').add(usuario).then(() => {
 export function listaUsuarios() {
   const usuariosLista = [];
   let usuarios = db.collection("usuarios")
+  .orderBy("mail", "asc")
   .get()
   .then(snap => {
       snap.forEach(doc => {
         usuariosLista.push(doc.data());
-         // console.log(doc.data());
-         // console.log(doc.id);
+        console.log(doc.id, '=>', doc.data());
       });
   });
   return usuariosLista;
@@ -70,5 +63,17 @@ export function listaUsuarios2() {
   });
 
   return usersList;
+}
+export function actualizarUsuario(id, usuario){
+  
+  db.collection("usuarios")
+  .doc(id)
+  .update(usuario)
+}
+export function eliminarUsuario(id){
+  
+  db.collection("usuarios")
+  .doc(id)
+  .delete()
 }
 
