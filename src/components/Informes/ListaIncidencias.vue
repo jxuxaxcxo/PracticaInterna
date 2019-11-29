@@ -13,17 +13,15 @@
                 mdi-arrow-left</v-icon>
                 <v-icon
                 id="siguienteNC"
-                @click="paginaSiguiente"
                 >mdi-arrow-right</v-icon>
                 <v-icon
-                @click="borrarNoConformidad(0)"
                 :id="'borraraNCBoton'"
                 >mdi-delete</v-icon>
                 <v-subheader
                 class="justify-center white--text titulo"
                 id="tituloListaNC"
                 >
-                Incidencias
+                planesDeAccion
                 </v-subheader>
                 <v-card
                 height="50vh"
@@ -34,6 +32,7 @@
                             <v-col cols="10">
                                 <v-text-field
                                 label="Nombre"
+                                v-model="incidenciaActual.nombre"
                                 ></v-text-field>
                             </v-col>
                             <v-col></v-col>
@@ -42,10 +41,10 @@
                             <v-col></v-col>
                             <v-col cols="10">
                                 <v-select
-                                :items="encargados"
-                                item-text="mail"
                                 label="Encargado"
-                                v-model="encargadoID"
+                                :items="usuarios"
+                                item-text="id"
+                                v-model="incidenciaActual.encargadoID"
                                 ></v-select>
                             </v-col>
                             <v-col></v-col>
@@ -54,10 +53,9 @@
                             <v-col></v-col>
                             <v-col cols="10">
                                 <v-select
-                                :items="formatos"
                                 label="Formato de Plan de Accion"
-                                item-text="nombre"
-                                v-model="formatoElegidoNombre"
+                                :items="formatos"
+                                item-text="nombre"
                                 ></v-select>
                             </v-col>
                             <v-col></v-col>
@@ -78,6 +76,7 @@
 <script>
 export default {
   props: {
+    planesDeAccion: Array,
     formatos: Array,
     usuarios: Array
   },
@@ -86,6 +85,11 @@ export default {
       formatoElegidoNombre: null,
       formatoElegido: null,
       encargadoID: null
+    }
+  },
+  computed: {
+    incidenciaActual () {
+      return this.planesDeAccion[0]
     }
   },
   watch: {

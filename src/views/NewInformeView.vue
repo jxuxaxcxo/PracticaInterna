@@ -27,6 +27,7 @@
       <ListaIncidencias
       :usuarios="usuarios"
       :formatos="formatos"
+      :planesDeAccion="planesDeAccion"
       />
     </v-row>
   </v-container>
@@ -38,6 +39,7 @@ import InformeDatos  from '../components/Informes/InformeDatos'
 import ListaIncidencias from '../components/Informes/ListaIncidencias'
 import { getInformeID } from '../components/ConexionFirebase/FirebaseInforme'
 import { listaUsuarios } from '../components/ConexionFirebase/FirebaseUsuarios'
+import { listaFormatos } from '../components/ConexionFirebase/FirebaseFormato'
 export default {
   components: {
     InformeDatos,
@@ -52,7 +54,8 @@ export default {
       datosValidos: false,
       texto: '',
       usuarios: null,
-      formatos: null
+      formatos: null,
+      planesDeAccion: []
     }
   },
   created () {
@@ -60,9 +63,11 @@ export default {
     const self = this
     getInformeID(this.id).then(function(val) {
       self.nombre = val.nombre
+      self.planesDeAccion = val.planesDeAccion
       self.fechaAtribuible = val.fechaAtribuible.toISOString().substr(0, 10)
     })
     this.usuarios = listaUsuarios()
+    this.formatos = listaFormatos()
   },
   methods: {
     setArchivo (val) {
