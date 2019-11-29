@@ -12,9 +12,6 @@
       <v-col></v-col>
     </v-row>
     <v-row>
-
-    </v-row>
-    <v-row>
       <InformeDatos
       :archivo="archivo"
       :nombre="nombre"
@@ -26,15 +23,25 @@
       @setDatosValidos="setDatosValidos"
       />
     </v-row>
+    <v-row>
+      <ListaIncidencias
+      :usuarios="usuarios"
+      :formatos="formatos"
+      />
+    </v-row>
   </v-container>
 </template>
 
 <script>
 import docx4js from "docx4js"
-import InformeDatos from '../components/Informes/InformeDatos'
+import InformeDatos  from '../components/Informes/InformeDatos'
+import ListaIncidencias from '../components/Informes/ListaIncidencias'
+import { getInformeID } from '../components/ConexionFirebase/FirebaseInforme'
+import listaUsuarios from '../components/ConexionFirebase/FirebaseUsuarios'
 export default {
   components: {
-    InformeDatos
+    InformeDatos,
+    ListaIncidencias
   },
   data () {
     return {
@@ -43,11 +50,19 @@ export default {
       archivo: null,
       fechaAtribuible: new Date().toISOString().substr(0, 10),
       datosValidos: false,
-      texto: ''
+      texto: '',
+      usuarios: null,
+      formatos: null
     }
   },
   created () {
-    this.id = this.$route.params.id;
+    this.id = this.$route.params.id
+    const self = this
+    getInformeID(this.id).then(function(val) {
+      self.nombre = val.nombre
+      self.fechaAtribuible = val.fechaAtribuible.toISOString().substr(0, 10)
+    })
+    this.usuarios = listaUsuarios()
   },
   methods: {
     setArchivo (val) {

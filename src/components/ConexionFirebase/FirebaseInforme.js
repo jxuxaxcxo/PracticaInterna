@@ -79,4 +79,12 @@ export function agregarInforme(nombre, planesDeAccion, campos){
      return doc.data().contador
     })
     return contador
-  }
+}
+
+export function getInformeID (id) {
+  let informeRef = db.collection('informes').doc(id)
+  let informe = informeRef.get().then(function (doc) {
+    return doc.data()
+  })
+  return informe
+}

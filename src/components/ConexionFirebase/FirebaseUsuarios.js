@@ -5,9 +5,7 @@ export function agregarUsuario(usuario)
 
 db.collection('usuarios').add(usuario).then(() => {
     console.log("User is added to db.")
-}
-
-)
+})
 }
 export function listaUsuarios() {
   const usuariosLista = [];
