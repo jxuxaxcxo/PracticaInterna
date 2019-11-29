@@ -37,7 +37,7 @@ import docx4js from "docx4js"
 import InformeDatos  from '../components/Informes/InformeDatos'
 import ListaIncidencias from '../components/Informes/ListaIncidencias'
 import { getInformeID } from '../components/ConexionFirebase/FirebaseInforme'
-import listaUsuarios from '../components/ConexionFirebase/FirebaseUsuarios'
+import { listaUsuarios } from '../components/ConexionFirebase/FirebaseUsuarios'
 export default {
   components: {
     InformeDatos,
