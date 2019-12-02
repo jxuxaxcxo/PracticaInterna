@@ -15,7 +15,7 @@ export function listaUsuarios() {
   .then(snap => {
       snap.forEach(doc => {
         usuariosLista.push(doc.data());
-        console.log(doc.id, '=>', doc.data());
+        // console.log(doc.id, '=>', doc.data());
       });
   });
   return usuariosLista;
