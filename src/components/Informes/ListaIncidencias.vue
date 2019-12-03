@@ -30,6 +30,8 @@
                 <v-card
                 height="50vh"
                 >
+                  <div
+                  class="tabla">
                     <v-container>
                         <v-row>
                             <v-col></v-col>
@@ -57,7 +59,7 @@
                             <v-col></v-col>
                             <v-col cols="10">
                                 <v-select
-                                label="Formato de Plan de Accion"
+                                label="Formato de Plan de Accion"
                                 :items="formatos"
                                 item-text="nombre"
                                 v-model="formatoElegidoNombre"
@@ -66,40 +68,11 @@
                             <v-col></v-col>
                         </v-row>
                     </v-container>
+                  </div>  
                 </v-card>
 
             </v-col>
-            <v-col>
-                <v-subheader
-                style="margin-top: 3.6vh;"
-                class="justify-center white--text titulo"
-                id="tituloListaCampos"
-                >
-                Campos
-                </v-subheader>
-                <v-card
-                height="50vh">
-                  <div
-                  class="tabla">
-                    <v-container>
-                        <v-row
-                        v-for="(campo, i) in campos"
-                        :key="i"
-                        :id="'campo'+i">
-                            <v-col></v-col>
-                            <v-col cols="10">
-                                <v-text-field
-                                :label="campo.titulo"
-                                :id="'textFieldCampo' + i"
-                                v-model="campo.contenido"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col></v-col>
-                        </v-row>
-                    </v-container>
-                  </div>
-                </v-card>
-            </v-col>
+
             <v-col>
                 <v-icon
                 id="agregarNCBoton"
@@ -150,10 +123,43 @@
                   </div>
                 </v-card>
             </v-col>
+
+            <v-col>
+                <v-subheader
+                style="margin-top: 3.6vh;"
+                class="justify-center white--text titulo"
+                id="tituloListaCampos"
+                >
+                Campos
+                </v-subheader>
+                <v-card
+                height="50vh">
+                  <div
+                  class="tabla">
+                    <v-container>
+                        <v-row
+                        v-for="(campo, i) in campos"
+                        :key="i"
+                        :id="'campo'+i">
+                            <v-col></v-col>
+                            <v-col cols="10">
+                                <v-text-field
+                                :label="campo.titulo"
+                                :id="'textFieldCampo' + i"
+                                v-model="campo.contenido"
+                                ></v-text-field>
+                            </v-col>
+                            <v-col></v-col>
+                        </v-row>
+                    </v-container>
+                  </div>
+                </v-card>
+            </v-col>
         </v-row>
     </v-container>
 </template>
 <script>
+import { isNullOrUndefined } from 'util'
 export default {
   props: {
     planesDeAccion: Array,
@@ -178,7 +184,10 @@ export default {
       this.planesDeAccion[0].mailEncargado = val
     },
     campos: function (val) {
+      if (!isNullOrUndefined(this.planesDeAccion[0]))
+      {
         this.planesDeAccion[0].campos = val
+      }
     },
     formatoElegidoNombre: function (val) {
       this.formatos.forEach(formato => {
@@ -205,7 +214,10 @@ export default {
       }
     },
     ocurrencias: function (val) {
+      if (!isNullOrUndefined(this.planesDeAccion[0]))
+      {
         this.planesDeAccion[0].ocurrencias = val
+      }
     },
     formatos: function (val) {
       if (this.formatos.length > 0)
@@ -218,7 +230,7 @@ export default {
       }
     },
     planesDeAccion: function (val) {
-      if (this.planesDeAccion.length > 0)
+      if (!isNullOrUndefined(this.planesDeAccion) && this.planesDeAccion.length > 0)
       {
         this.ocurrencias = val[0].ocurrencias
         this.campos = val[0].campos
@@ -279,6 +291,10 @@ export default {
         default:
         break;
       }
+    },
+    setOcurrenciaActual (titulo, contenido, indexCampo) {
+      this.ocurrencias[0].campos[indexCampo].titulo = titulo
+      this.ocurrencias[0].campos[indexCampo].contenido = contenido
     },
     paginaSiguiente (elemento) {
       let array

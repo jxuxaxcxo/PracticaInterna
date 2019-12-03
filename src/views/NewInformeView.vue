@@ -9,7 +9,14 @@
           </v-card-title>
         </v-card>
       </v-col>
-      <v-col></v-col>
+      <v-col>
+        <v-btn
+        id="guardarInforme"
+        outlined
+        color="#3B83BD"
+        @click="guardar"
+        >Guardar</v-btn>
+      </v-col>
     </v-row>
     <v-row>
       <InformeDatos
@@ -17,6 +24,7 @@
       :nombre="nombre"
       :fechaAtribuible="fechaAtribuible"
       :valido="datosValidos"
+      :origen="origen"
       @setArchivo="setArchivo"
       @setFechaAtribuible="setFechaAtribuible"
       @setNombre="setNombre"
@@ -32,6 +40,7 @@
       @leerCampos="leerCampos"
       @leerOcurrencias="leerOcurrencias"
       @setFormatoElegido="setFormatoElegido"
+      ref="lista"
       />
     </v-row>
   </v-container>
@@ -41,10 +50,11 @@
 import docx4js from "docx4js"
 import InformeDatos  from '../components/Informes/InformeDatos'
 import ListaIncidencias from '../components/Informes/ListaIncidencias'
-import { getInformeID } from '../components/ConexionFirebase/FirebaseInforme'
+import { getInformeID, actualizarInforme } from '../components/ConexionFirebase/FirebaseInforme'
 import { listaUsuarios } from '../components/ConexionFirebase/FirebaseUsuarios'
 import { listaFormatos } from '../components/ConexionFirebase/FirebaseFormato'
 import { isNullOrUndefined } from 'util'
+import { functions } from 'firebase'
 export default {
   components: {
     InformeDatos,
@@ -63,18 +73,20 @@ export default {
       formatos: null,
       planesDeAccion: [],
       formatoElegido: null,
+      origen: 'null'
     }
   },
   created () {
+    this.origen = this.$route.params.origen
     this.id = this.$route.params.id
     const self = this
+    this.usuarios = listaUsuarios()
+    this.formatos = listaFormatos()
     getInformeID(this.id).then(function(val) {
       self.nombre = val.nombre
       self.planesDeAccion = val.planesDeAccion
       self.fechaAtribuible = val.fechaAtribuible.toISOString().substr(0, 10)
     })
-    this.usuarios = listaUsuarios()
-    this.formatos = listaFormatos()
   },
   methods: {
     setArchivo (val) {
@@ -90,24 +102,26 @@ export default {
       this.datosValidos = val
     },
     leerIncidencias (formato) {
+      
       this.planesDeAccion = []
-      this.textoIncidencias = this.texto.toString().match(/(No conformidad|Observación|Recomendacion)\s?:\s?.+CONCLUSIONES/g)
+      //Se agarran todas las incidencias
+      this.textoIncidencias = this.texto.toString().match(/(No conformidad|Observación|Recomendación)\s?:\s?.+CONCLUSIONES/g)
       if (this.textoIncidencias !== null && this.textoIncidencias.length > 0) {
         this.textoIncidencias = this.textoIncidencias[0]
-        this.textoIncidencias = this.textoIncidencias.toString().replace('CONCLUSIONES', '')
         
         let incidencia = null
         let caso = null
-        
-        while (this.textoIncidencias.toString().match(/(No conformidad|Observación|Recomendacion):\s?.+?(No conformidad|Observación|Recomendacion):/) !== null) {
-          console.log('a')
-          incidencia = this.textoIncidencias.toString().match(/(No conformidad|Observación|Recomendacion):\s?.+?(No conformidad|Observación|Recomendacion):/)[0]
-          caso = incidencia.toString().match(/(No conformidad|Observación|Recomendacion)\s?:\s?[^:]+(Esto acontece en los siguientes casos:|\.)/)
+        while (this.textoIncidencias.toString().match(/(No conformidad|Observación|Recomendación):\s?.+?(CONCLUSIONES|(No conformidad|Observación|Recomendación):)/) !== null) {
+          //mientras se encuentren incidencias
+          incidencia = this.textoIncidencias.toString().match(/(No conformidad|Observación|Recomendación):\s?.+?(CONCLUSIONES|(No conformidad|Observación|Recomendación):)/)[0]
+          //titulo incidencia
+          caso = incidencia.toString().match(/(No conformidad|Observación|Recomendación)\s?:\s?[^:]+(CONCLUSIONES|Esto acontece en los siguientes casos:|\.)/)
           // Limpiamos las palabras demas
           if (caso !== null && caso.length > 0) {
             caso = caso[0].toString()
             caso = caso.toString().replace('Esto acontece en los siguientes casos:','')
-            console.log(caso)
+            caso = caso.toString().replace('CONCLUSIONES', '')
+            //se agrega
             if (incidencia !== null) {
               this.planesDeAccion.push({
                 nombre: caso,
@@ -116,17 +130,18 @@ export default {
                 ocurrencias: [],
                 campos: []
               })
+              //se borra incidencia ya guardada
               this.textoIncidencias = this.textoIncidencias.toString().replace(incidencia.toString().replace(incidencia.split('.')[incidencia.split('.').length-1],''), '')
               incidencia = null
             } else {
               this.textoIncidencias = '' 
             }
           } else {
-            console.log(caso)
             break
           }
         }
-        this.textoIncidencias = this.texto.toString().match(/(No conformidad|Observación|Recomendacion)\s?:\s?.+CONCLUSIONES/g)
+        //se reestrablece para ocurrencias
+        this.textoIncidencias = this.texto.toString().match(/(No conformidad|Observación|Recomendación)\s?:\s?.+CONCLUSIONES/g)
         this.textoIncidencias = this.textoIncidencias[0]
         this.textoIncidencias = this.textoIncidencias.toString().replace('CONCLUSIONES', '')
       } else {
@@ -155,8 +170,10 @@ export default {
     leerOcurrencias () {
       let expresion
       let secciones = null
+      //se busca el plan de accion actual
       secciones = this.textoIncidencias.toString().split(this.planesDeAccion[0].nombre + 'Esto acontece en los siguientes casos:')
       if (this.archivo !== null && this.formatoElegido !== null && this.formatoElegido.ocurrencias.length > 0) {
+        //filtro personalizado
         expresion = '('
         this.formatoElegido.ocurrencias.forEach((ocurrencia, i) => {
           expresion = expresion + ocurrencia
@@ -172,6 +189,7 @@ export default {
           secciones = secciones[0]
           let datos = []
           this.formatoElegido.ocurrencias.forEach((campo,i) => {
+            //se agarran las ocurrencias
             datos.push([])
             if (i < this.formatoElegido.ocurrencias.length-1)
             {
@@ -180,6 +198,7 @@ export default {
               datos[i] = secciones.toString().match(campo + '.+\.')
             }
             if(!isNullOrUndefined(datos[i]) && datos[i].length > 0) {
+              //se dividen
               datos[i] = datos[i][0]
               this.formatoElegido.ocurrencias.forEach(o => {
                 datos[i] = datos[i].replace(o, '')
@@ -187,22 +206,33 @@ export default {
               datos[i] = datos[i].split('.')
             }
           })
-          console.log(this.planesDeAccion)
-          for (let i = 0; i < datos[0].length; i++) {
-            
-            // console.log(datos[i].length)
-            // datos.forEach((dato, j) => {
-            //   this.planesDeAccion[0].ocurrencias[i].campos.push({
-            //     titulo: this.formatoElegido.ocurrencias[j],
-            //     contenido: dato[i]
-            //   })
-            // })
+          console.log(datos)
+          for (let i = 0; i < datos[0].length-1; i++) {
+            //se agregan
+            this.$refs.lista.agregarIncidencia('ocurrencia')
+            console.log(this.planesDeAccion[0].ocurrencias.length)
+            datos.forEach((dato, j) => {
+              this.$refs.lista.setOcurrenciaActual(this.formatoElegido.ocurrencias[j], dato[i], j)
+            })
           }
         }
       }
     },
     setFormatoElegido (val) {
       this.formatoElegido = val
+    },
+    guardar () {
+      if (this.datosValidos) {
+        actualizarInforme(this.id, {
+          origen: this.origen,
+          idInforme: this.id,
+          fechaAtribuible: this.fechaAtribuible,
+          nombre: this.nombre,
+          planesDeAccion:  this.planesDeAccion
+        })
+        this.$router.push('/')
+      }
+
     }
   },
   watch: {
@@ -214,11 +244,22 @@ export default {
           this.leerIncidencias()
         })
       }
+    },
+    planesDeAccion: function (val) {
+      if ( this.formatoElegido === null && !isNullOrUndefined(this.planesDeAccion[0])) {
+        this.formatos.forEach(formato => {
+          if (formato.nombre === this.planesDeAccion[0].formatoNombre) {
+            this.formatoElegido = formato
+          }
+        })
+      }
     }
   }
 }
 </script>
 
 <style scoped>
-
+#guardarInforme  {
+  margin-left: 30vh;
+}
 </style>

@@ -19,10 +19,10 @@ import { getContadorInforme, agregarInforme } from '../ConexionFirebase/Firebase
 export default {
   methods: {
     crearNuevoInforme () {
-      agregarInforme('Nuevo Informe', [], [])
+      agregarInforme('Nuevo Informe', [], 'Informes')
       const self = this
       getContadorInforme().then(result => {
-        self.navigateTo('/Informes/' + result)
+        self.navigateTo('/Auditorias/Informes/' + result)
       })
     },
     navigateTo(to) {

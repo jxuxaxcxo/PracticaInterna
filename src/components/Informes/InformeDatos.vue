@@ -4,7 +4,8 @@
         v-model="valido"
         >
             <v-row>
-                <v-col>
+                <v-col
+                v-if="origen === 'Informes'">
                     <v-file-input
                     v-model="archivo"
                     placeholder="Seleccione un Informe"
@@ -58,7 +59,8 @@ export default {
     archivo: File,
     nombre: String,
     fechaAtribuible: String,
-    valido: Boolean
+    valido: Boolean,
+    origen: String
   },
   data () {
     return {
