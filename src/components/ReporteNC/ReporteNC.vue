@@ -157,15 +157,15 @@ export default {
         //agregarUsuario(this.usuario)
         //actualizarUsuario("7F6uWxdPrs1o0xXSzU5p", this.usuario)
         //eliminarUsuario("7F6uWxdPrs1o0xXSzU5p")
-        console.log("----------------Lista de Ususarios---------------")
-        listaUsuarios()
-        //autoincrementoAutomaticoInforme()
+        //console.log("----------------Lista de Ususarios---------------")
+        //listaUsuarios()
+        autoincrementoAutomaticoInforme()
         //eliminarInforme(6)
         //autoincrementoAutomaticoFormato()
-        console.log("----------------Lista de Formatos---------------")
-        listaFormatos()
-        console.log("----------------Lista de Informes---------------")
-        listaInformes()
+        //console.log("----------------Lista de Formatos---------------")
+        //listaFormatos()
+        //console.log("----------------Lista de Informes---------------")
+        //listaInformes()
       }
     }
 }
