@@ -5,9 +5,7 @@ export function agregarUsuario(usuario)
 
 db.collection('usuarios').add(usuario).then(() => {
     console.log("User is added to db.")
-}
-
-)
+})
 }
 export function listaUsuarios() {
   const usuariosLista = [];
@@ -17,7 +15,7 @@ export function listaUsuarios() {
   .then(snap => {
       snap.forEach(doc => {
         usuariosLista.push(doc.data());
-        console.log(doc.id, '=>', doc.data());
+        // console.log(doc.id, '=>', doc.data());
       });
   });
   return usuariosLista;
@@ -76,4 +74,18 @@ export function eliminarUsuario(id){
   .doc(id)
   .delete()
 }
+export function buscarUsuario(mail){
+  const usuariosLista = [];
+  let usuarios = db.collection("usuarios")
+  .where("mail", "==", mail)
+  .get()
+  .then(snap => {
+      snap.forEach(doc => {
+        usuariosLista.push(doc.data());
+        console.log(doc.id, '=>', doc.data());
+      });
+  });
+  return usuariosLista;
+}
+
 

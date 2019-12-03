@@ -1,31 +1,27 @@
 import db from '../ConexionFirebase/Firebase'
 
-
-export function agregarInformeID(idInforme, nombre, planesDeAccion, campos) 
+export function agregarInformeID(idInforme, nombre, planesDeAccion, origen) 
 {
- var dateOBJ = new Date(); 
- var codigoInforme = idInforme
-    const informe = {
-        idInforme: idInforme,
-        nombre: nombre,
-        fechaAtribuible: dateOBJ,
-        planesDeAccion: planesDeAccion,
-        campos: campos
-        
-      
-    }
-    db.collection('informes').doc(codigoInforme.toString()).set(informe).then(() => {
-    console.log(idInforme + " is added to db.")
-    })
+  var dateOBJ = new Date(); 
+  var codigoInforme = idInforme
+  const informe = {
+    idInforme: idInforme,
+    nombre: nombre,
+    fechaAtribuible: dateOBJ,
+    planesDeAccion: planesDeAccion,
+    origen: origen
+  }
+  db.collection('informes').doc(codigoInforme.toString()).set(informe).then(() => {
+  })
 }
-export function agregarInforme(nombre, planesDeAccion, campos){
+
+export function agregarInforme(nombre, planesDeAccion, origen){
 
   db.collection('informes')
   .doc('contadorInforme')
   .get()
   .then(doc => {
-      agregarInformeID(doc.data().contador, nombre, planesDeAccion, campos);
-      console.log("aqui el contador -> " + doc.data().contador);
+    agregarInformeID(doc.data().contador, nombre, planesDeAccion, origen);
   });
 
 }
@@ -75,3 +71,18 @@ export function agregarInforme(nombre, planesDeAccion, campos){
     .delete()
  }
 
+ export function getContadorInforme () {
+   let contadorRef = db.collection('informes').doc('contadorInforme')
+   let contador = contadorRef.get().then(function (doc){
+     return doc.data().contador
+    })
+    return contador
+}
+
+export function getInformeID (id) {
+  let informeRef = db.collection('informes').doc(id)
+  let informe = informeRef.get().then(function (doc) {
+    return doc.data()
+  })
+  return informe
+}

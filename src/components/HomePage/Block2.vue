@@ -3,7 +3,7 @@
      <v-card id="block2">
         <v-card-title id="blockTitle">Fuente Alternativa de N.C.</v-card-title>
         <v-card-subtitle id="blockSubtitle">Creación de Fuentes y sus respectivas N.C. (No Conformidades)</v-card-subtitle>
-        <v-btn id="goToAlternativeButton" outlined="true" @click="navigateTo('/nuevaFuente/')">Go</v-btn>
+        <v-btn id="goToAlternativeButton" outlined="true" @click="navigateTo()">Go</v-btn>
       </v-card>
 
       <v-card id="block2_sign"> 
@@ -13,10 +13,16 @@
 </template>
 
 <script>
+import { getContadorInforme, agregarInforme } from '../ConexionFirebase/FirebaseInforme'
+
 export default {
     methods: {
-      navigateTo(to) {
-        this.$router.push(to)
+      navigateTo() {
+        agregarInforme('Nuevo Fuente de Incidencias', [], 'NuevaFuente')
+        const self = this
+        getContadorInforme().then(result => {
+        this.$router.push('/Auditorias/NuevaFuente/' + result)
+        })
       }
     }
 }

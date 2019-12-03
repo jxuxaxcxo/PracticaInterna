@@ -3,7 +3,7 @@
      <v-card id="block1">
         <v-card-title id="blockTitle">Informe de Auditoría</v-card-title>
         <v-card-subtitle id="blockSubtitle">Manejo del Informe de Auditoría e información respectiva</v-card-subtitle>
-        <v-btn id="goToFileButton" outlined="true" @click="navigateTo('/informes/')">Go</v-btn>
+        <v-btn id="goToFileButton" outlined="true" @click="crearNuevoInforme">Go</v-btn>
           
       </v-card>
       <v-card id="block1_sign"> 
@@ -14,12 +14,21 @@
 </template>
 
 <script>
+import { getContadorInforme, agregarInforme } from '../ConexionFirebase/FirebaseInforme'
+
 export default {
-    methods: {
-      navigateTo(to) {
-        this.$router.push(to)
-      }
+  methods: {
+    crearNuevoInforme () {
+      agregarInforme('Nuevo Informe', [], 'Informes')
+      const self = this
+      getContadorInforme().then(result => {
+        self.navigateTo('/Auditorias/Informes/' + result)
+      })
+    },
+    navigateTo(to) {
+      this.$router.push(to)
     }
+  }
 }
 </script>
 
