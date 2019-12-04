@@ -42,6 +42,7 @@ export function agregarInforme(nombre, planesDeAccion, origen){
   }
  function autoincrementoIdInforme(valorId)
  {
+  console.log("Este es el valor del contador: "+valorId)
     db.collection("informes")
     .doc("contadorInforme")
     .update({
@@ -50,11 +51,13 @@ export function agregarInforme(nombre, planesDeAccion, origen){
  } 
  export function autoincrementoAutomaticoInforme(){
 
-  db.collection('formatos')
-  .doc('contadorFormato')
+  db.collection('informes')
+  .doc('contadorInforme')
   .get()
   .then(doc => {
+    console.log("Este es el contador actual: "+doc.data().contador)
       autoincrementoIdInforme(doc.data().contador + 1);
+    console.log("Este es el contador ya actualizado: "+doc.data().contador)
   });
 }
  export function actualizarInforme(id, informe)
