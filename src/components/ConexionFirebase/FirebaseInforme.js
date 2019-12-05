@@ -40,6 +40,32 @@ export function agregarInforme(nombre, planesDeAccion, origen){
     });
     return informesLista;
   }
+
+  export function listaInformes2() {
+    const informesList = [];
+    let users = db.collection("informes")
+    .onSnapshot(querySnapshot => {
+      querySnapshot.docChanges().forEach(change => {
+      
+        if (change.type === 'added') {
+          informesList.push(change.doc.data());
+          console.log('Nuevo informe: ', change.doc.data());
+        }
+        if (change.type === 'modified') {
+          
+          console.log('Informe modificado: ', change.doc.data());
+         
+        }
+        if (change.type === 'removed') {
+          
+          console.log('Informe eliminado: ', change.doc.data());
+        }
+      });
+    });
+  
+    return informesList;
+  }
+
  function autoincrementoIdInforme(valorId)
  {
   console.log("Este es el valor del contador: "+valorId)
