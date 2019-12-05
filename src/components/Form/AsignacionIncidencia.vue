@@ -9,10 +9,8 @@
                     :id = item.titulo
                     :style= singleStyle(item.fila,item.posicionHorizontal)>  
                     <v-card-title class="cardTitulo">{{item.titulo}}</v-card-title>     
-                            <v-text-field :class= "item.escala+'TextField'"
-                                v-model="email"
-                                :rules="emailRules"
-                                required
+                            <v-text-field v-if= item.inputType :class= "item.escala+'TextField'"
+                             
                             ></v-text-field>     
                 </v-card>
         </v-card>
@@ -35,29 +33,29 @@ export default {
     },
 
       data:() => ({
-    items: [
-        {   titulo: 'Descripcion de la Incidencia:',
-            escala: 'grande',
-            fila: '0',
-            posicionHorizontal: '0',
-            cuerpo: ''
-        },
-        {
-            titulo: 'Responsable del Seguimiento:',
-            escala: 'grande',
-            fila: '1',
-            posicionHorizontal: '0',
-            cuerpo: ''
-        },
-        {     
-             titulo: 'Investigacion de las Causas de la Incidencia:',
-            escala: 'grande',
-            fila: '2',
-            posicionHorizontal: '0',
-            cuerpo: ''
+            items: [
+                {   titulo: 'Descripcion de la Incidencia:',
+                    escala: 'grande',
+                    fila: '0',
+                    posicionHorizontal: '0',
+                    inputType: true
+                },
+                {
+                    titulo: 'Responsable del Seguimiento:',
+                    escala: 'grande',
+                    fila: '1',
+                    posicionHorizontal: '0',
+                    inputType: false
+                },
+                {     
+                    titulo: 'Investigacion de las Causas de la Incidencia:',
+                    escala: 'grande',
+                    fila: '2',
+                    posicionHorizontal: '0',
+                    inputType: false
 
-        }
-]
+                }
+        ]
 }),
   methods:{
       getCardStyle(){
@@ -118,10 +116,25 @@ export default {
         position: absolute;
         left: 1vw;
         width: 22vw;
+        background-color: green;
+        height: 5vh;
+        top: 8vh;
     }
     .medianoTextField{
         position:absolute;
         left:1vw;
         width: 47vw;
+        height: 5vh;
+        background-color: green;
+        top: 8vh;
     }
+    .grandeTextField{
+        position:absolute;
+        left:1vw;
+        width: 73vw;
+        height: 5vh;
+        background-color: green;
+        top: 8vh;
+    }
+
 </style>
