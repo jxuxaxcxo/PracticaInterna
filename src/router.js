@@ -7,7 +7,6 @@ import ReporteNC from './views/ReporteNC.vue'
 import Form from'./views/Form.vue'
 import FormsManager from'./views/FormsManager.vue'
 
-
 Vue.use(Router)
 
 export default new Router({
