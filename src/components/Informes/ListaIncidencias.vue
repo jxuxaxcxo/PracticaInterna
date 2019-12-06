@@ -36,10 +36,11 @@
                         <v-row>
                             <v-col></v-col>
                             <v-col cols="10">
-                                <v-text-field
+                                <v-textarea
                                 label="Nombre"
                                 v-model="nombre"
-                                ></v-text-field>
+                                auto-grow
+                                ></v-textarea>
                             </v-col>
                             <v-col></v-col>
                         </v-row>
@@ -111,11 +112,12 @@
                       :id="'campoOcurrencia'+i">
                         <v-col></v-col>
                         <v-col cols="10">
-                            <v-text-field
+                            <v-textarea
                             :label="campoOcurrencia.titulo"
                             :id="'textFieldOcurrencia' + i"
                             v-model="campoOcurrencia.contenido"
-                            ></v-text-field>
+                            auto-grow
+                            ></v-textarea>
                         </v-col>
                         <v-col></v-col>
                       </v-row>
@@ -143,11 +145,12 @@
                         :id="'campo'+i">
                             <v-col></v-col>
                             <v-col cols="10">
-                                <v-text-field
+                                <v-textarea
                                 :label="campo.titulo"
                                 :id="'textFieldCampo' + i"
                                 v-model="campo.contenido"
-                                ></v-text-field>
+                                auto-grow
+                                ></v-textarea>
                             </v-col>
                             <v-col></v-col>
                         </v-row>

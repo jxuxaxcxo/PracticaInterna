@@ -12,6 +12,7 @@ export function agregarInformeID(idInforme, nombre, planesDeAccion, origen)
     origen: origen
   }
   db.collection('informes').doc(codigoInforme.toString()).set(informe).then(() => {
+    autoincrementoAutomaticoInforme()
   })
 }
 
