@@ -43,10 +43,9 @@
                 <template v-slot:activator
                 >
                   <v-list-item-content>
-                    <v-list-item-title
-                    auto-grow
-                    @click="abrirInforme(informe)"
-                    class = "informe-elem" v-text="informe.nombre"></v-list-item-title>
+                    <router-link
+                    class = "informe-elem"
+                    :to="'/Auditorias/' + informe.origen + '/' + informe.idInforme">{{informe.nombre}}</router-link>
                   </v-list-item-content>
                 </template>
 
@@ -56,10 +55,10 @@
                       >
                       <template v-slot:activator>
                         <v-list-item-content>
-                          <v-list-item-title
-                          @click="abrirPlanDeAccion(planDeAccion)"
-                          auto-grow
-                          class = "nc-elem" v-text="planDeAccion.nombre"></v-list-item-title>
+                          <router-link
+                          class = "nc-elem"
+                          :to="'/Auditorias/' + informe.origen + '/' + informe.idInforme + '/' + i"
+                          >{{planDeAccion.nombre}}</router-link>
                         </v-list-item-content>
                       </template>
 
@@ -85,72 +84,7 @@ export default {
 
     data () {
       return {
-
         drawer : true,
-        items: [
-          {
-            action: 'local_activity',
-            title: 'Auditoría I 2019',
-            items: [
-              { title: 'NC-12019001' },
-              { title: 'NC-12019002' },
-              { title: 'NC-12019003' },            ],
-          },
-          {
-            action: 'restaurant',
-            title: 'Auditoría II 2019',
-            active: true,
-            items: [
-              { title: 'NC-22019001' },
-              { title: 'NC-22019002' },
-              { title: 'NC-22019003' },      
-            ],
-          },
-          {
-            action: 'school',
-            title: 'Auditoría I 2020',
-            items: [
-              { title: 'NC-12020001' },
-              { title: 'NC-12020002' },
-            ], 
-          },
-          {
-            action: 'directions_run',
-            title: 'Auditoría II 2020',
-            items: [
-              { title: 'Encuesta I' },
-            ],
-          },
-          {
-            action: 'healing',
-            title: 'Encuesta Wifi',
-            items: [
-              { title: 'Encuesta II' },
-            ],
-          },
-          {
-            action: 'content_cut',
-            title: 'Encuesta Docente',
-            items: [
-              { title: 'List Item' },
-            ],
-          },
-          {
-            action: 'local_offer',
-            title: 'Encuesta Mosquitos',
-            items: [
-              { title: 'List Item' },
-            ],
-          },
-        ],
-        informes: [
-          {
-            nombre: 'sad',
-            planDeAccion: [{
-              nombre: 'a'
-            }]
-          }
-        ],
         informes: []
       }
     },

@@ -181,27 +181,35 @@ export default {
   },
   watch: {
     nombre: function (val) {
-      this.planesDeAccion[0].nombre = val
+      if (!isNullOrUndefined(this.planesDeAccion) && this.planesDeAccion.length > 0)
+      {
+        this.planesDeAccion[0].nombre = val
+      }
     },
     mailEncargado: function (val) {
-      this.planesDeAccion[0].mailEncargado = val
+      if (!isNullOrUndefined(this.planesDeAccion) && this.planesDeAccion.length > 0)
+      {
+        this.planesDeAccion[0].mailEncargado = val
+      }
     },
     campos: function (val) {
-      if (!isNullOrUndefined(this.planesDeAccion[0]))
+      if (!isNullOrUndefined(this.planesDeAccion[0]) && this.planesDeAccion.length > 0)
       {
         this.planesDeAccion[0].campos = val
       }
     },
     formatoElegidoNombre: function (val) {
-      this.formatos.forEach(formato => {
+      if (!isNullOrUndefined(this.formatos) && ! isNullOrUndefined(this.planesDeAccion) && this.planesDeAccion.length > 0) {
+        this.formatos.forEach(formato => {
         if (val === formato.nombre) {
-            this.formatoElegido = formato
+          this.formatoElegido = formato
         }
       })
       this.planesDeAccion[0].formatoNombre = this.formatoElegidoNombre
       this.campos = []
       this.ocurrencias = []
       this.$emit('setFormatoElegido', this.formatoElegido)
+      }
     },
     formatoElegido: function(val) {
       if (val !== null)

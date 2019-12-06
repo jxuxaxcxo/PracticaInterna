@@ -1,4 +1,5 @@
-<template>
+<template
+:key="this.id">
   <v-container>
     <v-row>
       <v-col></v-col>
@@ -78,7 +79,7 @@ export default {
   },
   created () {
     this.origen = this.$route.params.origen
-    this.id = this.$route.params.id
+    this.id = this.idLink
     const self = this
     this.usuarios = listaUsuarios()
     this.formatos = listaFormatos()
@@ -233,6 +234,18 @@ export default {
         this.$router.push('/')
       }
 
+    },
+    actualizar () {
+      this.origen = this.$route.params.origen
+      this.id = this.$route.params.id
+      const self = this
+      this.usuarios = listaUsuarios()
+      this.formatos = listaFormatos()
+      getInformeID(this.id).then(function(val) {
+        self.nombre = val.nombre
+        self.planesDeAccion = val.planesDeAccion
+        self.fechaAtribuible = val.fechaAtribuible.toISOString().substr(0, 10)
+      })
     }
   },
   watch: {
@@ -253,6 +266,12 @@ export default {
           }
         })
       }
+    }
+  },
+  computed: {
+    idLink () {
+      this.actualizar()
+      return this.$route.params.id
     }
   }
 }
