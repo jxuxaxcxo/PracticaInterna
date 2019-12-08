@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-content>
-    <div>
+    <div v-if="user !== undefined && user !== null ">
       <Navbar/>
     </div>
     <div>
@@ -16,16 +16,40 @@
 <script>
 import Navbar from './views/Navbar.vue';
 import ListaPer from './views/ListaPer.vue';
+import Login from './components/Login/Login.vue';
 
 
 export default {
   name: 'App',
   components: {
-    Navbar
-
+    Navbar,
+    Login
   },
   data: () => ({
     //
   }),
+
+      computed : {
+
+      user () {
+        return this.$store.getters.user
+      }
+    },
+
+    mounted () {
+        if (this.user == null || this.user == undefined){
+          this.$router.push('/Login') 
+        }
+    },
+
+    
+
+        watch: {
+      user (value) {
+        if (value == null || value == undefined){
+          this.$router.push('/Login') 
+        }
+      }
+    },
 };
 </script>

@@ -9,24 +9,25 @@
         </v-list-item>
 
 
-        <v-list-item link>
-          <v-list-item-content>
-            <v-list-item-title class="title" >Mateo Puña</v-list-item-title>
-            <v-list-item-subtitle class = "white--text">mateo.ds3@shift.com</v-list-item-subtitle>
-          </v-list-item-content>
+        <v-list-item  @click="navigateTo('///')">
 
-            <v-list-item-action>
-            <v-icon>mdi-menu-down</v-icon>
-          </v-list-item-action>
+          <v-list-item-content >
+            <v-list-item-title class="title" >Mateo Puña</v-list-item-title>
+            <v-list-item-subtitle class = "white--text">mateo.ds3@shift.com</v-list-item-subtitle>        
+          </v-list-item-content>
         </v-list-item>
+
       <v-divider></v-divider>
 
-        <v-list-item link>
+
+        <v-list-item link  @click="navigateTo('/crearUsuario/')">
            <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
+              <v-icon>mdi-settings</v-icon>
           </v-list-item-icon>
-            <v-list-item-title class = "title">Inicio</v-list-item-title>
+            <v-list-item-title >Configuración</v-list-item-title>
         </v-list-item>
+
+
 
       <v-divider></v-divider>
 
@@ -78,6 +79,14 @@ import { listaInformes2 } from '../components/ConexionFirebase/FirebaseInforme'
 export default {
   
     name: "Navbar",
+
+    methods: {
+      navigateTo(to) {
+        this.$router.push(to)
+      }
+    },
+    data: () => ({
+      drawer : true
 
     mounted () {
       this.informes = this.informesDB
