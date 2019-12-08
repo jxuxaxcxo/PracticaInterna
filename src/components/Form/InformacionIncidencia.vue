@@ -10,11 +10,16 @@
                     :id = item.titulo
                     :style= singleStyle(item.fila,item.posicionHorizontal)>  
                     <v-card-title class="cardTitulo">{{item.titulo}}</v-card-title>     
-                            <v-text-field :class= "item.escala+'TextField'"
-                                v-model="email"
-                                :rules="emailRules"
-                                required
-                            ></v-text-field>     
+                            <v-text-field v-if= item.inputType :class= "item.escala+'TextField'"
+                            ></v-text-field>
+                            <v-radio-group v-if= item.opcionesType v-model="row" row>
+                                <v-radio
+                                v-for= "opcion in item.opciones"
+                                :key = opcion.id
+                                :id = opcion.id
+                                :label = opcion.nombre
+                                :value = 'n' ></v-radio>
+                            </v-radio-group>     
                 </v-card>
         </v-card>
 
@@ -37,57 +42,64 @@ export default {
             escala: 'pequeño',
             fila: '0',
             posicionHorizontal: '0',
-            cuerpo: ''
+            inputType: true,
         },
         {
             titulo: 'Nro de Formulario:',
             escala: 'mediano',
             fila: '0',
             posicionHorizontal: '1',
-            cuerpo: ''
+            inputType: true,
         },
         {
             titulo: 'Area:',
             escala: 'pequeño',
             fila: '1',
             posicionHorizontal: '0',
-            cuerpo: ''   
+            inputType: true,
         },
         {
             titulo: 'Auditor que realizo observacion: ',
             escala: 'mediano',
             fila: '1',
             posicionHorizontal: '1',
-            cuerpo: ''
+            inputType: true,
         },
         {
             titulo: 'Norma:',
             escala: 'pequeño',
             fila: '2',
             posicionHorizontal: '0',
-            cuerpo: ''   
+            inputType: true,
         },
         {
             titulo: 'Clausula Afectada de la Norma: ',
             escala: 'mediano',
             fila: '2',
             posicionHorizontal: '1',
-            cuerpo: ''
+            inputType: true,
         },
         {
             titulo: 'Tipo de Hallazgo: ',
             escala: 'grande',
             fila: '3',
             posicionHorizontal: '0',
-            cuerpo: ''
+            inputType: false,
+            opcionesType: true,
+            opciones: [{
+                id:'noConformidad',
+                nombre: 'No Conformidad'  
+                
+            },{
+                id: 'observacion',
+                nombre: "Observacion" 
+            },{
+                id: 'recomendacion',
+                nombre: 'Recomendacion'
+            }
+            ]
+            
         },
-         {
-            titulo: 'Tipo de Hallazgo: ',
-            escala: 'grande',
-            fila: '4',
-            posicionHorizontal: '0',
-            cuerpo: ''
-        }
 ]
 }),
   components: {
@@ -152,11 +164,25 @@ export default {
         position: absolute;
         left: 1vw;
         width: 22vw;
+        background-color: green;
+        height: 5vh;
+        top: 8vh;
     }
     .medianoTextField{
         position:absolute;
         left:1vw;
         width: 47vw;
+        height: 5vh;
+        background-color: green;
+        top: 8vh;
+    }
+    .grandeTextField{
+        position:absolute;
+        left:1vw;
+        width: 73vw;
+        height: 5vh;
+        background-color: green;
+        top: 8vh;
     }
 
 </style>

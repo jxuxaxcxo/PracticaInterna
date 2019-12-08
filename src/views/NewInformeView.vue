@@ -1,295 +1,284 @@
-<template>
-    <v-container>
-            <v-card-title class="justify-center">NUEVO INFORME DE AUDITORIA</v-card-title>
-        <v-row>
-          <v-col  cols="1"></v-col>
-          <v-col cols="5">
-            <v-form
-            v-model="validoData"
-            >
-              <v-select
-              :items="formatos"
-              label="Formato de Plan de Accion"
-              item-text="nombre"
-              v-model="seleccionFormatoN"
-              @change="onSeleccionFormato"
-              :rules="reglas.formato"
-              id="formatoSeleccion"
-              required
-              >
-              </v-select>
-              <v-text-field
-              v-model="nombre"
-              label="Nombre del informe (Unico)"
-              :disabled="!filled"
-              :counter="63"
-              :rules="reglas.titulo"
-              required
-              ></v-text-field>
-              <v-text-field
-              label="Breve Descripción"
-              v-model="descripcion"
-              :rules="reglas.descripcion"
-              required
-              :counter="255"
-              ></v-text-field>
-              <v-menu
-                v-model="calendarioMostrar"
-                :close-on-content-click="false"
-                >
-                <template v-slot:activator="{ on }">
-                    <v-text-field
-                    :value="fechaAtribuible"
-                    clearable
-                    :rules="reglas.fecha"
-                    label="Fecha atribuible"
-                    readonly
-                    required
-                    v-on="on"
-                    @click:clear="fechaAtribuible = null"
-                    ></v-text-field>
-                </template>
-                <v-date-picker
-                    locale
-                    v-model="fechaAtribuible"
-                    @change="calendarioMostrar = false"
-                    :max="fechaAtribuible"
-                ></v-date-picker>
-              </v-menu>
-              <ListaNC
-              :validoNC ="validoNC"
-              :noConformidades="noConformidades"
-              :preparacion="isFormatoSeleccionado"
-              @setValidoNC="setValidoNC"
-              @agregarNC="agregarNoConformidad"
-              />
-            </v-form>
-          </v-col>
-          <v-col cols="5">
-            <v-file-input
-              v-model="file"
-              placeholder="Seleccione un Informe"
-              label="Suba su Informe"
-              prepend-icon="mdi-paperclip"
-              accept = ".docx"
-              @change="fileRead()"
-              id="fileSelector"
-              :disabled="!filled"
-              ></v-file-input>
-            <lista-campos
-            altura = "66vh"
-            :campos="seleccionFormato.campos"
-            />
-          </v-col>
-          <v-col cols="1"></v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="9"></v-col>
-          <v-col>
-            <v-btn
-            color="#3B83BD"
-
-            :disabled="aceptado"
-
-            @click="guardarInforme"
-
-            outlined>Agregar Informe</v-btn>
-          </v-col>
-        </v-row>
-    </v-container>
+<template
+:key="this.id">
+  <v-container>
+    <v-row>
+      <v-col></v-col>
+      <v-col>
+        <v-card class="elevation-0" color="transparent">
+          <v-card-title class="justify-center">
+            {{'Informe de auditoria Nro: ' + id}}
+          </v-card-title>
+        </v-card>
+      </v-col>
+      <v-col>
+        <v-btn
+        id="guardarInforme"
+        outlined
+        color="#252440"
+        @click="guardar"
+        >Guardar</v-btn>
+      </v-col>
+    </v-row>
+    <v-row>
+      <InformeDatos
+      :archivo="archivo"
+      :nombre="nombre"
+      :fechaAtribuible="fechaAtribuible"
+      :valido="datosValidos"
+      :origen="origen"
+      @setArchivo="setArchivo"
+      @setFechaAtribuible="setFechaAtribuible"
+      @setNombre="setNombre"
+      @setDatosValidos="setDatosValidos"
+      />
+    </v-row>
+    <v-row>
+      <ListaIncidencias
+      :usuarios="usuarios"
+      :formatos="formatos"
+      :planesDeAccion="planesDeAccion"
+      :formatoElegido="formatoElegido"
+      @leerCampos="leerCampos"
+      @leerOcurrencias="leerOcurrencias"
+      @setFormatoElegido="setFormatoElegido"
+      ref="lista"
+      />
+    </v-row>
+  </v-container>
 </template>
+
 <script>
 import docx4js from "docx4js"
-
-import ListaNC from '../components/FuenteNC/ListaNC'
-import ListaCampos from '../components/FuenteNC/ListaCampos'
-
-//import ListaNC from '../components/NewInforme/ListaNC.vue'
-import { FirebaseInforme, agregarInforme } from '../components/ConexionFirebase/FirebaseInforme'
-
+import InformeDatos  from '../components/Informes/InformeDatos'
+import ListaIncidencias from '../components/Informes/ListaIncidencias'
+import { getInformeID, actualizarInforme } from '../components/ConexionFirebase/FirebaseInforme'
+import { listaUsuarios } from '../components/ConexionFirebase/FirebaseUsuarios'
+import { listaFormatos } from '../components/ConexionFirebase/FirebaseFormato'
+import { isNullOrUndefined } from 'util'
+import { functions } from 'firebase'
 export default {
   components: {
-    ListaNC,
-    ListaCampos
+    InformeDatos,
+    ListaIncidencias
   },
   data () {
     return {
-        filled: false,
-        isFormatoSeleccionado: false,
-        nombre: '',
-        file: [],
-        text: [],
-        descripcion: '',
-        noConformidades: [],
-        validoData: false,
-        validoNC: true,
-        fechaAtribuible: new Date().toISOString().substr(0, 10),
-        calendarioMostrar: false,
-        reglas: {
-          titulo: [
-            v => !!v || 'Este campo es necesario',
-            v => v.length <= 63 || 'El titulo debe contener menos de 63 caracteres'
-          ],
-          descripcion: [
-              v => !!v || 'Este campo es necesario',
-              v => v.length <= 255 || 'La descripción debe contener menos de 255 caracteres'
-          ],
-          formato: [
-            v => !!v || 'Este campo es necesario',
-          ],
-          fecha: [
-              v => !!v || 'Este campo es necesario',
-          ]
-        },
-        formatos: [
-          {
-            nombre: 'formatoA',
-            campos: [
-              {
-              titulo: 'LÍMITES A',
-              data: ''
-              },
-              {
-              titulo: 'UBICACIÓN',
-              data: ''
-              }
-            ],
-            atributos: [
-              {
-
-              titulo: 'Observación',
-              contenido: ''
-
-              },
-              {
-
-              titulo: 'Diversión',
-              contenido: ''
-
-              }
-            ]
-          },
-          {
-            nombre: 'formatoB',
-            campos: [
-              {
-              titulo: 'ORIGEN',
-              data: ''
-              },
-              {
-              titulo: 'UBICACIÓN',
-              data: ''
-              }
-            ],
-            atributos: [
-              {
-
-              titulo: 'Observación',
-              contenido: ''
-
-              },
-              {
-
-              titulo: 'Encargado',
-              contenido: ''
-
-              }
-            ]
+      id: 0,
+      nombre: '',
+      archivo: null,
+      fechaAtribuible: new Date().toISOString().substr(0, 10),
+      datosValidos: false,
+      texto: '',
+      textoIncidencias: '',
+      usuarios: null,
+      formatos: null,
+      planesDeAccion: [],
+      formatoElegido: null,
+      origen: 'null'
+    }
+  },
+  created () {
+    this.origen = this.$route.params.origen
+    this.id = this.idLink
+    const self = this
+    this.usuarios = listaUsuarios()
+    this.formatos = listaFormatos()
+    getInformeID(this.id).then(function(val) {
+      self.nombre = val.nombre
+      self.planesDeAccion = val.planesDeAccion
+      self.fechaAtribuible = val.fechaAtribuible.toISOString().substr(0, 10)
+    })
+  },
+  methods: {
+    setArchivo (val) {
+      this.archivo = val
+    },
+    setFechaAtribuible (val) {
+      this.fechaAtribuible = val
+    },
+    setNombre (val) {
+      this.nombre = val
+    },
+    setDatosValidos (val) {
+      this.datosValidos = val
+    },
+    leerIncidencias (formato) {
+      
+      this.planesDeAccion = []
+      //Se agarran todas las incidencias
+      this.textoIncidencias = this.texto.toString().match(/(No conformidad|Observación|Recomendación)\s?:\s?.+CONCLUSIONES/g)
+      if (this.textoIncidencias !== null && this.textoIncidencias.length > 0) {
+        this.textoIncidencias = this.textoIncidencias[0]
+        
+        let incidencia = null
+        let caso = null
+        while (this.textoIncidencias.toString().match(/(No conformidad|Observación|Recomendación):\s?.+?(CONCLUSIONES|(No conformidad|Observación|Recomendación):)/) !== null) {
+          //mientras se encuentren incidencias
+          incidencia = this.textoIncidencias.toString().match(/(No conformidad|Observación|Recomendación):\s?.+?(CONCLUSIONES|(No conformidad|Observación|Recomendación):)/)[0]
+          //titulo incidencia
+          caso = incidencia.toString().match(/(No conformidad|Observación|Recomendación)\s?:\s?[^:]+(CONCLUSIONES|Esto acontece en los siguientes casos:|\.)/)
+          // Limpiamos las palabras demas
+          if (caso !== null && caso.length > 0) {
+            caso = caso[0].toString()
+            caso = caso.toString().replace('Esto acontece en los siguientes casos:','')
+            caso = caso.toString().replace('CONCLUSIONES', '')
+            //se agrega
+            if (incidencia !== null) {
+              this.planesDeAccion.push({
+                nombre: caso,
+                mailEncargado: '',
+                formatoNombre: '',
+                ocurrencias: [],
+                campos: []
+              })
+              //se borra incidencia ya guardada
+              this.textoIncidencias = this.textoIncidencias.toString().replace(incidencia.toString().replace(incidencia.split('.')[incidencia.split('.').length-1],''), '')
+              incidencia = null
+            } else {
+              this.textoIncidencias = '' 
+            }
+          } else {
+            break
           }
-        ],
-        seleccionFormato: [],
-        seleccionFormatoN: []
+        }
+        //se reestrablece para ocurrencias
+        this.textoIncidencias = this.texto.toString().match(/(No conformidad|Observación|Recomendación)\s?:\s?.+CONCLUSIONES/g)
+        this.textoIncidencias = this.textoIncidencias[0]
+        this.textoIncidencias = this.textoIncidencias.toString().replace('CONCLUSIONES', '')
+      } else {
+        this.planesDeAccion.unshift({
+            nombre: 'Nuevo Plan De Acción',
+            ocurrencias: [],
+            campos: [],
+            mailEncargado: '',
+            formatoNombre: '',
+            tareas: []
+        })
+      }
+    },
+    leerCampos () {
+      let expresion
+      if (this.texto !== '' && this.texto !== null) {
+        this.planesDeAccion[0].campos.forEach(campo => {
+        expresion = campo.titulo + '[^.]+\.'
+        expresion= this.texto.toString().match(expresion)
+        if  (expresion !== null) {
+          campo.contenido = expresion.toString().replace(campo.titulo, '')
+        }
+        })
+      }
+    },
+    leerOcurrencias () {
+      let expresion
+      let secciones = null
+      //se busca el plan de accion actual
+      secciones = this.textoIncidencias.toString().split(this.planesDeAccion[0].nombre + 'Esto acontece en los siguientes casos:')
+      if (this.archivo !== null && this.formatoElegido !== null && this.formatoElegido.ocurrencias.length > 0) {
+        //filtro personalizado
+        expresion = '('
+        this.formatoElegido.ocurrencias.forEach((ocurrencia, i) => {
+          expresion = expresion + ocurrencia
+          if (i < (this.formatoElegido.ocurrencias.length -1))
+          {
+            expresion = expresion + '|'
+          }
+        })
+        expresion = expresion + ')'
+        let datos = []
+        if (!isNullOrUndefined(secciones)) {
+          secciones = secciones[1].toString().split(/(No conformidad|Observación|Recomendación):/)
+          secciones = secciones[0]
+          let datos = []
+          this.formatoElegido.ocurrencias.forEach((campo,i) => {
+            //se agarran las ocurrencias
+            datos.push([])
+            if (i < this.formatoElegido.ocurrencias.length-1)
+            {
+              datos[i] = secciones.toString().match(campo + '.+?' + expresion)
+            } else {
+              datos[i] = secciones.toString().match(campo + '.+\.')
+            }
+            if(!isNullOrUndefined(datos[i]) && datos[i].length > 0) {
+              //se dividen
+              datos[i] = datos[i][0]
+              this.formatoElegido.ocurrencias.forEach(o => {
+                datos[i] = datos[i].replace(o, '')
+              })
+              datos[i] = datos[i].split('.')
+            }
+          })
+          console.log(datos)
+          for (let i = 0; i < datos[0].length-1; i++) {
+            //se agregan
+            this.$refs.lista.agregarIncidencia('ocurrencia')
+            console.log(this.planesDeAccion[0].ocurrencias.length)
+            datos.forEach((dato, j) => {
+              this.$refs.lista.setOcurrenciaActual(this.formatoElegido.ocurrencias[j], dato[i], j)
+            })
+          }
+        }
+      }
+    },
+    setFormatoElegido (val) {
+      this.formatoElegido = val
+    },
+    guardar () {
+      if (this.datosValidos) {
+        actualizarInforme(this.id, {
+          origen: this.origen,
+          idInforme: this.id,
+          fechaAtribuible: this.fechaAtribuible,
+          nombre: this.nombre,
+          planesDeAccion:  this.planesDeAccion
+        })
+        this.$router.push('/')
+      }
+
+    },
+    actualizar () {
+      this.origen = this.$route.params.origen
+      this.id = this.$route.params.id
+      const self = this
+      this.usuarios = listaUsuarios()
+      this.formatos = listaFormatos()
+      getInformeID(this.id).then(function(val) {
+        self.nombre = val.nombre
+        self.planesDeAccion = val.planesDeAccion
+        self.fechaAtribuible = val.fechaAtribuible.toISOString().substr(0, 10)
+      })
+    }
+  },
+  watch: {
+    archivo: function (val) {
+      if (val !== null) {
+        //Leemos el texto del archivo
+        docx4js.load(this.archivo).then(docx => {
+          this.texto = docx.officeDocument.content.text()
+          this.leerIncidencias()
+        })
+      }
+    },
+    planesDeAccion: function (val) {
+      if ( this.formatoElegido === null && !isNullOrUndefined(this.planesDeAccion[0])) {
+        this.formatos.forEach(formato => {
+          if (formato.nombre === this.planesDeAccion[0].formatoNombre) {
+            this.formatoElegido = formato
+          }
+        })
+      }
     }
   },
   computed: {
-      aceptado () {
-        return this.filled && this.validoData && this.validoNC && this.noConformidades.length > 0
-      }
-  },
-  methods: {
-
-    setValidoNC (val) {
-      this.validoNC = val
-    },
-    onSeleccionFormato () {
-      this.formatos.forEach((formato) => {
-        this.filled = true
-        if (formato.nombre === this.seleccionFormatoN) {
-          this.seleccionFormato = formato
-        }
-      })
-
-        this.nombre = []
-        this.file = null
-        this.nombre = []
-        this.noConformidades = []
-        this.isFormatoSeleccionado = true
-    },
-    agregarNoConformidad (titulo) {
-      this.noConformidades.unshift({})
-      this.noConformidades[0].titulo = titulo
-      this.noConformidades[0].atributos = this.seleccionFormato.atributos
-    },
-    fileRead () {
-      this.limpiar()
-      
-      if (this.file !== null)
-      {
-        this.leerDatos()
-      }
-    },
-    leerDatos () {
-      docx4js.load(this.file).then(docx => {
-      this.text =  docx.officeDocument.content.text()
-      const noConformidad  = this.text.toString().match(/No\sconformidad:\s[^\:]+\:/g)
-      if (noConformidad !== null)
-      {
-        noConformidad.forEach((nc)=>{
-        this.agregarNoConformidad(nc.replace('No conformidad: ', '').replace(':',''))
-        })
-      }
-        let camps = []
-        this.seleccionFormato.campos.forEach((campo, i) => {
-          camps.push({
-            titulo: campo.titulo.replace(' ', '\\s'),
-            index: i
-            })
-        })
-        camps.forEach((campo) => {
-          this.normalizarCamposObtenidos(campo)
-        })
-    })
-    },
-    limpiar () {
-      this.nombre = document.getElementById('fileSelector').value.split(/(C\:\\fakepath\\)|(\.docx)/)[3]
-      this.noConformidades = []
-      if (this.seleccionFormato !== [])
-      {
-        this.seleccionFormato.campos.forEach((campo) => {
-          campo.data = ''
-        })
-      }
-    },
-    guardarInforme () {
-
-      agregarInforme(this.nombre, this.noConformidades, this.seleccionFormato)
-    
-    },
-    normalizarCamposObtenidos (campo) {
-
-      const contenido = this.text.toString().match(campo.titulo + '[^.]+\.')
-      campo.titulo = campo.titulo.replace('\\s', ' ')
-      if (contenido !== null)
-      {
-        this.seleccionFormato.campos[campo.index].data = contenido.toString().replace(campo.titulo,'')
-      }
-
+    idLink () {
+      this.actualizar()
+      return this.$route.params.id
     }
   }
 }
 </script>
+
 <style scoped>
-.scroll {
-      overflow-y: auto;
+#guardarInforme  {
+  margin-left: 30vh;
 }
-</style>/
+</style>

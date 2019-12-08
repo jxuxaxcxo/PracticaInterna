@@ -9,14 +9,21 @@
                     :id = item.titulo
                     :style= singleStyle(item.fila,item.posicionHorizontal)>  
                     <v-card-title class="cardTitulo">{{item.titulo}}</v-card-title>     
-                            <v-text-field :class= "item.escala+'TextField'"
-                                v-model="email"
-                                :rules="emailRules"
-                                required
-                            ></v-text-field>     
+                            <v-text-field v-if= item.inputType :class= "item.escala+'TextField'"
+                            ></v-text-field>
+
+                            <v-container v-if = item.selectorType >
+                            <v-select class="selector"
+                                v-if = item.selectorType
+                                label="Encargado"
+                                :items="usuarios"
+                                item-text="mail"
+                            ></v-select>
+                            <h4 class="selectorArgumento">{{item.opcionInfo.primerArgumento}}</h4>
+                            </v-container>
+
                 </v-card>
         </v-card>
-
         <CorreccionIncidencia :topMargin= height+20></CorreccionIncidencia>
 
     </div>
@@ -24,6 +31,8 @@
 
 <script>
 import CorreccionIncidencia from '../../components/Form/CorreccionIncidencia';
+import { listaUsuarios } from '../../components/ConexionFirebase/FirebaseUsuarios'
+
 
 export default {  
   props:{
@@ -35,30 +44,41 @@ export default {
     },
 
       data:() => ({
-    items: [
-        {   titulo: 'Descripcion de la Incidencia:',
-            escala: 'grande',
-            fila: '0',
-            posicionHorizontal: '0',
-            cuerpo: ''
-        },
-        {
-            titulo: 'Responsable del Seguimiento:',
-            escala: 'grande',
-            fila: '1',
-            posicionHorizontal: '0',
-            cuerpo: ''
-        },
-        {     
-             titulo: 'Investigacion de las Causas de la Incidencia:',
-            escala: 'grande',
-            fila: '2',
-            posicionHorizontal: '0',
-            cuerpo: ''
+            usuarios:listaUsuarios(),
+            items: [
+                {   titulo: 'Descripcion de la Incidencia:',
+                    escala: 'grande',
+                    fila: '0',
+                    posicionHorizontal: '0',
+                    inputType: true,
+                    opcionesType: false,
+                    selectorType: false
+                },
+                {
+                    titulo: 'Responsable del Seguimiento:',
+                    escala: 'grande',
+                    fila: '1',
+                    posicionHorizontal: '0',
+                    inputType: false,
+                    opcionesType: false,
+                    selectorType: true,
+                    opcionInfo: {
+                        primerArgumento: 'Nombre Encargado: '
+                    }
 
-        }
-]
+                },
+                {     
+                    titulo: 'Investigacion de las Causas de la Incidencia:',
+                    escala: 'grande',
+                    fila: '2',
+                    posicionHorizontal: '0',
+                    inputType: true,
+                    opcionesType: false,
+                    selectorType: false
+                }
+        ]
 }),
+
   methods:{
       getCardStyle(){
          var cantidadFilas=0;
@@ -118,10 +138,36 @@ export default {
         position: absolute;
         left: 1vw;
         width: 22vw;
+        background-color: green;
+        height: 5vh;
+        top: 8vh;
     }
     .medianoTextField{
         position:absolute;
         left:1vw;
         width: 47vw;
+        height: 5vh;
+        background-color: green;
+        top: 8vh;
+    }
+    .grandeTextField{
+        position:absolute;
+        left:1vw;
+        width: 73vw;
+        height: 5vh;
+        background-color: green;
+        top: 8vh;
+    }
+
+    .selector{
+        position:absolute;
+        top:8vh;
+        left: 15vw;
+    }
+
+    .selectorArgumento{
+        position: absolute;
+        top:11vh;
+        left:3vw;
     }
 </style>

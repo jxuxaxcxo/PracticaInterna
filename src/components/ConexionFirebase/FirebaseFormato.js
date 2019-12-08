@@ -35,7 +35,7 @@ export function listaFormatos() {
       if (change.type === 'added') {
         formatosLista.push(change.doc.data());
         //console.log('Nuevo Elemento: ', change.doc.data());
-        console.log(change.doc.id, '=>', change.doc.data());
+        // console.log(change.doc.id, '=>', change.doc.data());
       }
     });
   });
