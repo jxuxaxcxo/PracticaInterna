@@ -38,14 +38,14 @@
 
                 <v-form>
 
-                  <v-text-field
+                  <v-text-field v-model="email"
                     id = "login"
                     label="Usuario"
                     name="login"
-                    type="text"
+                    type="email"
                   />
 
-                  <v-text-field
+                  <v-text-field v-model="contrasena"
                     id="password"
                     label="Contraseña"
                     name="password"
@@ -55,7 +55,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn color="#003366" dark>Entrar</v-btn>
+                <v-btn color="#003366" @click="clickEntrar()" dark>Entrar</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -74,6 +74,35 @@
     name : 'Login',
     props: {
       source: String,
+    },
+
+    data () {
+        return {
+            email: '',
+            password: ''
+        }
+    },
+            methods: {
+      clickEntrar () {
+        console.log("Llegue aqui")
+        this.$store.dispatch('iniciarSesion', {email: this.email, contrasena: this.contrasena})
+
+      },
+
+    },
+
+    computed : {
+      user () {
+        return this.$store.getters.getUser
+      }
+    },
+
+     watch: {
+      user (value) {
+        if (value !== null && value !== undefined){
+          this.$router.push('/') 
+        }
+      }
     },
   }
 </script>
