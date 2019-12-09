@@ -1,7 +1,5 @@
     <template>
         <div >
-            <h1 id="prueba">{{items[0].titulo}}</h1>
-            <v-btn v-on:click="imprimir">Prueba</v-btn>
             <v-card id="incidenciaInfoCard" :style= getAltura()>
                 <v-card-title>Informacion de la Incidencia</v-card-title>
                     <v-card
@@ -11,7 +9,10 @@
                         :id = item.titulo
                         :style= singleStyle(item.fila,item.posicionHorizontal)>  
                         <v-card-title class="cardTitulo">{{item.titulo}}</v-card-title>     
-                                <v-text-field v-if= item.inputType :class= "item.escala+'TextField'"
+                                <v-text-field
+                                 v-if= item.inputType 
+                                 :class= "item.escala+'TextField'" 
+                                 :value= item.campo
                                 ></v-text-field>
                                 <v-radio-group v-if= item.opcionesType v-model="row" row>
                                     <v-radio
@@ -24,7 +25,7 @@
                     </v-card>
             </v-card>
 
-        <AsignacionIncidencia :topMargin= height+20></AsignacionIncidencia>
+        <AsignacionIncidencia :topMargin= height+20 :infoExtra= informeActual.planesDeAccion[informeID].nombre ></AsignacionIncidencia>
         </div>
     </template>
 
@@ -44,23 +45,30 @@
         var url = window.location.href;
         var sections = url.split('/');
         var informeID = sections[sections.length-2];
+        var planDeAccionID = sections[sections.length-1];
 
         const clase = this;
-        var informes =getInformeID('2').then(function(result){
-                console.log(result);
-                console.log("--------");
+        var informes =getInformeID('1').then(function(result){
                 clase.informeActual = result;
+                clase.informeID=informeID-1;
             });
         },
+       
+       created(){
+
+       },
 
     data:() => ({
         informeActual:[],
+        informacionLlenada:[],
+        informeID:Number,
         items: [
             {   titulo: 'Fecha de la observacion:',
                 escala: 'pequeño',
                 fila: '0',
                 posicionHorizontal: '0',
                 inputType: true,
+                campo: 'a'
             },
             {
                 titulo: 'Nro de Formulario:',
@@ -68,6 +76,7 @@
                 fila: '0',
                 posicionHorizontal: '1',
                 inputType: true,
+                campo: 'b'
             },
             {
                 titulo: 'Area:',
@@ -75,6 +84,7 @@
                 fila: '1',
                 posicionHorizontal: '0',
                 inputType: true,
+                campo: 'c'
             },
             {
                 titulo: 'Auditor que realizo observacion: ',
@@ -82,6 +92,7 @@
                 fila: '1',
                 posicionHorizontal: '1',
                 inputType: true,
+                campo: 'd'
             },
             {
                 titulo: 'Norma:',
@@ -89,6 +100,7 @@
                 fila: '2',
                 posicionHorizontal: '0',
                 inputType: true,
+                campo: 'e'
             },
             {
                 titulo: 'Clausula Afectada de la Norma: ',
@@ -96,6 +108,7 @@
                 fila: '2',
                 posicionHorizontal: '1',
                 inputType: true,
+                campo: 'f'
             },
             {
                 titulo: 'Tipo de Hallazgo: ',
@@ -141,6 +154,11 @@
         imprimir(){
                     console.log("jimmy");
             console.log(this.informeActual);
+        },
+        fillProps(value){
+            console.log("LLENANDO PROPS")
+            this.asignacionCardInfoExtra= {descripcionIncidencia: "yup yup"}
+            console.log(value)
         }
 
     }
@@ -186,7 +204,6 @@
             position: absolute;
             left: 1vw;
             width: 22vw;
-            background-color: green;
             height: 5vh;
             top: 8vh;
         }
@@ -195,7 +212,6 @@
             left:1vw;
             width: 47vw;
             height: 5vh;
-            background-color: green;
             top: 8vh;
         }
         .grandeTextField{
@@ -203,7 +219,6 @@
             left:1vw;
             width: 73vw;
             height: 5vh;
-            background-color: green;
             top: 8vh;
         }
 

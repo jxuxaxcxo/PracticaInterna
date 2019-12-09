@@ -99,7 +99,6 @@ export default {
         background-color: #ECECEC
     }
     .cardTitulo{
-        background-color: green;
         font-size: 100%;
     }
     .pequeñoTextField{

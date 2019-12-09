@@ -1,5 +1,6 @@
 <template>
     <div id="formPage">
+        <v-btn outlined="true" id="saveButton">Guardar</v-btn>
         <InformacionIncidencia />
     </div>
 </template>
@@ -22,5 +23,11 @@ export default {
     width: 100vw;
     background-color: #ECECEC;
     height: 300vh;
+    }
+    #saveButton{
+        position: absolute;
+        background-color: green;
+        right:1vw;
+        top:1vh;
     }
 </style>
