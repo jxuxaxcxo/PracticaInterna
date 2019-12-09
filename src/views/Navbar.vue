@@ -61,7 +61,7 @@
                       <template v-slot:activator>
                         <v-list-item-content>
                           <v-list-item-title
-                          @click="abrirPlanDeAccion(informe, k)"
+                          @click="abrirPlanDeAccion(informe, j)"
                           class = "nc-elem archivo" v-text="planDeAccion.nombre.replace('No conformidad: ', 'NC: ').replace('Observación: ', 'O: ').replace('Recomendación: ', 'R: ')">
                           </v-list-item-title>
                         </v-list-item-content>
@@ -126,7 +126,8 @@ export default {
         console.log('actualizando: ' + listaInf)
       },
       abrirPlanDeAccion (informe, planDeAccion) {
-
+        console.log('asdas')
+        this.$router.replace('/Auditorias/' + informe.origen + '/' + informe.idInforme + '/' + planDeAccion)
       },
       abrirTarea (informe, planDeAccion, tarea) {
         this.$router.replace('/tarea/' + informe.idInforme + '/' + planDeAccion + '/' + tarea)
