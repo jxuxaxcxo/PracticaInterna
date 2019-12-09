@@ -8,6 +8,14 @@
     <title>helloworld</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
+    <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
+<script>
+window.onLoadCallback = function(){
+  gapi.auth2.init({
+      client_id: '503904011595-5m6k31gi9l13hkgie64h6iol1706l3sh.apps.googleusercontent.com'
+    });
+}
+</script>
   </head>
   <body>
     <noscript>

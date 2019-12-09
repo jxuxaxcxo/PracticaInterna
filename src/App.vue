@@ -14,7 +14,6 @@
 
 <script>
 import Navbar from './views/Navbar.vue';
-import ListaPer from './views/ListaPer.vue';
 
 export default {
   name: 'App',
