@@ -12,15 +12,17 @@
         <v-list-item  @click="navigateTo('///')">
 
           <v-list-item-content >
-            <v-list-item-title class="title" >Mateo Puña</v-list-item-title>
-            <v-list-item-subtitle class = "white--text">mateo.ds3@shift.com</v-list-item-subtitle>        
+            <v-list-item-title class="title" >{{user.nombre + ' ' + user.apellido}}</v-list-item-title>
+            <v-list-item-subtitle class = "white--text">{{user.mail}}</v-list-item-subtitle>        
           </v-list-item-content>
         </v-list-item>
 
       <v-divider></v-divider>
 
 
-        <v-list-item link  @click="navigateTo('/crearUsuario/')">
+        <v-list-item
+        v-if="user.cargo === 'Administrador'"
+        link  @click="navigateTo('/crearUsuario/')">
            <v-list-item-icon>
               <v-icon>mdi-settings</v-icon>
           </v-list-item-icon>
@@ -134,6 +136,9 @@ export default {
       },
       pantallaPrincipal () {
         this.$router.replace('/')
+      },
+      navigateTo (to) {
+        this.$router.replace(to)
       }
     },
 
