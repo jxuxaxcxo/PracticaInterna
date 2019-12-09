@@ -55,16 +55,17 @@ export function agregarInforme(nombre, planesDeAccion, origen){
         if (change.type === 'added' && cargo === 'admin') {
           console.log("hola 3")
           credenciales.forEach(credencial => {
-            if (credencial.idInforme === change.doc.data().idInforme)
-              console.log('Agregando informe: ', change.doc.data().idInforme);
+            if (credencial.idInforme === change.doc.data().idInforme) {
+              console.log('Agregando informe: ' + change.doc.data().idInforme + ' otra wea ' + credencial.idInforme);
               informesList.push(change.doc.data());
+            }
               //console.log('Nuevo informe: ', change.doc.data().idInforme);
             })
         }
-        //  else if (change.type === 'added' && cargo !== 'admin'){
-        //    informesList.push(change.doc.data());
-        //    console.log('Nuevo informe: ', change.doc.data());
-        //  }
+         else if (change.type === 'added' && cargo !== 'admin'){
+           informesList.push(change.doc.data());
+           console.log('Nuevo informe: ', change.doc.data());
+         }
         if (change.type === 'modified') {
           
           console.log('Informe modificado: ', change.doc.data());

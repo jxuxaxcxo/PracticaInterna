@@ -7,6 +7,7 @@ import ReporteNC from './views/ReporteNC.vue'
 import Form from'./views/Form.vue'
 import FormsManager from'./views/FormsManager.vue'
 import Redirect from './views/Redirect'
+import TareaView from './views/TareaView'
 
 Vue.use(Router)
 
@@ -49,6 +50,11 @@ export default new Router({
       path: '/formsManager/',
       name: 'formsManager',
       component: FormsManager
+    },
+    {
+      path: '/tarea',
+      name: 'tarea',
+      component: TareaView
     }
 
   ]
