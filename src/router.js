@@ -52,7 +52,7 @@ export default new Router({
       component: FormsManager
     },
     {
-      path: '/tarea/',
+      path: '/tarea/:informe/:planDeAccion/:tarea',
       name: 'tarea',
       component: TareaView
     }

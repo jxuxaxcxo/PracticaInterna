@@ -11,7 +11,7 @@
                     placeholder="Seleccione un Informe"
                     label="Suba su Informe"
                     prepend-icon="mdi-paperclip"
-                    accept = ".docx"
+                    accept =".docx"
                     id="archivoSelector"
                     :rules="reglas.archivo"
                     ></v-file-input>
