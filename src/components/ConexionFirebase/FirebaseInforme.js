@@ -1,5 +1,6 @@
 import db from '../ConexionFirebase/Firebase'
 import { getUsuarioById, getUserCredentials } from '../ConexionFirebase/FirebaseUsuarios'
+import { isNullOrUndefined } from 'util';
 
 export function agregarInformeID(idInforme, nombre, planesDeAccion, origen) 
 {
@@ -43,21 +44,57 @@ export function agregarInforme(nombre, planesDeAccion, origen){
     return informesLista;
   }
 
-  export function listaInformes2() {
+  export function listaInformes2(user) {
     const informesList = [];
-    const cargo = 'admin'
-    const credenciales = [{idInforme: 5},{idInforme: 3},{idInforme: 4}]
+    const cargo = user.cargo
+    const mail = user.mail
+    const credenciales = user.credenciales
     let users = db.collection("informes").orderBy("idInforme", "asc")
     .onSnapshot(querySnapshot => {
       console.log("hola 1")
       querySnapshot.docChanges().forEach(change => {
         console.log("este es el cargo del usuario: " + cargo)
         if (change.type === 'added' && cargo === 'Usuario') {
-          console.log("hola 3")
+          console.log("hola 2")
           credenciales.forEach(credencial => {
-            if (credencial.idInforme === change.doc.data().idInforme) {
+            console.log("hola 3")
+            console.log(credencial.idInforme)
+            console.log(change.doc.data().idInforme)
+            if (credencial.idInforme.toString() === change.doc.data().idInforme) {
+              console.log("hola 4")
+              let informe = {
+                nombre: change.doc.data().nombre,
+                fechaAtribuible: change.doc.data().fechaAtribuible,
+                campos: [],
+                planesDeAccion: []
+              }
               console.log('Agregando informe: ' + change.doc.data().idInforme + ' otra wea ' + credencial.idInforme);
-              informesList.push(change.doc.data());
+              change.doc.data().planesDeAccion.forEach(pda => {
+                console.log("hola 5")
+                if (pda.mailEncargado === mail) {
+                  console.log("hola 6")
+                  informe.planesDeAccion.push(pda)
+                }else {
+                  console.log("hola 7")
+                  if (!isNullOrUndefined(pda.tareas)) {
+                  pda.tareas.forEach(tar => {
+                    console.log("hola 8")
+                    if (tar.mailEncargado === mail) {
+                      console.log("hola 9")
+                      informe.planesDeAccion.push({
+                        nombe: pda.nombre,
+                        mailEncargado: pda.mailEncargado,
+                        ocurrencias: [],
+                        campos: [],
+                        formatoNombre: '',
+                        tareas: tar
+                      })
+                    }
+                  })
+                }
+                }
+              })
+              informesList.push(informe);
             }
               //console.log('Nuevo informe: ', change.doc.data().idInforme);
             })

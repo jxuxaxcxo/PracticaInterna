@@ -87,7 +87,7 @@ export function listaUsuarios2() {
 
   return usersList;
 }
-export function actualizarUsuario(id, usuario){
+export function actualizarUsuario1(id, usuario){
   
   db.collection("usuarios")
   .doc(id)

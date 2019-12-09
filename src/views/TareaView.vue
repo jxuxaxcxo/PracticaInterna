@@ -41,6 +41,7 @@
             <v-btn
             outlined
             color="#252440"
+            :disabled="!acceso"
             @click="terminarTarea">
               Terminar Tarea
             </v-btn>
@@ -60,10 +61,17 @@ export default {
             estado: 'Pendiente',
             fechaLimite: '22/12/2019',
             archivoAdjunto: '',
-            comprobanteArchivo: ''
+            comprobanteArchivo: '',
+            mailEncargado: ''
         },
         archivo: null
     } 
+  },
+
+  components: {
+    acceso () {
+      return (this.$store.getters.getUser.cargo === 'Administrador' || (this.$store.getters.getUser.mail === this.mailEncargado))
+    }
   },
   
   mounted () {

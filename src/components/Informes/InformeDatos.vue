@@ -13,7 +13,6 @@
                     prepend-icon="mdi-paperclip"
                     accept =".docx"
                     id="archivoSelector"
-                    :rules="reglas.archivo"
                     ></v-file-input>
                 </v-col>
                 <v-col>
@@ -68,9 +67,6 @@ export default {
         titulo: [
           v => !!v || 'Este campo es necesario',
           v => v.length <= 63 || 'El titulo debe contener menos de 63 caracteres'
-        ],
-        archivo: [
-          v => !!v || 'Este campo es necesario',
         ],
         fecha: [
           v => !!v || 'Este campo es necesario',

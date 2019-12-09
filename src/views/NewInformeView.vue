@@ -16,6 +16,7 @@
         outlined
         color="#252440"
         @click="guardar"
+        :disabled="!acceso"
         >Guardar</v-btn>
       </v-col>
     </v-row>
@@ -52,7 +53,7 @@ import docx4js from "docx4js"
 import InformeDatos  from '../components/Informes/InformeDatos'
 import ListaIncidencias from '../components/Informes/ListaIncidencias'
 import { getInformeID, actualizarInforme } from '../components/ConexionFirebase/FirebaseInforme'
-import { listaUsuarios } from '../components/ConexionFirebase/FirebaseUsuarios'
+import { listaUsuarios, actualizarUsuario1 } from '../components/ConexionFirebase/FirebaseUsuarios'
 import { listaFormatos } from '../components/ConexionFirebase/FirebaseFormato'
 import { isNullOrUndefined } from 'util'
 import { functions } from 'firebase'
@@ -230,6 +231,16 @@ export default {
     },
     guardar () {
       if (this.datosValidos) {
+        this.planesDeAccion.forEach(pda => {
+          this.usuarios.forEach(usuario => {
+            if (usuario.mail === pda.mailEncargado) {
+              usuario.credenciales.push({
+                idInforme: this.id
+              })
+               actualizarUsuario1(usuario.mail, usuario)
+            }
+          })
+        })
         actualizarInforme(this.id, {
           origen: this.origen,
           idInforme: this.id,
@@ -281,11 +292,12 @@ export default {
       }
   },
   computed: {
-
-
+    acceso () {
+      return (this.user.cargo === 'Administrador')
+    },
     user () {
-        return this.$store.getters.getUser
-      },
+      return this.$store.getters.getUser
+    },
 
     idLink () {
       this.actualizar()

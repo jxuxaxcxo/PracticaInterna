@@ -45,24 +45,42 @@
                 >
                   <v-list-item-content>
                     <v-list-item-title
-                    auto-grow
                     @click="abrirInforme(informe)"
                     class = "informe-elem archivo" v-text="informe.nombre"></v-list-item-title>
                   </v-list-item-content>
                 </template>
 
                       <v-list-group
-                        v-for="(planDeAccion, i) in informe.planesDeAccion"
+                        v-for="(planDeAccion, j) in informe.planesDeAccion"
                         :key="i"
+                        no-action
+                      sub-group
                       >
                       <template v-slot:activator>
                         <v-list-item-content>
                           <v-list-item-title
-                          @click="abrirPlanDeAccion(informe, planDeAccion)"
+                          @click="abrirPlanDeAccion(informe, k)"
                           class = "nc-elem archivo" v-text="planDeAccion.nombre.replace('No conformidad: ', 'NC: ').replace('Observación: ', 'O: ').replace('Recomendación: ', 'R: ')">
                           </v-list-item-title>
                         </v-list-item-content>
                       </template>
+
+                        <v-list>
+                         <v-list-group
+                      v-for="(tarea, k) in planDeAccion.tareas"
+                      :key="i"
+                      
+                      >
+                        <template v-slot:activator>
+                          <v-list-item-content>
+                          <v-list-item-title
+                          @click="abrirTarea(informe, j, k)"
+                          class = "nc-elem archivo" v-text="tarea.nombre">
+                          </v-list-item-title>
+                        </v-list-item-content>
+                        </template>
+                      </v-list-group> 
+                        </v-list>
 
                       </v-list-group>
 
@@ -87,6 +105,9 @@ export default {
     },
 
     mounted () {
+      if (this.user === null || this.user === undefined){
+          this.$router.push('/login') 
+      }
       this.informes = this.informesDB
     },
 
@@ -105,8 +126,11 @@ export default {
       abrirPlanDeAccion (informe, planDeAccion) {
 
       },
+      abrirTarea (informe, planDeAccion, tarea) {
+        this.$router.replace('/tarea/' + informe.idInforme + '/' + planDeAccion + '/' + tarea)
+      },
       abrirInforme (informe) {
-        this.$router.push('/redirect/' + informe.origen + '/' + informe.idInforme + '/')
+        this.$router.replace('/redirect/' + informe.origen + '/' + informe.idInforme + '/')
       },
       pantallaPrincipal () {
         this.$router.replace('/')
@@ -121,18 +145,11 @@ export default {
       },
       
       informesDB: function () {
-        console.log(listaInformes2())
-        this.actualizarInformes(listaInformes2())
-        return listaInformes2()
+        console.log(listaInformes2(this.user))
+        this.actualizarInformes(listaInformes2(this.user))
+        return listaInformes2(this.user)
       }
 
-    },
-
-
-    mounted () {
-        if (this.user === null || this.user === undefined){
-          this.$router.push('/login') 
-        }
     },
 
     watch: {

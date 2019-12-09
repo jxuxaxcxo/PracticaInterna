@@ -212,7 +212,6 @@ export default {
       }
     },
     formatoElegido: function(val) {
-      console.log('-1')
       if (val !== null)
       {
         val.campos.forEach(campo => {
