@@ -1,9 +1,9 @@
 import db from '../ConexionFirebase/Firebase'
 
-export function agregarUsuario(usuario) 
+export function agregarUsuario(uid,usuario) 
 {
 
-db.collection('usuarios').add(usuario).then(() => {
+db.collection('usuarios').doc(uid).set(usuario).then(() => {
     console.log("User is added to db.")
 })
 }
