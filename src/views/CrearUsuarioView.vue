@@ -118,6 +118,7 @@
 </template>
 
 <script>
+import { agregarUsuario } from '../components/ConexionFirebase/FirebaseUsuarios'
   export default {
     name : 'CrearUsuario',
     data () {
@@ -201,7 +202,7 @@
     computed: {
 
       user () {
-        return this.$store.getters.user
+        return this.$store.getters.getUser
       }
     },
 
@@ -222,7 +223,17 @@
  
     methods: {
       clickRegistrar () {
-        this.$store.dispatch('registrarUsuario', {email: this.email, contrasena: this.contrasena})
+        const newUser = {
+          
+        }
+        this.$store.dispatch('registrarUsuario', {email: this.email, contrasena: this.contrasena}).then(success => {
+          agregarUsuario(this.$store.getters.getUser)
+        })
+        
+      },
+
+      compararContrasenas () {
+        return true
       }
     }
   }

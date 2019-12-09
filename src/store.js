@@ -29,7 +29,7 @@ export default new Vuex.Store({
                             contrasena: datos.contrasena
                         }
 
-                        agregarUsuario(nuevoUsuario)
+                        
                     }
                 ).catch(
                     error => {
