@@ -9,6 +9,7 @@ import Redirect from './views/Redirect'
 import NewInformeView from './views/NewInformeView.vue'
 import Login from './components/Login/Login.vue'
 import CrearUsuarioView from './views/CrearUsuarioView.vue'
+import TareaView from './views/TareaView'
 
 Vue.use(Router)
 
@@ -52,14 +53,9 @@ export default new Router({
             component: FormsManager
         },
         {
-            path: '/login/',
-            name: 'Inicio Sesion',
-            component: Login
-        },
-        {
-            path: '/crearUsuario/',
-            name: 'CrearUsuario',
-            component: CrearUsuarioView
+            path: '/tarea/',
+            name: 'tarea',
+            component: TareaView
         }
 
     ]
