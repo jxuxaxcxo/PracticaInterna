@@ -117,7 +117,7 @@ export default {
 
 
     user () {
-        return this.$store.getters.user
+        return this.$store.getters.getUser
       },
       
       informesDB: function () {
@@ -128,20 +128,20 @@ export default {
 
     },
 
+
     mounted () {
-        if (this.user == null || this.user == undefined){
+        if (this.user === null || this.user === undefined){
           this.$router.push('/login') 
         }
     },
 
     watch: {
-      user (value) {
-        if (value === null || value === undefined){
+      user () {
+        if (this.user === null || this.user === undefined){
           this.$router.push('/login') 
         }
       }
     },
-
 
 }
 </script>

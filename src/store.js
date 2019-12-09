@@ -6,30 +6,40 @@ import { agregarUsuario } from './components/ConexionFirebase/FirebaseUsuarios'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-    state: { usuario: null },
+    state: {
+        usuario: null,
+        usuarioCreado: null
+    },
     mutations: {
         setUsuario(state, usuario) {
             this.state.usuario = usuario
 
+        },
+
+        creadoUser(state, usuarioCreado) {
+            this.state.usuarioCreado = usuarioCreado
         }
+
     },
     actions: {
-        registrarUsuario({ commit }, datos) {
+        registrarUsuario(context, datos) {
             let nuevoUsuario
             firebase.auth().createUserWithEmailAndPassword(datos.email, datos.contrasena)
                 .then(
                     user => {
                         nuevoUsuario = {
-                            id: user.user.uid,
-                            nombre: 'mateo',
-                            apellido: 'puna',
-                            cargo: 'administrador',
-                            tipoUsuario: 'administrador',
-                            mail: user.email,
-                            contrasena: datos.contrasena
-                        }
+                                id: user.user.uid,
+                                nombre: 'mateo',
+                                apellido: 'puna',
+                                cargo: 'administrador',
+                                mail: user.email,
+                                contrasena: datos.contrasena,
+                                credenciales: []
+                            },
 
+                            context.commit('creadoUser', nuevoUsuario)
                         agregarUsuario(nuevoUsuario)
+
                     }
                 ).catch(
                     error => {
@@ -49,10 +59,9 @@ export default new Vuex.Store({
                             nombre: 'mateo',
                             apellido: 'puna',
                             cargo: 'administrador',
-                            tipoUsuario: 'administrador',
                             mail: datos.email,
-                            contrasena: datos.contrasena
-
+                            contrasena: datos.contrasena,
+                            credenciales: []
                         }
 
                         context.commit('setUsuario', usuarioActual)
