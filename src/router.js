@@ -57,6 +57,16 @@ export default new Router({
             path: '/tarea/',
             name: 'tarea',
             component: TareaView
+        },
+        {
+            path: '/login/',
+            name: 'login',
+            component: Login
+        },
+        {
+            path: '/crearUsuario/',
+            name: 'crearUsuario',
+            component: CrearUsuarioView
         }
 
     ]
