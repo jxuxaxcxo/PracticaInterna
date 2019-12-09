@@ -86,6 +86,18 @@ export function listaUsuarios2() {
 
     return usersList;
 }
+export function actualizarUsuario1(id, usuario) {
+
+    db.collection("usuarios")
+        .doc(id)
+        .update(usuario)
+}
+export function eliminarUsuario(id) {
+
+    db.collection("usuarios")
+        .doc(id)
+        .delete()
+}
 export function actualizarUsuario(mail, nombre, apellido, cargo, contrasena) {
     const usuario = {
         nombre: nombre,

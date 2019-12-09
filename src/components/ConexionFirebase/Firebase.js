@@ -1,5 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+import 'firebase/storage'
+
 
 
 var firebaseConfig = {
@@ -11,10 +13,11 @@ var firebaseConfig = {
     messagingSenderId: "145963684426",
     appId: "1:145963684426:web:337aa41f7fefeaf63a8cb3",
     measurementId: "G-QVMRGRH6GF"
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const storage = firebase.storage();
 
 // db.settings({ timestampsInSnapshots: true });
 
