@@ -52,7 +52,7 @@ export function agregarInforme(nombre, planesDeAccion, origen){
       console.log("hola 1")
       querySnapshot.docChanges().forEach(change => {
         console.log("este es el cargo del usuario: " + cargo)
-        if (change.type === 'added' && cargo === 'admin') {
+        if (change.type === 'added' && cargo === 'Usuario') {
           console.log("hola 3")
           credenciales.forEach(credencial => {
             if (credencial.idInforme === change.doc.data().idInforme) {
@@ -62,7 +62,7 @@ export function agregarInforme(nombre, planesDeAccion, origen){
               //console.log('Nuevo informe: ', change.doc.data().idInforme);
             })
         }
-         else if (change.type === 'added' && cargo !== 'admin'){
+         else if (change.type === 'added' && cargo === 'Administrador'){
            informesList.push(change.doc.data());
            console.log('Nuevo informe: ', change.doc.data());
          }
