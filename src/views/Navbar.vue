@@ -1,10 +1,10 @@
 <template>
     <div>
-        <v-navigation-drawer app v-model = "drawer" color = "#003366" permanent>
+        <v-navigation-drawer app v-model = "drawer" color = "#252440" permanent>
       <v-list>
         <v-list-item>
           <v-list-item-avatar right size= 80>
-            <v-img src="https://scontent.fcbb1-2.fna.fbcdn.net/v/t31.0-8/21688273_1894686887516782_1761331422367946529_o.jpg?_nc_cat=101&_nc_oc=AQly_HtWmawnFSQRzM6bG28j4m-PkvvP9uTiTyhBSKohXDIGnSWkRmbiH7BnYS7fe44&_nc_ht=scontent.fcbb1-2.fna&oh=7f2d8660c2a8212b45c8969e02bf58ce&oe=5E2C90AC"></v-img>
+            <v-img class="logo" src="../assets/upbLogo.png"></v-img>
           </v-list-item-avatar>
         </v-list-item>
 
@@ -43,9 +43,10 @@
                 <template v-slot:activator
                 >
                   <v-list-item-content>
-                    <router-link
-                    class = "informe-elem"
-                    :to="'/Auditorias/' + informe.origen + '/' + informe.idInforme">{{informe.nombre}}</router-link>
+                    <v-list-item-title
+                    auto-grow
+                    @click="abrirInforme(informe)"
+                    class = "informe-elem archivo" v-text="informe.nombre"></v-list-item-title>
                   </v-list-item-content>
                 </template>
 
@@ -55,10 +56,10 @@
                       >
                       <template v-slot:activator>
                         <v-list-item-content>
-                          <router-link
-                          class = "nc-elem"
-                          :to="'/Auditorias/' + informe.origen + '/' + informe.idInforme + '/' + i"
-                          >{{planDeAccion.nombre}}</router-link>
+                          <v-list-item-title
+                          @click="abrirPlanDeAccion(informe, planDeAccion)"
+                          class = "nc-elem archivo" v-text="planDeAccion.nombre.replace('No conformidad: ', 'NC: ').replace('Observación: ', 'O: ').replace('Recomendación: ', 'R: ')">
+                          </v-list-item-title>
                         </v-list-item-content>
                       </template>
 
@@ -93,6 +94,12 @@ export default {
       actualizarInformes (listaInf) {
         this.informes = listaInf;
         console.log('actualizando: ' + listaInf)
+      },
+      abrirPlanDeAccion (informe, planDeAccion) {
+
+      },
+      abrirInforme (informe) {
+        this.$router.push('/redirect/' + informe.origen + '/' + informe.idInforme + '/')
       }
     },
 
@@ -130,6 +137,12 @@ export default {
         color: #ffffff;
         text-align: center;
 
+    }
+    .archivo {
+      font-size: 75%;
+    }
+    .logo {
+      margin-left: 1vw;
     }
    
  </style>

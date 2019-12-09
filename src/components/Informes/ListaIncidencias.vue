@@ -364,7 +364,7 @@ export default {
 </script>
 <style scoped>
 .titulo {
-    background-color: #3B83BD;
+    background-color: #252440;
 }
 .noMargenIzquierdoTabla {
     margin-left: -2vw;

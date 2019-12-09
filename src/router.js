@@ -6,6 +6,7 @@ import NewInformeView from'./views/NewInformeView.vue'
 import ReporteNC from './views/ReporteNC.vue'
 import Form from'./views/Form.vue'
 import FormsManager from'./views/FormsManager.vue'
+import Redirect from './views/Redirect'
 
 Vue.use(Router)
 
@@ -33,8 +34,12 @@ export default new Router({
       path: '/reporteNC/',
       name: 'reporteNC',
       component: ReporteNC
-    }
-,
+    },
+    {
+      path: '/redirect/:origen/:id',
+      name: 'redirect',
+      component: Redirect
+    },
     {
       path: '/form/',
       name: 'form',
