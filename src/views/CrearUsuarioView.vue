@@ -104,12 +104,22 @@
 
     <v-data-table
     :headers="headers"
-    :items="desserts"
+    :items="listaUsuarios"
     :items-per-page="5"
     class="elevation-1"
     @click:row = "openEditWindow"
 
-  ></v-data-table>
+  >
+   <template slot="items" slot-scope="props">
+          <tr @click="openEditWindow(props.item)">
+          <td>{{ props.item.name }}</td>
+          <td class="text-xs-right">{{ props.item.nombre }}</td>
+          <td class="text-xs-right">{{ props.item.apellido }}</td>
+          <td class="text-xs-right">{{ props.item.cargo }}</td>
+          <td class="text-xs-right">{{ props.item.email }}</td>
+            </tr>
+        </template>
+        </v-data-table>
 
 
     <v-dialog
@@ -167,20 +177,6 @@
                   </v-flex>
                 </v-layout>
 
-
-                <v-layout row>
-                  <v-flex xs12>
-                    <v-text-field
-                      name="email"
-                      label="Correo electrónico"
-                      id="email"
-                      v-model="emailDialog"
-                      type="email"
-                      color="#003366"
-                      required>
-                      </v-text-field>
-                  </v-flex>
-                </v-layout>
                 <v-layout row>
                   <v-flex xs12>
                     <v-text-field
@@ -207,8 +203,8 @@
                 </v-layout>
                 <v-layout row>
                   <v-flex xs12>
-                    <v-btn type="submit" color="#003366" dark>Editar Usuario</v-btn>
-                     <v-btn  color="#B11226" dark>Eliminar Usuario</v-btn>
+                    <v-btn type="submit" color="#003366"  @click= "clickEditarUser" dark>Editar Usuario</v-btn>
+                     <v-btn  color="#B11226" @click= "clickEliminarUser" dark>Eliminar Usuario</v-btn>
 
                   </v-flex>
                 </v-layout>
@@ -227,7 +223,7 @@
 </template>
 
 <script>
-import { agregarUsuario, listaUsuarios2 } from '../components/ConexionFirebase/FirebaseUsuarios'
+import { agregarUsuario, listaUsuarios2, actualizarUsuario, eliminarUsuario} from '../components/ConexionFirebase/FirebaseUsuarios'
   export default {
     name : 'CrearUsuario',
     data () {
@@ -262,7 +258,7 @@ import { agregarUsuario, listaUsuarios2 } from '../components/ConexionFirebase/F
           { text: 'cargo', value: 'cargo' },
           { text: 'Email', value: 'mail' },
         ],
-        desserts:  listaUsuarios2()       
+        listaUsuarios:  listaUsuarios2()       
       }
     },
 
@@ -305,8 +301,23 @@ import { agregarUsuario, listaUsuarios2 } from '../components/ConexionFirebase/F
         return this.confirmarContrasena === this.contrasena
       },
 
-      openEditWindow(){
+      openEditWindow(usuario){
         this.dialog = true
+        console.log(usuario)
+
+        this.emailDialog = usuario.mail
+        this.nombreDialog = usuario.nombre
+        this.apellidoDialog = usuario.apellido
+        this.cargoDialog = usuario.cargo
+        this.contrasenaDialog = usuario.contrasena
+      },
+
+      clickEditarUser(){
+        console.log(this.emailDialog)
+        actualizarUsuario(this.emailDialog, this.nombreDialog, this.apellidoDialog, this.cargoDialog, this.contrasenaDialog)
+      },
+      clickEliminarUser(){
+        eliminarUsuario(this.emailDialog)
       }
     }
   }
