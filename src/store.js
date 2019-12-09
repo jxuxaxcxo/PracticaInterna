@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as firebase from 'firebase'
+import { agregarUsuario } from './components/ConexionFirebase/FirebaseUsuarios'
 
 Vue.use(Vuex)
 
@@ -8,7 +9,6 @@ export default new Vuex.Store({
     state: { usuario: null },
     mutations: {
         setUsuario(state, usuario) {
-            console.log(usuario)
             this.state.usuario = usuario
 
         }
@@ -29,6 +29,7 @@ export default new Vuex.Store({
                             contrasena: datos.contrasena
                         }
 
+                        agregarUsuario(nuevoUsuario)
                     }
                 ).catch(
                     error => {
@@ -53,7 +54,7 @@ export default new Vuex.Store({
                             contrasena: datos.contrasena
 
                         }
-                        console.log(user)
+
                         context.commit('setUsuario', usuarioActual)
                     }
 

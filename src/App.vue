@@ -16,29 +16,25 @@
 <script>
 import Navbar from './views/Navbar.vue';
 import ListaPer from './views/ListaPer.vue';
-import Login from './components/Login/Login.vue';
 
 
 export default {
   name: 'App',
   components: {
-    Navbar,
-    Login
-  },
-  data: () => ({
-    //
-  }),
+    Navbar
+      },
+    
+    computed : {
 
-      computed : {
-
-      user () {
-        return this.$store.getters.user
+    user () {
+        return this.$store.getters.getUser
       }
     },
 
     mounted () {
-        if (this.user == null || this.user == undefined){
-          this.$router.push('/Login') 
+        if (this.user === null || this.user === undefined){
+          console.log("Entre aqui mounted app")
+          this.$router.replace('/login') 
         }
     },
 
@@ -46,8 +42,9 @@ export default {
 
         watch: {
       user (value) {
-        if (value == null || value == undefined){
-          this.$router.push('/Login') 
+        if ( value === null || value === undefined){
+          console.log("entre watch")
+          this.$router.replace('/login') 
         }
       }
     },

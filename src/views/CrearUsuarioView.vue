@@ -199,17 +199,22 @@
       }
     },
     computed: {
-      compararContrasenas () {
-        return this.contrasena !== this.confirmarContrasena ? 'Las contraseñas no coinciden' : ''
-      },
+
       user () {
         return this.$store.getters.user
       }
     },
+
+    mounted () {
+        if (this.user == null || this.user == undefined){
+          this.$router.push('/login') 
+        }
+    },
+
     watch: {
-      user (value) {
-        if (value !== null && value !== undefined){
-          this.$router.push('/') 
+      user () {
+        if (this.user === null || this.user === undefined){
+          this.$router.push('/login') 
         }
       }
     },

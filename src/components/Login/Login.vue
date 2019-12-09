@@ -91,6 +91,12 @@
 
     },
 
+
+    mounted () {
+        if (this.user !== null && this.user !== undefined){
+          this.$router.replace('/') 
+        }
+    },
     computed : {
       user () {
         return this.$store.getters.getUser
@@ -98,9 +104,9 @@
     },
 
      watch: {
-      user (value) {
+      user (value)  {
         if (value !== null && value !== undefined){
-          this.$router.push('/') 
+          this.$router.replace('/') 
         }
       }
     },

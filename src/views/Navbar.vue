@@ -85,8 +85,6 @@ export default {
         this.$router.push(to)
       }
     },
-    data: () => ({
-      drawer : true
 
     mounted () {
       this.informes = this.informesDB
@@ -113,12 +111,33 @@ export default {
     },
 
     computed: {
+
+
+    user () {
+        return this.$store.getters.user
+      },
+      
       informesDB: function () {
         console.log(listaInformes2())
         this.actualizarInformes(listaInformes2())
         return listaInformes2()
       }
-    }
+
+    },
+
+    mounted () {
+        if (this.user == null || this.user == undefined){
+          this.$router.push('/login') 
+        }
+    },
+
+    watch: {
+      user (value) {
+        if (value === null || value === undefined){
+          this.$router.push('/login') 
+        }
+      }
+    },
 
 
 }

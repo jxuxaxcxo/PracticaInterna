@@ -68,5 +68,26 @@
         { icon: 'mdi-account', iconClass: 'grey lighten-1 white--text', title: 'Lucas' , subtitle: 'Admin.' },
       ]
     }),
+
+  computed: {
+
+      user () {
+        return this.$store.getters.user
+      }
+    },
+
+    mounted () {
+        if (this.user == null || this.user == undefined){
+          this.$router.push('/login') 
+        }
+    },
+
+    watch: {
+      user () {
+        if (this.user === null || this.user === undefined){
+          this.$router.push('/login') 
+        }
+      }
+    },
   }
 </script>
