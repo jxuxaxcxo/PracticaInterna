@@ -25,7 +25,9 @@ export default {
     Block2,
     Block3,
     Block4
-  },
+  }
+
+  
 };
 </script>
 

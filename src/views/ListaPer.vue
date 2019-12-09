@@ -68,5 +68,7 @@
         { icon: 'mdi-account', iconClass: 'grey lighten-1 white--text', title: 'Lucas' , subtitle: 'Admin.' },
       ]
     }),
+
+  
   }
 </script>

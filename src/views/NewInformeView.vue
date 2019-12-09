@@ -89,6 +89,12 @@ export default {
       self.fechaAtribuible = val.fechaAtribuible.toISOString().substr(0, 10)
     })
   },
+
+  mounted () {
+        if (this.user === null || this.user === undefined){
+          this.$router.push('/login') 
+        }
+    },
   methods: {
     setArchivo (val) {
       this.archivo = val
@@ -266,9 +272,21 @@ export default {
           }
         })
       }
-    }
+    },
+
+    user () {
+        if (this.user === null || this.user === undefined){
+          this.$router.push('/login') 
+        }
+      }
   },
   computed: {
+
+
+    user () {
+        return this.$store.getters.getUser
+      },
+
     idLink () {
       this.actualizar()
       return this.$route.params.id

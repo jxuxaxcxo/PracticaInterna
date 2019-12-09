@@ -8,8 +8,11 @@ Vue.config.silent = true
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  store,
-  vuetify,
-  render: function (h) { return h(App) }
+    router,
+    store,
+    vuetify,
+    render: function(h) { return h(App) },
+    created() {
+
+    }
 }).$mount('#app')
