@@ -22,6 +22,18 @@ export default new Router({
         },
 
         {
+            path: '/login/',
+            name: 'login',
+            component: Login
+        },
+
+        {
+            path: '/crearUsuario/',
+            name: 'crearUsuario',
+            component: CrearUsuarioView
+        },
+
+        {
             path: '/listaper/',
             name: 'listaPer',
             component: ListaPer

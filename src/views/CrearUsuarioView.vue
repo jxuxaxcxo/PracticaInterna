@@ -41,17 +41,12 @@
 
                 <v-layout row>
                   <v-flex xs12>
-                    <v-text-field
-                      name="cargo"
-                      label="C
-                      
-                      argo"
-                      id="cargo"
-                      v-model="cargo"
-                      type="text"
-                      color="#003366"
-                      required>
-                      </v-text-field>
+                  <v-col class="d-flex" cols="12" sm="6">
+                    <v-select
+                      :items="cargos"
+                      label="Cargo"
+                    ></v-select>
+                  </v-col>
                   </v-flex>
                 </v-layout>
 
@@ -123,11 +118,17 @@ import { agregarUsuario } from '../components/ConexionFirebase/FirebaseUsuarios'
     name : 'CrearUsuario',
     data () {
       return {
+
+        
         email: '',
         contrasena: '',
+        nombre: '',
+        apellido: '',
+        cargo: '',
         confirmarContrasena: '',
+        cargos: ['Administrador','Usuario'],
 
-                headers: [
+        headers: [
           {
             text: 'Nombre',
             align: 'left',
@@ -136,7 +137,6 @@ import { agregarUsuario } from '../components/ConexionFirebase/FirebaseUsuarios'
           },
           { text: 'Apellido', value: 'apellido' },
           { text: 'cargo', value: 'cargo' },
-          { text: 'Tipo Usuario', value: 'tipo' },
           { text: 'Email', value: 'email' },
         ],
         desserts: [
@@ -144,61 +144,54 @@ import { agregarUsuario } from '../components/ConexionFirebase/FirebaseUsuarios'
             name: 'Mateo Puña',
             apellido: "",
             cargo: 6.0,
-            tipo: 24,
             email: 4.0,
           },
           {
             name: 'Javier Soruco',
             apellido: 237,
             cargo: 9.0,
-            tipo: 37,
             email: 4.3,
           },
           {
             name: 'Joaquin Vargas',
             apellido: 262,
             cargo: 16.0,
-            tipo: 23,
             email: 6.0,
           },
           {
             name: 'Jhon RIvero',
             apellido: 305,
             cargo: 3.7,
-            tipo: 67,
             email: 4.3,
           },
           {
             name: 'Ignacio Ballon',
             apellido: 356,
             cargo: 16.0,
-            tipo: 49,
             email: 3.9,
           },
           {
             name: 'Tomas Carvajal',
             apellido: 375,
             cargo: 0.0,
-            tipo: 94,
             email: 0.0,
           },
           {
             name: 'Adriana Orellana',
             apellido: 392,
             cargo: 0.2,
-            tipo: 98,
             email: 0,
           },
           {
             name: 'Angel Zenteno',
             apellido: 408,
             cargo: 3.2,
-            tipo: 87,
             email: 6.5,
           },
         ],
       }
     },
+
     computed: {
 
       user () {
@@ -207,7 +200,9 @@ import { agregarUsuario } from '../components/ConexionFirebase/FirebaseUsuarios'
     },
 
     mounted () {
-        if (this.user == null || this.user == undefined){
+        if (this.user === null || this.user === undefined){
+          console.log
+          console.log("mounter crear usuario")
           this.$router.push('/login') 
         }
     },
@@ -215,25 +210,28 @@ import { agregarUsuario } from '../components/ConexionFirebase/FirebaseUsuarios'
     watch: {
       user () {
         if (this.user === null || this.user === undefined){
+          console.log("watch crear usuario")
           this.$router.push('/login') 
         }
       }
     },
-
  
     methods: {
       clickRegistrar () {
         const newUser = {
           
         }
-        this.$store.dispatch('registrarUsuario', {email: this.email, contrasena: this.contrasena}).then(success => {
+        this.$store.dispatch('registrarUsuario', {nombre: this.nombre, apellido: this.apellido,
+                                                  email: this.email, contrasena: this.contrasena,
+                                                  cargo: this.cargo}).then(success => {
           agregarUsuario(this.$store.getters.getUser)
         })
         
       },
 
       compararContrasenas () {
-        return true
+        return this.confirmarContrasena === this.confirmarContrasena
+
       }
     }
   }

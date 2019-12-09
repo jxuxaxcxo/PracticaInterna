@@ -17,18 +17,21 @@ export default {
       }
     },
 
-    mounted () {
-        if (this.user == null || this.user == undefined){
-          this.$router.replace('/Login') 
+        mounted () {
+        if (this.user === null || this.user === undefined){
+          this.$router.push('/login') 
         }
-    },   
+    },
 
     watch: {
       user () {
-        if (this.user == null || this.user == undefined){
-          this.$router.replace('/Login') 
+        if (this.user === null || this.user === undefined){
+          this.$router.push('/login') 
         }
       }
-    },
+    }
+
+
+
 };
 </script>
