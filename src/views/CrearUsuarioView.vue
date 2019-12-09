@@ -44,6 +44,7 @@
                   <v-col class="d-flex" cols="12" sm="6">
                     <v-select
                       :items="cargos"
+                      v-model="cargo"
                       label="Cargo"
                     ></v-select>
                   </v-col>
@@ -218,6 +219,11 @@
     methods: {
       clickRegistrar () {
         console.log(this.nombre)
+        console.log(this.apellido)
+        console.log(this.email)
+        console.log(this.contrasena)
+        console.log(this.cargo)
+
         this.$store.dispatch('registrarUsuario', {nombre: this.nombre, apellido: this.apellido,
                                                   email: this.email, contrasena: this.contrasena,
                                                   cargo: this.cargo})

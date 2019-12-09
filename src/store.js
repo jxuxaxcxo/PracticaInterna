@@ -29,13 +29,14 @@ export default new Vuex.Store({
                     user => {
                         nuevoUsuario = {
                                 id: user.user.uid,
-                                nombre: 'mateo',
-                                apellido: 'puna',
-                                cargo: 'administrador',
-                                mail: user.email,
+                                nombre: datos.nombre,
+                                apellido: datos.apellido,
+                                cargo: datos.cargo,
+                                mail: datos.email,
                                 contrasena: datos.contrasena,
                                 credenciales: []
                             },
+
 
                             context.commit('creadoUser', nuevoUsuario)
                         agregarUsuario(nuevoUsuario)
@@ -56,9 +57,9 @@ export default new Vuex.Store({
                     user => {
                         usuarioActual = {
                             id: user.user.uid,
-                            nombre: 'mateo',
-                            apellido: 'puna',
-                            cargo: 'administrador',
+                            nombre: '',
+                            apellido: '',
+                            cargo: '',
                             mail: datos.email,
                             contrasena: datos.contrasena,
                             credenciales: []
