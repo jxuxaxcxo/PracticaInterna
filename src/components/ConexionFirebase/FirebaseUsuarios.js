@@ -109,12 +109,7 @@ export function actualizarUsuario(mail, nombre, apellido, cargo, contrasena) {
         .doc(mail)
         .update(usuario)
 }
-export function eliminarUsuario(mail) {
 
-    db.collection("usuarios")
-        .doc(mail)
-        .delete()
-}
 export function buscarUsuario(mail) {
     const usuariosLista = [];
     let usuarios = db.collection("usuarios")

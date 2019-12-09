@@ -69,6 +69,7 @@
 </template>
 
 <script>
+  import { buscarUsuario } from '../ConexionFirebase/FirebaseUsuarios.js'
   export default {
 
     name : 'Login',
@@ -85,7 +86,8 @@
             methods: {
       clickEntrar () {
         console.log("Llegue aqui")
-        this.$store.dispatch('iniciarSesion', {email: this.email, contrasena: this.contrasena})
+        let userDB = buscarUsuario(this.email)
+          this.$store.dispatch('iniciarSesion', {email: this.email, contrasena: this.contrasena, userDB:  userDB})
 
       },
 

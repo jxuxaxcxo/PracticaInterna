@@ -40,15 +40,15 @@ export default new Vuex.Store({
                     user => {
                         usuarioActual = {
                             id: user.user.uid,
-                            nombre: '',
-                            apellido: '',
+                            nombre: datos.userDB.nombre,
+                            apellido: datos.userDB.apellido,
                             cargo: '',
                             mail: datos.email,
                             contrasena: datos.contrasena,
                             credenciales: []
                         }
-
-                        context.commit('setUsuario', usuarioActual)
+                        console.log(datos.userDB[0])
+                        context.commit('setUsuario', datos.userDB[0])
                     }
 
                 ).catch(

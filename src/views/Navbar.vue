@@ -145,7 +145,7 @@ export default {
       },
       
       informesDB: function () {
-        console.log(listaInformes2(this.user))
+        console.log('usuario: ' + listaInformes2(this.user))
         this.actualizarInformes(listaInformes2(this.user))
         return listaInformes2(this.user)
       }
