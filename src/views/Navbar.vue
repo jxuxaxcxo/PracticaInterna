@@ -1,10 +1,10 @@
 <template>
     <div>
-        <v-navigation-drawer app v-model = "drawer" color = "#252440" permanent>
+        <v-navigation-drawer app v-model = "drawer" color = "#3B83BD" permanent>
       <v-list>
         <v-list-item>
           <v-list-item-avatar right size= 80>
-            <v-img class="logo" src="../assets/upbLogo.png"></v-img>
+            <v-img class="logo" src="../assets/upbLogo.png" @click="pantallaPrincipal"></v-img>
           </v-list-item-avatar>
         </v-list-item>
 
@@ -100,6 +100,9 @@ export default {
       },
       abrirInforme (informe) {
         this.$router.push('/redirect/' + informe.origen + '/' + informe.idInforme + '/')
+      },
+      pantallaPrincipal () {
+        this.$router.replace('/')
       }
     },
 
