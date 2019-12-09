@@ -44,6 +44,7 @@
                   <v-col class="d-flex" cols="12" sm="6">
                     <v-select
                       :items="cargos"
+                      v-model="cargo"
                       label="Cargo"
                     ></v-select>
                   </v-col>
@@ -113,7 +114,7 @@
 </template>
 
 <script>
-import { agregarUsuario } from '../components/ConexionFirebase/FirebaseUsuarios'
+import { agregarUsuario, listaUsuarios2 } from '../components/ConexionFirebase/FirebaseUsuarios'
   export default {
     name : 'CrearUsuario',
     data () {
@@ -133,62 +134,13 @@ import { agregarUsuario } from '../components/ConexionFirebase/FirebaseUsuarios'
             text: 'Nombre',
             align: 'left',
             sortable: false,
-            value: 'name',
+            value: 'nombre',
           },
           { text: 'Apellido', value: 'apellido' },
           { text: 'cargo', value: 'cargo' },
-          { text: 'Email', value: 'email' },
+          { text: 'Email', value: 'mail' },
         ],
-        desserts: [
-          {
-            name: 'Mateo Puña',
-            apellido: "",
-            cargo: 6.0,
-            email: 4.0,
-          },
-          {
-            name: 'Javier Soruco',
-            apellido: 237,
-            cargo: 9.0,
-            email: 4.3,
-          },
-          {
-            name: 'Joaquin Vargas',
-            apellido: 262,
-            cargo: 16.0,
-            email: 6.0,
-          },
-          {
-            name: 'Jhon RIvero',
-            apellido: 305,
-            cargo: 3.7,
-            email: 4.3,
-          },
-          {
-            name: 'Ignacio Ballon',
-            apellido: 356,
-            cargo: 16.0,
-            email: 3.9,
-          },
-          {
-            name: 'Tomas Carvajal',
-            apellido: 375,
-            cargo: 0.0,
-            email: 0.0,
-          },
-          {
-            name: 'Adriana Orellana',
-            apellido: 392,
-            cargo: 0.2,
-            email: 0,
-          },
-          {
-            name: 'Angel Zenteno',
-            apellido: 408,
-            cargo: 3.2,
-            email: 6.5,
-          },
-        ],
+        desserts:  listaUsuarios2()       
       }
     },
 
@@ -218,13 +170,16 @@ import { agregarUsuario } from '../components/ConexionFirebase/FirebaseUsuarios'
  
     methods: {
       clickRegistrar () {
-        const newUser = {
-          
-        }
+        console.log(this.nombre)
+        console.log(this.apellido)
+        console.log(this.email)
+        console.log(this.contrasena)
+        console.log(this.cargo)
+
         this.$store.dispatch('registrarUsuario', {nombre: this.nombre, apellido: this.apellido,
                                                   email: this.email, contrasena: this.contrasena,
                                                   cargo: this.cargo}).then(success => {
-          agregarUsuario(this.$store.getters.getUser)
+          agregarUsuario(this.nombre, this.apellido, this.email, this.cargo, this.contrasena)
         })
         
       },
