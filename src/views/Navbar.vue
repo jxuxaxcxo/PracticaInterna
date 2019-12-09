@@ -98,7 +98,6 @@ export default {
 
     computed: {
       informesDB: function () {
-        console.log(listaInformes2())
         this.actualizarInformes(listaInformes2())
         return listaInformes2()
       }

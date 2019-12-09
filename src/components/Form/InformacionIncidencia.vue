@@ -1,6 +1,7 @@
 <template>
     <div >
         <h1 id="prueba">{{items[0].titulo}}</h1>
+        <v-btn v-on:click="imprimir">Prueba</v-btn>
         <v-card id="incidenciaInfoCard" :style= getAltura()>
             <v-card-title>Informacion de la Incidencia</v-card-title>
                  <v-card
@@ -30,13 +31,30 @@
 <script>
 
 import AsignacionIncidencia from '../../components/Form/AsignacionIncidencia';
+import { getInformeID } from '../../components/ConexionFirebase/FirebaseInforme'
+
 
 export default {
 
     props:{
         height: Number
     },
+
+    async mounted(){
+       var url = window.location.href;
+       var sections = url.split('/');
+       var informeID = sections[sections.length-2];
+
+       var informes =getInformeID('2').then(function(result){
+            this.informeActual= result
+        });
+
+
+
+    },
+
   data:() => ({
+    informeActual:[],
     items: [
         {   titulo: 'Fecha de la observacion:',
             escala: 'pequeño',
@@ -120,6 +138,10 @@ export default {
           this.height = heightSize;
         return 'height: ' + heightSize + 'vh;';
       },
+      imprimir(){
+                  console.log("jimmy");
+        console.log(this.informeActual);
+      }
 
   }
 };

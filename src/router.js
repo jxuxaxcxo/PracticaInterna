@@ -36,7 +36,7 @@ export default new Router({
     }
 ,
     {
-      path: '/form/',
+      path: '/Auditorias/:origen/:id/:number',
       name: 'form',
       component: Form
     },
