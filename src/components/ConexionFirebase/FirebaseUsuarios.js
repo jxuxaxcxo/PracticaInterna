@@ -20,6 +20,23 @@ export function listaUsuarios() {
   });
   return usuariosLista;
 }
+
+export function getUsuarioById(uid) {
+  let usuariosRef = db.collection('usuarios').doc(uid)
+   let usuario = usuariosRef.get().then(function (doc){
+     return doc.data()
+    })
+    return usuario
+} 
+
+export function getUserCredentials(uid) {
+  let usuariosRef = db.collection('usuarios').doc(uid)
+   let usuario = usuariosRef.get().then(function (doc){
+     return doc.data().credenciales
+    })
+    return usuario
+}
+
 export function listaUsuarios3() {
   const usersList = [];
   db.collection('usuarios').onSnapshot(res => {
