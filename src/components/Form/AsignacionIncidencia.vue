@@ -9,17 +9,25 @@
                     :id = item.titulo
                     :style= singleStyle(item.fila,item.posicionHorizontal)>  
                     <v-card-title class="cardTitulo">{{item.titulo}}</v-card-title>     
-                            <v-text-field v-if= item.inputType :class= "item.escala+'TextField'"
+                            <v-text-field 
+                            v-if= item.inputType 
+                            :class= "item.escala+'TextField'"
+                            :value= item.campo
                             ></v-text-field>
 
                             <v-container v-if = item.selectorType >
                             <v-select class="selector"
+                                v-model= encargadoPlanDeAccion
                                 v-if = item.selectorType
                                 label="Encargado"
                                 :items="usuarios"
                                 item-text="mail"
                             ></v-select>
                             <h4 class="selectorArgumento">{{item.opcionInfo.primerArgumento}}</h4>
+                            <v-btn 
+                            v-on:click="notificarEncargado()"
+                            outlined = true 
+                            class="encargadoNotification">Informar Encargado</v-btn>
                             </v-container>
 
                 </v-card>
@@ -35,16 +43,26 @@ import { listaUsuarios } from '../../components/ConexionFirebase/FirebaseUsuario
 
 
 export default {  
-  props:{
-      topMargin: Number,
-      height: Number
-  } 
-  ,components: {
+        props:{
+            topMargin: Number,
+            height: Number,
+            infoExtra: ''
+        },
+
+      mounted(){
+        console.log("MOUNTED ASIGNACION")
+        var incidenciaNombrePartes = this.infoExtra.split(":");
+        this.items[0].campo = incidenciaNombrePartes[1];
+    },
+
+  components: {
       CorreccionIncidencia
     },
 
+
       data:() => ({
             usuarios:listaUsuarios(),
+            encargadoPlanDeAccion:'',
             items: [
                 {   titulo: 'Descripcion de la Incidencia:',
                     escala: 'grande',
@@ -52,7 +70,8 @@ export default {
                     posicionHorizontal: '0',
                     inputType: true,
                     opcionesType: false,
-                    selectorType: false
+                    selectorType: false,
+                    campo: ''
                 },
                 {
                     titulo: 'Responsable del Seguimiento:',
@@ -74,7 +93,8 @@ export default {
                     posicionHorizontal: '0',
                     inputType: true,
                     opcionesType: false,
-                    selectorType: false
+                    selectorType: false,
+                    campo: ''
                 }
         ]
 }),
@@ -98,6 +118,13 @@ export default {
         getAltura(){
         return 'height: ' + heightSize + 'vh;';
       },
+
+        notificarEncargado(){
+
+            console.log(this.encargadoPlanDeAccion);
+            console.log("NOTIFICANDO ENCARGADO: " + this.encargadoPlanDeAccion);
+        }
+
   }
 };
 </script>
@@ -138,7 +165,6 @@ export default {
         position: absolute;
         left: 1vw;
         width: 22vw;
-        background-color: green;
         height: 5vh;
         top: 8vh;
     }
@@ -147,7 +173,6 @@ export default {
         left:1vw;
         width: 47vw;
         height: 5vh;
-        background-color: green;
         top: 8vh;
     }
     .grandeTextField{
@@ -155,7 +180,6 @@ export default {
         left:1vw;
         width: 73vw;
         height: 5vh;
-        background-color: green;
         top: 8vh;
     }
 
@@ -169,5 +193,11 @@ export default {
         position: absolute;
         top:11vh;
         left:3vw;
+    }
+    .encargadoNotification{
+        position: absolute;
+        right: 3vw;
+        bottom: 1vh;
+        background-color: red;
     }
 </style>
