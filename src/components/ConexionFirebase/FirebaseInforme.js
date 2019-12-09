@@ -1,4 +1,5 @@
 import db from '../ConexionFirebase/Firebase'
+import { getUsuarioById, getUserCredentials } from '../ConexionFirebase/FirebaseUsuarios'
 
 export function agregarInformeID(idInforme, nombre, planesDeAccion, origen) 
 {
@@ -44,14 +45,27 @@ export function agregarInforme(nombre, planesDeAccion, origen){
 
   export function listaInformes2() {
     const informesList = [];
-    let users = db.collection("informes")
+    const cargo = 'admin'
+    const credenciales = [{idInforme: 5},{idInforme: 3},{idInforme: 4}]
+    let users = db.collection("informes").orderBy("idInforme", "asc")
     .onSnapshot(querySnapshot => {
+      console.log("hola 1")
       querySnapshot.docChanges().forEach(change => {
-      
-        if (change.type === 'added') {
-          informesList.push(change.doc.data());
-          console.log('Nuevo informe: ', change.doc.data());
+        console.log("este es el cargo del usuario: " + cargo)
+        if (change.type === 'added' && cargo === 'Usuario') {
+          console.log("hola 3")
+          credenciales.forEach(credencial => {
+            if (credencial.idInforme === change.doc.data().idInforme) {
+              console.log('Agregando informe: ' + change.doc.data().idInforme + ' otra wea ' + credencial.idInforme);
+              informesList.push(change.doc.data());
+            }
+              //console.log('Nuevo informe: ', change.doc.data().idInforme);
+            })
         }
+         else if (change.type === 'added' && cargo === 'Administrador'){
+           informesList.push(change.doc.data());
+           console.log('Nuevo informe: ', change.doc.data());
+         }
         if (change.type === 'modified') {
           
           console.log('Informe modificado: ', change.doc.data());

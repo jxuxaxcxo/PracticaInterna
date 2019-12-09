@@ -58,8 +58,8 @@
 
 
 <script>
-import { listaInformes, agregarInforme, actualizarInforme, eliminarInforme, autoincrementoAutomaticoInforme } from "../ConexionFirebase/FirebaseInforme"
-import { listaUsuarios, agregarUsuario, actualizarUsuario, eliminarUsuario } from "../ConexionFirebase/FirebaseUsuarios"
+import { listaInformes2, listaInformes, agregarInforme, actualizarInforme, eliminarInforme, autoincrementoAutomaticoInforme } from "../ConexionFirebase/FirebaseInforme"
+import { listaUsuarios, agregarUsuario, actualizarUsuario, eliminarUsuario, getUsuarioById, getUserCredentials } from "../ConexionFirebase/FirebaseUsuarios"
 import { listaFormatos, agregarFormato, actualizarFormato, eliminarFormato, autoincrementoAutomaticoFormato} from "../ConexionFirebase/FirebaseFormato"
 export default {
   
@@ -159,13 +159,15 @@ export default {
         //eliminarUsuario("7F6uWxdPrs1o0xXSzU5p")
         //console.log("----------------Lista de Ususarios---------------")
         //listaUsuarios()
-        autoincrementoAutomaticoInforme()
+        //autoincrementoAutomaticoInforme()
         //eliminarInforme(6)
         //autoincrementoAutomaticoFormato()
-        //console.log("----------------Lista de Formatos---------------")
+        console.log("----------------Lista de Credenciales---------------")
         //listaFormatos()
-        //console.log("----------------Lista de Informes---------------")
-        //listaInformes()
+        //console.log(getUsuarioById('8XP6QrZO52yO2I3ZZavc'))
+        const lista2 = listaInformes2()
+        console.log('lista2 => ' , lista2)
+        console.log("----------------fin---------------")
       }
     }
 }

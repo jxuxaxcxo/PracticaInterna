@@ -9,6 +9,7 @@ import Redirect from './views/Redirect'
 import NewInformeView from './views/NewInformeView.vue'
 import Login from './components/Login/Login.vue'
 import CrearUsuarioView from './views/CrearUsuarioView.vue'
+
 import TareaView from './views/TareaView'
 
 Vue.use(Router)
@@ -68,6 +69,16 @@ export default new Router({
             path: '/tarea/',
             name: 'tarea',
             component: TareaView
+        },
+        {
+            path: '/login/',
+            name: 'login',
+            component: Login
+        },
+        {
+            path: '/crearUsuario/',
+            name: 'crearUsuario',
+            component: CrearUsuarioView
         }
 
     ]

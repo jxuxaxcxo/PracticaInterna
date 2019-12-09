@@ -25,24 +25,7 @@ export default new Vuex.Store({
         registrarUsuario(context, datos) {
             let nuevoUsuario
             firebase.auth().createUserWithEmailAndPassword(datos.email, datos.contrasena)
-                .then(
-                    user => {
-                        nuevoUsuario = {
-                                id: user.user.uid,
-                                nombre: datos.nombre,
-                                apellido: datos.apellido,
-                                cargo: datos.cargo,
-                                mail: datos.email,
-                                contrasena: datos.contrasena,
-                                credenciales: []
-                            },
-
-
-                            context.commit('creadoUser', nuevoUsuario)
-                        agregarUsuario(nuevoUsuario)
-
-                    }
-                ).catch(
+               .catch(
                     error => {
                         console.log(error)
                     }
@@ -79,6 +62,9 @@ export default new Vuex.Store({
     getters: {
         getUser(state) {
             return state.usuario
+        },
+        getCreatedUser(state) {
+            return state.usuarioCreado
         }
     }
 })

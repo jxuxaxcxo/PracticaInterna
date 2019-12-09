@@ -1,9 +1,17 @@
 import db from '../ConexionFirebase/Firebase'
 
-export function agregarUsuario(usuario) 
+export function agregarUsuario(nombre, apellido, mail, cargo, contraseña) 
 {
+  const usuario = {
+    nombre: nombre,
+    apellido: apellido,
+    mail: mail,
+    cargo: cargo,
+    credenciales: [],
+    contraseña: contraseña 
+  }
 
-db.collection('usuarios').add(usuario).then(() => {
+db.collection('usuarios').doc(mail).set(usuario).then(() => {
     console.log("User is added to db.")
 })
 }
@@ -20,6 +28,23 @@ export function listaUsuarios() {
   });
   return usuariosLista;
 }
+
+export function getUsuarioById(mail) {
+  let usuariosRef = db.collection('usuarios').where("mail", "==", mail)
+  let usuario = usuariosRef.get().then(function (doc){
+     return doc.data()
+    })
+    return usuario
+} 
+
+export function getUserCredentials(uid) {
+  let usuariosRef = db.collection('usuarios').doc(uid)
+   let usuario = usuariosRef.get().then(function (doc){
+     return doc.data().credenciales
+    })
+    return usuario
+}
+
 export function listaUsuarios3() {
   const usersList = [];
   db.collection('usuarios').onSnapshot(res => {
