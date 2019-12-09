@@ -9,7 +9,8 @@ export default {
 
     components:{
         FormEditor
-    }
+    },
+
 
 }
 </script>

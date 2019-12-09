@@ -14,7 +14,7 @@
         <v-btn
         id="guardarInforme"
         outlined
-        color="#252440"
+        color="#3B83BD"
         @click="guardar"
         >Guardar</v-btn>
       </v-col>

@@ -11,21 +11,6 @@
           <v-card-title>{{tarea.estado}}</v-card-title>
         </v-col>
         </v-row>
-        <v-row>
-            <v-col>
-                <v-file-input
-                v-model="tarea.archivoAdjunto"
-                placeholder="Archivo adjunto a la tarea"
-                prepend-icon="mdi-paperclip"
-                id="archivoAdjuntoTarea"
-                >
-                </v-file-input>
-                <v-text-area
-                placeholder="Descripcion del proceso de realizacion de la tarea"
-                >
-                </v-text-area>
-            </v-col>
-        </v-row>
     </v-container>
 </template>
 <script>

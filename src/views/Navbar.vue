@@ -1,32 +1,33 @@
 <template>
     <div>
-        <v-navigation-drawer app v-model = "drawer" color = "#252440" permanent>
+        <v-navigation-drawer app v-model = "drawer" color = "#3B83BD" permanent>
       <v-list>
         <v-list-item>
           <v-list-item-avatar right size= 80>
-            <v-img class="logo" src="../assets/upbLogo.png"></v-img>
+            <v-img class="logo" src="../assets/upbLogo.png" @click="pantallaPrincipal"></v-img>
           </v-list-item-avatar>
         </v-list-item>
 
 
-        <v-list-item link>
-          <v-list-item-content>
-            <v-list-item-title class="title" >Mateo Puña</v-list-item-title>
-            <v-list-item-subtitle class = "white--text">mateo.ds3@shift.com</v-list-item-subtitle>
-          </v-list-item-content>
+        <v-list-item  @click="navigateTo('///')">
 
-            <v-list-item-action>
-            <v-icon>mdi-menu-down</v-icon>
-          </v-list-item-action>
+          <v-list-item-content >
+            <v-list-item-title class="title" >Mateo Puña</v-list-item-title>
+            <v-list-item-subtitle class = "white--text">mateo.ds3@shift.com</v-list-item-subtitle>        
+          </v-list-item-content>
         </v-list-item>
+
       <v-divider></v-divider>
 
-        <v-list-item link>
+
+        <v-list-item link  @click="navigateTo('/crearUsuario/')">
            <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
+              <v-icon>mdi-settings</v-icon>
           </v-list-item-icon>
-            <v-list-item-title class = "title">Inicio</v-list-item-title>
+            <v-list-item-title >Configuración</v-list-item-title>
         </v-list-item>
+
+
 
       <v-divider></v-divider>
 
@@ -79,6 +80,12 @@ export default {
   
     name: "Navbar",
 
+    methods: {
+      navigateTo(to) {
+        this.$router.push(to)
+      }
+    },
+
     mounted () {
       this.informes = this.informesDB
     },
@@ -100,16 +107,40 @@ export default {
       },
       abrirInforme (informe) {
         this.$router.push('/redirect/' + informe.origen + '/' + informe.idInforme + '/')
+      },
+      pantallaPrincipal () {
+        this.$router.replace('/')
       }
     },
 
-     computed: {
-       informesDB: function () {
-         console.log(listaInformes2())
-         this.actualizarInformes(listaInformes2())
-         return listaInformes2()
-       }
-     }
+    computed: {
+
+
+    user () {
+        return this.$store.getters.user
+      },
+      
+      informesDB: function () {
+        console.log(listaInformes2())
+        this.actualizarInformes(listaInformes2())
+        return listaInformes2()
+      }
+
+    },
+
+    mounted () {
+        if (this.user == null || this.user == undefined){
+          this.$router.push('/login') 
+        }
+    },
+
+    watch: {
+      user (value) {
+        if (value === null || value === undefined){
+          this.$router.push('/login') 
+        }
+      }
+    },
 
 
 }
