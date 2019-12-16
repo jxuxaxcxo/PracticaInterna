@@ -111,6 +111,14 @@
                 campo: 'f'
             },
             {
+                titulo: 'Clausula Afectada de la Norma: ',
+                escala: 'grande',
+                fila: '4',
+                posicionHorizontal: '0',
+                inputType: true,
+                campo: 'f'
+            },
+            {
                 titulo: 'Tipo de Hallazgo: ',
                 escala: 'grande',
                 fila: '3',
