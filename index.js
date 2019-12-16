@@ -75,30 +75,30 @@ function listEvents(auth) {
   const calendar = google.calendar({version: 'v3', auth});
 ////////////////////////////////////////////////////////
 var event = {
-  'summary': 'Una  Api ',
-  'location': ' St., San Francisco, CA 94103',
-  'description': 'A chance to hear more about My super api.',
+  'summary': 'Meeting Auditoría ',
+  'location': ' UPB CBBA Julio Leon Prado',
+  'description': 'Revisión de no comformidad ES.98754.',
   'start': {
-    'dateTime': '2019-11-28T09:00:00-04:00',
+    'dateTime': '2019-12-09T09:00:00-04:00',
     'timeZone': 'America/La_Paz',
   },
   'end': {
-    'dateTime': '2019-11-28T17:00:00-04:00',
+    'dateTime': '2019-12-09T17:00:00-04:00',
     'timeZone': 'America/La_Paz',
   },
   'recurrence': [
     'RRULE:FREQ=DAILY;COUNT=2'
   ],
   'attendees': [
-    {'email': 'nachopicante@hotmail.com'},
-    //{'email': 'tomyandrei29@gmail.com'},
+    //{'email': 'nachopicante@hotmail.com'},
+    {'email': 'tomyandrei29@gmail.com'},
     //{'email': 'javisoruco235@gmail.com'},
-    {'email': 'javi.soruco@hotmail.com'},
+    //{'email': 'javi.soruco@hotmail.com'},
   ],
   'reminders': {
     'useDefault': false,
     'overrides': [
-      {'method': 'email', 'minutes': (16 * 60)+35},
+      {'method': 'email', 'minutes': 60 },
       {'method': 'popup', 'minutes': 10},
     ],
   },
