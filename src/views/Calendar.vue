@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { listEvents } from 'index.js'
+//import { listEvents } from 'index.js'
 
 export default {
   
