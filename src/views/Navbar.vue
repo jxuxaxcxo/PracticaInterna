@@ -128,7 +128,8 @@ export default {
       abrirPlanDeAccion (informe, planDeAccion) {
         console.log('asdas')
         this.$router.replace('/Auditorias/' + informe.origen + '/' + informe.idInforme + '/' + planDeAccion)
-      },
+        
+     },
       abrirTarea (informe, planDeAccion, tarea) {
         this.$router.replace('/tarea/' + informe.idInforme + '/' + planDeAccion + '/' + tarea)
       },

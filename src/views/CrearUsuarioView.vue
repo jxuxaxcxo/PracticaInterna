@@ -270,9 +270,11 @@ import { agregarUsuario, listaUsuarios2, actualizarUsuario, eliminarUsuario} fro
     },
 
     mounted () {
+
+              console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+
         if (this.user === null || this.user === undefined){
-          console.log
-          console.log("mounter crear usuario")
+    
           this.$router.push('/login') 
         }
     },

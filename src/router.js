@@ -56,9 +56,9 @@ export default new Router({
             component: Redirect
         },
         {
-            path: '/form/',
-            name: 'form',
-            component: Form
+            path: '/Auditorias/:origen/:id/:number',
+            name: 'Form',
+            component: Form 
         },
         {
             path: '/formsManager/',

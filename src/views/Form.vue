@@ -10,24 +10,23 @@
 import InformacionIncidencia from '../components/Form/InformacionIncidencia';
 
 export default {
-    data (){
-    },
-  components: {
-      InformacionIncidencia,
-  },
-
-    computed: {
-
-      user () {
-        return this.$store.getters.getUser
-      }
-    },
-
-    mounted () {
+  
+     mounted(){
+        console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
         if (this.user === null || this.user === undefined){
           this.$router.push('/login') 
         }
     },
+  components: {
+      InformacionIncidencia
+  },
+    computed: {
+
+      user() {
+        return this.$store.getters.getUser;
+      }
+    },
+
 
     watch: {
       user () {
