@@ -49,11 +49,11 @@ export default {
             infoExtra: ''
         },
 
-      mounted(){
-        console.log("MOUNTED ASIGNACION")
-        var incidenciaNombrePartes = this.infoExtra.split(":");
-        this.items[0].campo = incidenciaNombrePartes[1];
+    created(){
+     var incidenciaNombrePartes = this.infoExtra.split(":");
+            this.items[0].campo = incidenciaNombrePartes[1];
     },
+
 
   components: {
       CorreccionIncidencia
