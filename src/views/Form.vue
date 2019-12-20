@@ -12,7 +12,6 @@ import InformacionIncidencia from '../components/Form/InformacionIncidencia';
 export default {
   
      mounted(){
-        console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
         if (this.user === null || this.user === undefined){
           this.$router.push('/login') 
         }
@@ -42,7 +41,7 @@ export default {
     #formPage{
     width: 100vw;
     background-color: #ECECEC;
-    height: 300vh;
+    height: 400vh;
     }
     #saveButton{
         position: absolute;

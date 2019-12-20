@@ -53,10 +53,6 @@
                 clase.informeID=informeID-1;
             });
         },
-       
-       created(){
-
-       },
 
     data:() => ({
         informeActual:[],
@@ -68,7 +64,7 @@
                 fila: '0',
                 posicionHorizontal: '0',
                 inputType: true,
-                campo: 'a'
+                campo: ''
             },
             {
                 titulo: 'Nro de Formulario:',
@@ -76,7 +72,7 @@
                 fila: '0',
                 posicionHorizontal: '1',
                 inputType: true,
-                campo: 'b'
+                campo: ''
             },
             {
                 titulo: 'Area:',
@@ -84,7 +80,7 @@
                 fila: '1',
                 posicionHorizontal: '0',
                 inputType: true,
-                campo: 'c'
+                campo: ''
             },
             {
                 titulo: 'Auditor que realizo observacion: ',
@@ -92,7 +88,7 @@
                 fila: '1',
                 posicionHorizontal: '1',
                 inputType: true,
-                campo: 'd'
+                campo: ''
             },
             {
                 titulo: 'Norma:',
@@ -100,7 +96,7 @@
                 fila: '2',
                 posicionHorizontal: '0',
                 inputType: true,
-                campo: 'e'
+                campo: ''
             },
             {
                 titulo: 'Clausula Afectada de la Norma: ',
@@ -108,7 +104,7 @@
                 fila: '2',
                 posicionHorizontal: '1',
                 inputType: true,
-                campo: 'f'
+                campo: ''
             },
             {
                 titulo: 'Clausula Afectada de la Norma: ',
@@ -116,7 +112,7 @@
                 fila: '4',
                 posicionHorizontal: '0',
                 inputType: true,
-                campo: 'f'
+                campo: ''
             },
             {
                 titulo: 'Tipo de Hallazgo: ',
