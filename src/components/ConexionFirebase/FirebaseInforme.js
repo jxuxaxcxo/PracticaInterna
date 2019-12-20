@@ -115,11 +115,12 @@ export function agregarInforme(nombre, planesDeAccion, origen){
          else if (change.type === 'added' && cargo === 'Administrador'){
            let inf = change.doc.data()
            let o = 0
+           let om = 0
            inf.planesDeAccion.forEach(pda=> {
               pda.index = o
               o++
            })
-           informesList.push(change.doc.data());
+           informesList.push(inf);
            console.log('Nuevo informe: ', change.doc.data());
          }
         if (change.type === 'modified') {
