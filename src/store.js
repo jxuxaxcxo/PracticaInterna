@@ -24,16 +24,20 @@ export default new Vuex.Store({
     actions: {
         registrarUsuario(context, datos) {
             let nuevoUsuario
-            firebase.auth().createUserWithEmailAndPassword(datos.email, datos.contrasena)
-               .catch(
-                    error => {
-                        console.log(error)
-                    }
-                )
+            return new Promise((resolve, reject)=>{
+                firebase.auth().createUserWithEmailAndPassword(datos.email, datos.contrasena).then(()=>{
+                    resolve('Agregado correctamente')
+                }).catch(
+                        error => {
+                            reject(error)
+                        }
+                    )
+            })
         },
 
         iniciarSesion(context, datos) {
             var usuarioActual
+            const self =false;
             firebase.auth().signInWithEmailAndPassword(datos.email, datos.contrasena)
                 .then(
 
@@ -44,16 +48,17 @@ export default new Vuex.Store({
                             apellido: datos.userDB.apellido,
                             cargo: '',
                             mail: datos.email,
-                            contrasena: datos.contrasena,
                             credenciales: []
                         }
                         console.log(datos.userDB[0])
                         context.commit('setUsuario', datos.userDB[0])
+                        return true;
                     }
 
                 ).catch(
                     error => {
-                        console.log(error)
+                        alert(error)
+                        throw new Error;
                     }
                 )
 

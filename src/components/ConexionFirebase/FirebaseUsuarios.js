@@ -1,13 +1,12 @@
 import db from '../ConexionFirebase/Firebase'
 
-export function agregarUsuario(nombre, apellido, mail, cargo, contraseña) {
+export function agregarUsuario(nombre, apellido, mail, cargo) {
     const usuario = {
         nombre: nombre,
         apellido: apellido,
         mail: mail,
         cargo: cargo,
-        credenciales: [],
-        contraseña: contraseña
+        credenciales: []
     }
 
     db.collection('usuarios').doc(mail).set(usuario).then(() => {
@@ -93,21 +92,35 @@ export function actualizarUsuario1(id, usuario) {
         .update(usuario)
 }
 export function eliminarUsuario(id) {
-
+    return new Promise((resolve, reject)=>{
+        
     db.collection("usuarios")
-        .doc(id)
-        .delete()
+    .doc(id)
+    .delete().then(()=>{
+        alert('Eliminado Exitosamente')
+        resolve()
+    }).catch((err)=>{
+        alert(err)
+        reject()
+    })
+    })
 }
 export function actualizarUsuario(mail, nombre, apellido, cargo, contrasena) {
-    const usuario = {
-        nombre: nombre,
-        apellido: apellido,
-        cargo: cargo,
-        contraseña: contrasena
+    return new Promise((resolve, reject)=>{
+        const usuario = {
+            nombre: nombre,
+            apellido: apellido,
+            cargo: cargo,
+            contraseña: contrasena
+        }
+        db.collection("usuarios")
+            .doc(mail)
+            .update(usuario).then(()=>{
+                alert('Usuario Modificado')
+            }).catch(()=>{alert('Hubo un problema al editar')})
     }
-    db.collection("usuarios")
-        .doc(mail)
-        .update(usuario)
+    )
+    
 }
 
 export function buscarUsuario(mail) {

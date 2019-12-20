@@ -58,41 +58,54 @@ export function agregarInforme(nombre, planesDeAccion, origen){
           console.log("hola 2")
           credenciales.forEach(credencial => {
             console.log("hola 3")
-            console.log(credencial.idInforme)
-            console.log(change.doc.data().idInforme)
+            //console.log(credencial.idInforme)
+            //console.log(change.doc.data().idInforme)
             if (credencial.idInforme.toString() === change.doc.data().idInforme) {
-              console.log("hola 4")
+              //console.log("hola 4")
               let informe = {
+                idInforme: change.doc.data().idInforme,
                 nombre: change.doc.data().nombre,
                 fechaAtribuible: change.doc.data().fechaAtribuible,
                 campos: [],
                 planesDeAccion: []
               }
-              console.log('Agregando informe: ' + change.doc.data().idInforme + ' otra wea ' + credencial.idInforme);
+              //console.log('Agregando informe: ' + change.doc.data().idInforme + ' otra wea ' + credencial.idInforme);
+              let ot = 0
+              let pdai = 0
               change.doc.data().planesDeAccion.forEach(pda => {
-                console.log("hola 5")
+                //console.log("hola 5")
                 if (pda.mailEncargado === mail) {
-                  console.log("hola 6")
-                  informe.planesDeAccion.push(pda)
+                  let p = pda
+                  p.index = pdai
+                  informe.planesDeAccion.push(p)
                 }else {
-                  console.log("hola 7")
                   if (!isNullOrUndefined(pda.tareas)) {
                   pda.tareas.forEach(tar => {
-                    console.log("hola 8")
                     if (tar.mailEncargado === mail) {
-                      console.log("hola 9")
-                      informe.planesDeAccion.push({
-                        nombe: pda.nombre,
-                        mailEncargado: pda.mailEncargado,
-                        ocurrencias: [],
-                        campos: [],
-                        formatoNombre: '',
-                        tareas: tar
-                      })
+                      if (ot === 0) {
+                        let t = tar
+                        t.index = ot
+                        console.log(t)
+                        informe.planesDeAccion.push({
+                          nombe: pda.nombre,
+                          mailEncargado: pda.mailEncargado,
+                          ocurrencias: [],
+                          campos: [],
+                          formatoNombre: '',
+                          index: pdai,
+                          tareas: [t]
+                        })
+                      }else {
+                        let t = tar
+                        t.index = ot
+                        informe.planesDeAccion[informe.planesDeAccion.length-1].tareas.push(t)
+                      }
                     }
+                    ot++
                   })
                 }
                 }
+                pdai++
               })
               informesList.push(informe);
             }
@@ -100,6 +113,12 @@ export function agregarInforme(nombre, planesDeAccion, origen){
             })
         }
          else if (change.type === 'added' && cargo === 'Administrador'){
+           let inf = change.doc.data()
+           let o = 0
+           inf.planesDeAccion.forEach(pda=> {
+              pda.index = o
+              o++
+           })
            informesList.push(change.doc.data());
            console.log('Nuevo informe: ', change.doc.data());
          }

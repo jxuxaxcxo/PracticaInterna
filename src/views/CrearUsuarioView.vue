@@ -271,8 +271,6 @@ import { agregarUsuario, listaUsuarios2, actualizarUsuario, eliminarUsuario} fro
 
     mounted () {
 
-              console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-
         if (this.user === null || this.user === undefined){
     
           this.$router.push('/login') 
@@ -294,8 +292,21 @@ import { agregarUsuario, listaUsuarios2, actualizarUsuario, eliminarUsuario} fro
         this.$store.dispatch('registrarUsuario', {nombre: this.nombre, apellido: this.apellido,
                                                   email: this.email, contrasena: this.contrasena,
                                                   cargo: this.cargo}).then(success => {
-          agregarUsuario(this.nombre, this.apellido, this.email, this.cargo, this.contrasena)
-        })
+          agregarUsuario(this.nombre, this.apellido, this.email, this.cargo)
+          alert(success)
+          this.nombre = ''
+          this.apellido = ''
+          this.email = ''
+          this.contrasena = ''
+          this.cargo = ''
+          this.confirmarContrasena = ''
+        }).catch((err)=>{
+          if (this.dialog) {
+            this.dialog = false
+          }else {
+            alert(err)
+          }
+          })
         
       },
 
@@ -319,7 +330,7 @@ import { agregarUsuario, listaUsuarios2, actualizarUsuario, eliminarUsuario} fro
         actualizarUsuario(this.emailDialog, this.nombreDialog, this.apellidoDialog, this.cargoDialog, this.contrasenaDialog)
       },
       clickEliminarUser(){
-        eliminarUsuario(this.emailDialog)
+        eliminarUsuario(this.emailDialog).then(()=>{this.dialog = false})
       }
     }
   }

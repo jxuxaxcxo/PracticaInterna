@@ -54,14 +54,14 @@
 
                       <v-list-group
                         v-for="(planDeAccion, j) in informe.planesDeAccion"
-                        :key="i"
+                        :key="j"
                         no-action
                       sub-group
                       >
                       <template v-slot:activator>
                         <v-list-item-content>
                           <v-list-item-title
-                          @click="abrirPlanDeAccion(informe, j)"
+                          @click="abrirPlanDeAccion(informe, planDeAccion.index)"
                           class = "nc-elem archivo" v-text="planDeAccion.nombre.replace('No conformidad: ', 'NC: ').replace('Observación: ', 'O: ').replace('Recomendación: ', 'R: ')">
                           </v-list-item-title>
                         </v-list-item-content>
@@ -70,13 +70,13 @@
                         <v-list>
                          <v-list-group
                       v-for="(tarea, k) in planDeAccion.tareas"
-                      :key="i"
+                      :key="k"
                       
                       >
                         <template v-slot:activator>
                           <v-list-item-content>
                           <v-list-item-title
-                          @click="abrirTarea(informe, j, k)"
+                          @click="abrirTarea(informe, planDeAccion.index, k)"
                           class = "nc-elem archivo" v-text="tarea.nombre">
                           </v-list-item-title>
                         </v-list-item-content>

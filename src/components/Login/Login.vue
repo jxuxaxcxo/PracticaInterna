@@ -87,8 +87,15 @@
       clickEntrar () {
         console.log("Llegue aqui")
         let userDB = buscarUsuario(this.email)
-          this.$store.dispatch('iniciarSesion', {email: this.email, contrasena: this.contrasena, userDB:  userDB})
-
+        const self = this
+        try {
+          const logged = this.$store.dispatch('iniciarSesion', {email: this.email, contrasena: this.contrasena, userDB:  userDB}).then(()=>{
+        })
+        }catch(e) {
+          alert('aca no da')
+          this.$router.replace('login')
+        }
+        
       },
 
     },
@@ -97,6 +104,7 @@
     mounted () {
         if (this.user !== null && this.user !== undefined){
           this.$router.replace('/') 
+          console.log('loggedmounted');
         }
     },
     computed : {
@@ -108,6 +116,7 @@
      watch: {
       user (value)  {
         if (value !== null && value !== undefined){
+          console.log('logged')
           this.$router.replace('/') 
         }
       }

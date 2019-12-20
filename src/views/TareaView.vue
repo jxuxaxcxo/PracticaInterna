@@ -41,7 +41,6 @@
             <v-btn
             outlined
             color="#252440"
-            :disabled="!acceso"
             @click="terminarTarea">
               Terminar Tarea
             </v-btn>
@@ -86,7 +85,6 @@ export default {
       window.open(this.tarea.archivoAdjunto, '_blank')
     },
     terminarTarea () {
-      if (this. archivo !== null) {
             const Path = require('path');
         getInformeID(this.$route.params.informe).then(informe => {
           console.log(informe)
@@ -106,7 +104,6 @@ export default {
             })
           })
         })
-      }
     }
   }
 }
