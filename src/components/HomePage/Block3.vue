@@ -3,7 +3,7 @@
      <v-card id="block3">
         <v-card-title id="blockTitle">Estadísticas</v-card-title>
         <v-card-subtitle id="blockSubtitle">Reportes y Estadísticas de los Planes de Acción</v-card-subtitle>
-        <v-btn id="goToReportsButton" outlined="true">Go</v-btn>
+        <v-btn id="goToReportsButton" outlined="true" @click="navigateTo()">Go</v-btn>
       </v-card>
 
      <v-card id="block3_sign"> 
@@ -14,7 +14,11 @@
 
 <script>
 export default {
-
+  methods: {
+    navigateTo() {
+      alert('Proximamente')
+    }
+  }
 }
 </script>
 

@@ -3,7 +3,7 @@
      <v-card id="block4">
         <v-card-title id="blockTitle">Creador de Formularios</v-card-title>
         <v-card-subtitle id="blockSubtitle">Herramienta para la creación de Formularios</v-card-subtitle>
-        <v-btn id="goToFormsButton" outlined="true" >Go</v-btn>
+        <v-btn id="goToFormsButton" outlined="true" @click="navigateTo('/formsManager')">Go</v-btn>
       </v-card>
     <v-card id="block4_sign"> 
         <img id="tableImage" src = "../../assets/cyanGraph2.png">
@@ -13,7 +13,11 @@
 
 <script>
 export default {
-
+  methods: {
+    navigateTo(to) {
+      this.$router.replace(to)
+    }
+  }
 }
 </script>
 
