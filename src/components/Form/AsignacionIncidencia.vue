@@ -40,6 +40,7 @@
 <script>
 import CorreccionIncidencia from '../../components/Form/CorreccionIncidencia';
 import { listaUsuarios } from '../../components/ConexionFirebase/FirebaseUsuarios'
+import { sendM } from '../../components/Calendars/cal'
 
 
 export default {  
@@ -63,6 +64,7 @@ export default {
       data:() => ({
             usuarios:listaUsuarios(),
             encargadoPlanDeAccion:'',
+            dir:'tomyandrei29@gmail.com',
             items: [
                 {   titulo: 'Descripcion de la Incidencia:',
                     escala: 'grande',
@@ -118,11 +120,12 @@ export default {
         getAltura(){
         return 'height: ' + heightSize + 'vh;';
       },
-
         notificarEncargado(){
+       console.log("NOTIFICANDO ENCARGADO: " + this.encargadoPlanDeAccion + this.dir);
+        sendM(this.dir)
 
             console.log(this.encargadoPlanDeAccion);
-            console.log("NOTIFICANDO ENCARGADO: " + this.encargadoPlanDeAccion);
+            
         }
 
   }
