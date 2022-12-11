@@ -13,7 +13,7 @@
     "admin": "^1.4.1",
     "blob-util": "^2.0.2",
     "docx4js": "^3.2.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "firebase": "^7.5.2",
     "firebase-admin": "^8.8.0",
     "mammoth": "^1.4.9",
